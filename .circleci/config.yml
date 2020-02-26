@@ -66,7 +66,6 @@ jobs:
           name: Install alpine requirements for checkout
           command: apk add git openssh-client curl
       - checkout
-      - sonarcloud/scan
       - attach_workspace:
           at: .
       - run:
@@ -77,6 +76,11 @@ jobs:
             bin/phpunit  --testdox
       - store_test_results:
           path: phpunit-result
+
+  sonarcloud:
+    executor: php
+    steps:
+      - sonarcloud/scan
 
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.1
@@ -95,5 +99,5 @@ workflows:
       - phpunit:
           requires:
             - composer
-      - build:
+      - sonarcloud:
           context: SonarCloud
