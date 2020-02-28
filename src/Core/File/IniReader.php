@@ -33,6 +33,7 @@ class IniReader
             }
 
             $parsedData[trim($keys[0])] = trim($keys[1]);
+            $lineCount++;
         }
 
         return $parsedData;
