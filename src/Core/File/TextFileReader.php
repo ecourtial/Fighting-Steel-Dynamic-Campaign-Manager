@@ -23,14 +23,14 @@ class TextFileReader
         $content = [];
         $handle = @fopen($filename, 'r');
 
-        if ($handle) {
-            while (false !== ($buffer = fgets($handle, 4096))) {
-                $content[] = trim($buffer);
-            }
-            fclose($handle);
-        } else {
+        if (false === is_resource($handle)) {
             throw new FileNotFoundException("Impossible to read the content of the file '{$filename}'.");
         }
+
+        while (false !== ($buffer = fgets($handle, 4096))) {
+            $content[] = trim($buffer);
+        }
+        fclose($handle);
 
         return $content;
     }
