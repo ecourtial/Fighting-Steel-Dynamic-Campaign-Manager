@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace App\Core\File;
 
+use App\Core\Exception\SyntaxException;
+
 class IniReader
 {
     /** @var \App\Core\File\TextFileReader */
@@ -19,17 +21,22 @@ class IniReader
         $this->textFileReader = $textFileReader;
     }
 
-    /** @return string[] */
+    /**
+     * @return string[]
+     *
+     * @throws \App\Core\Exception\SyntaxException
+     * @throws \App\Core\Exception\FileNotFoundException
+     */
     public function getData(string $fileName): array
     {
         $data = $this->textFileReader->getFileContent($fileName);
         $parsedData = [];
-        $lineCount = 0;
+        $lineCount = 1;
 
         foreach ($data as $line) {
             $keys = explode('=', $line);
             if (2 !== count($keys)) {
-                throw new \RuntimeException("For line #{$lineCount} in file '{$fileName}': malformed line");
+                throw new SyntaxException("For line #{$lineCount} in file '{$fileName}': malformed line");
             }
 
             $parsedData[trim($keys[0])] = trim($keys[1]);
