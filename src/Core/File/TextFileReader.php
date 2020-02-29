@@ -9,9 +9,15 @@ declare(strict_types=1);
 
 namespace App\Core\File;
 
+use App\Core\Exception\FileNotFoundException;
+
 class TextFileReader
 {
-    /** @return string[] */
+    /**
+     * @return string[]
+     *
+     * @throws \App\Core\Exception\FileNotFoundException
+     */
     public function getFileContent(string $filename): array
     {
         $content = [];
@@ -23,7 +29,7 @@ class TextFileReader
             }
             fclose($handle);
         } else {
-            throw new \LogicException("Impossible to read the content of the file {$filename}.");
+            throw new FileNotFoundException("Impossible to read the content of the file '{$filename}'.");
         }
 
         return $content;
