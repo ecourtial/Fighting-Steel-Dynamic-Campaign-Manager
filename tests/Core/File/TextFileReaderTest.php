@@ -18,8 +18,8 @@ class TextFileReaderTest extends TestCase
 
         static::assertEquals(
            [
-               'TAS_PATH=C:\Program Files\Thunder At Sea',
-                'FS_PATH=C:\Program Files\Fighting Steel',
+               'TAS_PATH="C:\Program Files\Thunder At Sea"',
+               'FS_PATH="C:\Program Files\Fighting Steel"',
            ],
             $data
         );
