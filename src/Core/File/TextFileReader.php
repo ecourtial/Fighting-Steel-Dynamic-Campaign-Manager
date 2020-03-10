@@ -27,7 +27,7 @@ class TextFileReader
             throw new FileNotFoundException("Impossible to read the content of the file '{$filename}'.");
         }
 
-        while (false !== ($buffer = fgets($handle, 4096))) {
+        while (false !== ($buffer = fgets($handle))) {
             $content[] = trim($buffer);
         }
         fclose($handle);

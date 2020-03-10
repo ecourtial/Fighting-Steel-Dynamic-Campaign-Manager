@@ -13,8 +13,7 @@ use App\Core\Exception\SyntaxException;
 
 class IniReader
 {
-    /** @var \App\Core\File\TextFileReader */
-    private $textFileReader;
+    protected TextFileReader $textFileReader;
 
     public function __construct(TextFileReader $textFileReader)
     {
