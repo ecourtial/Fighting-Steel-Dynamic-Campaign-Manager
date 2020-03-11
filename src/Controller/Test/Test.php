@@ -10,15 +10,26 @@ declare(strict_types=1);
 namespace App\Controller\Test;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class Test extends AbstractController
 {
+    private string $env;
+
+    public function __construct(string $env)
+    {
+        $this->env = $env;
+    }
+
     /** @Route("/test", name="test") */
     public function __invoke(): Response
     {
-        echo 'THIS IS A TEST ROUTE FOR TESTING SOME COMPONENTS';
-        exit;
+        if ($this->env === 'dev') {
+            // Do stuff
+        }
+
+        return new JsonResponse(['msg' => 'This route is for debug only']);
     }
 }
