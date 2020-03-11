@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class Test extends AbstractController
+class Debug extends AbstractController
 {
     private string $env;
 
@@ -26,8 +26,8 @@ class Test extends AbstractController
     /** @Route("/test", name="test") */
     public function __invoke(): Response
     {
-        if ($this->env === 'dev') {
-            // Do stuff
+        if ('dev' === $this->env) {
+            // Do debug stuff here.
         }
 
         return new JsonResponse(['msg' => 'This route is for debug only']);
