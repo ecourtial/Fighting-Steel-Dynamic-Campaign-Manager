@@ -9,3 +9,6 @@ phpcsfixer:
 
 test:
 	bin/phpunit --testdox
+
+infection:
+	vendor/bin/infection

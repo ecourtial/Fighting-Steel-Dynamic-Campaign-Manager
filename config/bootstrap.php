@@ -23,6 +23,4 @@ $_SERVER['APP_DEBUG'] = $_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? 'prod' !=
 $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = (int) $_SERVER['APP_DEBUG'] || filter_var($_SERVER['APP_DEBUG'], FILTER_VALIDATE_BOOLEAN) ? '1' : '0';
 
 // DCM extra config;
-if ($_ENV['APP_ENV'] !== 'test') {
-    (new Dotenv(false))->loadEnv(dirname(__DIR__) . '/../dcm-config.ini');
-}
+(new Dotenv(false))->loadEnv(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'dcm-config.ini');

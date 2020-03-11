@@ -19,8 +19,8 @@ class IniFileReaderTest extends TestCase
             ->method('getFileContent')
             ->will($this->returnValue(
                 [
-                    'TAS_PATH=C:\Program Files\Thunder At Sea',
-                    'FS_PATH=C:\Program Files\Fighting Steel',
+                    'TAS_PATH=C:\Program Files\Thunder At Sea ',
+                    ' FS_PATH=C:\Program Files\Fighting Steel',
                 ]
             ));
 
