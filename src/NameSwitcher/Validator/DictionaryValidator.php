@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       11/03/2020 (dd-mm-YYYY)
@@ -12,7 +14,6 @@ class DictionaryValidator
     public function validate(string $fullPath): array
     {
         return [
-
         ];
     }
 }
