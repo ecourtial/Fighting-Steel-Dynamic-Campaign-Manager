@@ -7,13 +7,14 @@ declare(strict_types=1);
  * @date       12/03/2020 (dd-mm-YYYY)
  */
 
+use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\NoShipException;
 use App\NameSwitcher\Model\Ship;
 use PHPUnit\Framework\TestCase;
 
 class ShipTest extends TestCase
 {
-    protected array $csvData = [
+    protected const CSV_DATA = [
         'Type' => 'BB',
         'Class' => 'Richelieu',
         'TasName' => 'Clemenceau',
@@ -24,10 +25,10 @@ class ShipTest extends TestCase
 
     public function testHydration(): void
     {
-        $ship = new Ship($this->csvData);
+        $ship = new Ship(static::CSV_DATA);
 
         // Test basic getters and setters
-        foreach ($this->csvData as $key => $value) {
+        foreach (static::CSV_DATA as $key => $value) {
             if ('SimilarTo' !== $key) { // Has a specific code
                 $methodName = 'get' . ucfirst($key);
                 static::assertEquals($value, $ship->$methodName());
@@ -37,7 +38,7 @@ class ShipTest extends TestCase
 
     public function testMatchCriteria(): void
     {
-        $ship = new Ship($this->csvData);
+        $ship = new Ship(static::CSV_DATA);
         static::assertTrue($ship->matchCriteria(['TasName' => 'Clemenceau']));
         static::assertTrue($ship->matchCriteria(['TasName' => 'Clemenceau', 'SimilarTo' => 'Nelson']));
         static::assertTrue($ship->matchCriteria(['TasName' => 'Clemenceau', 'FsName' => 'Richelieu']));
@@ -45,7 +46,7 @@ class ShipTest extends TestCase
 
     public function testDoesNotMatchCriteria(): void
     {
-        $ship = new Ship($this->csvData);
+        $ship = new Ship(static::CSV_DATA);
         static::assertFalse($ship->matchCriteria(['DummyParam' => 'Clemenceau']));
         static::assertFalse($ship->matchCriteria(['TasName' => 'Clemenceau', 'FsName' => 'Roma']));
         static::assertFalse($ship->matchCriteria(['Type' => 'BB', 'TasName' => 'Clemenceau', 'FsName' => 'Roma']));
@@ -54,7 +55,7 @@ class ShipTest extends TestCase
 
     public function testRandomSimilarTo(): void
     {
-        $ship = new Ship($this->csvData);
+        $ship = new Ship(static::CSV_DATA);
 
         // Test success
         $similarShip = $ship->getRandomSimilarShip();
@@ -69,6 +70,32 @@ class ShipTest extends TestCase
             static::fail('Since there is no similar ships, an exception was expected.');
         } catch (NoShipException $exception) {
             static::assertEquals('No similar ship found for BB Clemenceau', $exception->getMessage());
+        }
+    }
+
+    public function testInvalidInputData(): void
+    {
+        $data = static::CSV_DATA;
+        $data['Foo'] = ['Bar'];
+
+        try {
+            new Ship($data);
+            static::fail('Since the input data is invalid, an exception was expected.');
+        } catch (InvalidShipDataException $exception) {
+            static::assertEquals('Invalid ship data', $exception->getMessage());
+        }
+    }
+
+    public function testInvalidShortName(): void
+    {
+        $data = static::CSV_DATA;
+        $data['FsShortName'] = '12345678900';
+
+        try {
+            new Ship($data);
+            static::fail('Since the short name is too long, an exception was expected.');
+        } catch (InvalidShipDataException $exception) {
+            static::assertEquals("FS Short name is too long: '12345678900'", $exception->getMessage());
         }
     }
 }

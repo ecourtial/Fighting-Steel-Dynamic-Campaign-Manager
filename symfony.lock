@@ -86,6 +86,9 @@
     "phpstan/phpstan": {
         "version": "0.12.14"
     },
+    "phpstan/phpstan-deprecation-rules": {
+        "version": "0.12.2"
+    },
     "phpstan/phpstan-phpunit": {
         "version": "0.12.6"
     },

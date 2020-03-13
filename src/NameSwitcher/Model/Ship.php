@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace App\NameSwitcher\Model;
 
 use App\NameSwitcher\Exception\NoShipException;
+use App\NameSwitcher\Exception\InvalidShipDataException;
 
 class Ship
 {
@@ -88,6 +89,9 @@ class Ship
 
     public function setFsShortName(string $fsShortName): void
     {
+        if (mb_strlen($fsShortName) > static::SHORT_NAME_MAX_LENGTH) {
+            throw new InvalidShipDataException("FS Short name is too long: '{$fsShortName}'");
+        }
         $this->fsShortName = $fsShortName;
     }
 
@@ -161,6 +165,10 @@ class Ship
     /** @param string[] $data */
     protected function hydrate(array $data): Ship
     {
+        if (count($data) !== static::FIELD_QTY) {
+            throw new InvalidShipDataException('Invalid ship data');
+        }
+
         foreach ($data as $key => $value) {
             $methodName = 'set' . ucfirst($key);
             if (method_exists($this, $methodName)) {
