@@ -38,6 +38,9 @@
     "egulias/email-validator": {
         "version": "2.1.17"
     },
+    "flow/jsonpath": {
+        "version": "0.3.4"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "2.2",
         "recipe": {
@@ -516,5 +519,8 @@
     },
     "webmozart/path-util": {
         "version": "2.3.0"
+    },
+    "wizaplace/php-etl": {
+        "version": "1.0"
     }
 }

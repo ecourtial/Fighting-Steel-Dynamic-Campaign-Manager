@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1c53ecf8dbce583b2788bf6cea42a99",
+    "content-hash": "c65b04cdd72b5aafade684743c32349d",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -193,6 +193,47 @@
                 "validator"
             ],
             "time": "2020-02-13T22:36:52+00:00"
+        },
+        {
+            "name": "flow/jsonpath",
+            "version": "0.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FlowCommunications/JSONPath.git",
+                "reference": "00aa9c361e4d0a210dd95f3c917a1e0dde3a957f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FlowCommunications/JSONPath/zipball/00aa9c361e4d0a210dd95f3c917a1e0dde3a957f",
+                "reference": "00aa9c361e4d0a210dd95f3c917a1e0dde3a957f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "peekmo/jsonpath": "dev-master",
+                "phpunit/phpunit": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Flow\\JSONPath": "src/",
+                    "Flow\\JSONPath\\Test": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Frank",
+                    "email": "stephen@flowsa.com"
+                }
+            ],
+            "description": "JSONPath implementation for parsing, searching and flattening arrays",
+            "time": "2016-09-06T17:43:18+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -4641,6 +4682,67 @@
                 "validate"
             ],
             "time": "2020-02-14T12:15:55+00:00"
+        },
+        {
+            "name": "wizaplace/php-etl",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wizaplace/php-etl.git",
+                "reference": "1ef64efa4cec9fa573baae4c40365f851c86fe22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wizaplace/php-etl/zipball/1ef64efa4cec9fa573baae4c40365f851c86fe22",
+                "reference": "1ef64efa4cec9fa573baae4c40365f851c86fe22",
+                "shasum": ""
+            },
+            "require": {
+                "flow/jsonpath": "^0.3.1",
+                "php": "~7.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.7",
+                "phpunit/phpunit": "^8.5",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Wizaplace\\Etl\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wizaplace DevTeam ",
+                    "email": "dev@wizacha.com"
+                }
+            ],
+            "description": "Extract, Transform and Load data using this PHP written migration library.",
+            "keywords": [
+                "data",
+                "etl",
+                "extract",
+                "extraction",
+                "load",
+                "symfony",
+                "transform",
+                "transformation"
+            ],
+            "support": {
+                "source": "https://github.com/wizaplace/php-etl/tree/1.0",
+                "issues": "https://github.com/wizaplace/php-etl/issues"
+            },
+            "time": "2020-01-30T20:35:04+00:00"
         }
     ],
     "packages-dev": [

@@ -15,7 +15,7 @@ use App\NameSwitcher\Exception\NoShipException;
 class Dictionary
 {
     /** @var Ship[] */
-    protected $dictionary = [];
+    protected array $dictionary = [];
 
     /**
      * $var string[]

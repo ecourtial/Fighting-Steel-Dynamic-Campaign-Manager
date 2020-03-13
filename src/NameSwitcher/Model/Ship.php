@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace App\NameSwitcher\Model;
 
-use App\NameSwitcher\Exception\NoShipException;
 use App\NameSwitcher\Exception\InvalidShipDataException;
+use App\NameSwitcher\Exception\NoShipException;
 
 class Ship
 {

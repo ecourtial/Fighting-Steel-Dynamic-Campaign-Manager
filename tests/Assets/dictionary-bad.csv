@@ -1,8 +1,8 @@
-Type;Class;TasName;FsName;FsShortName,SimilarTo
+Type;Class;TasName;FsName;FsShortName;SimilarTo
 BB;Richelieu;Richelieu;Richelieu;Richelieu;Dunkerque|Nelson
 BB;Richelieu;Clemenceau;Richelieu;Clemenceau;Dunkerque|Nelson
 BB;Richelieu;Richelieu;Richelieu;Gascogne;Dunkerque|Nelson
 BB;Richelieu;Richelieu;Richelieu;Richelieu;Dunkerque|Nelson
-DD;Kleber;Kleber;Le Fantasque;Mogador|Hunt
+DD;Kleber;Kleber;Le Fantasque;Mogador|Hunt;
 CA;Lutzow;Lutzow;Lutzow;Lutzow;Leipzig|Koln
 CA;Lutzow;Lutzow;Lutzow;Lutzow;Leipzig,Koln
