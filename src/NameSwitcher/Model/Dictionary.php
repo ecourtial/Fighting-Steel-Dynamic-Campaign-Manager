@@ -36,6 +36,12 @@ class Dictionary
         $this->hydrate($readRawData);
     }
 
+    /** @return Ship[] */
+    public function getShipsList(): array
+    {
+        return $this->dictionary;
+    }
+
     /**
      * @param string[] $criteria
      *
@@ -102,13 +108,11 @@ class Dictionary
     {
         foreach ($data as $element) {
             $dataToInject = [];
-            foreach (self::FIELDS_NAME as $key => $value) {
-                $dataToInject[$value] = $element[$key];
+            foreach (self::FIELDS_NAME as $field) {
+                $dataToInject[$field] = $element[$field];
             }
             $ship = new Ship($dataToInject);
             $this->dictionary[] = $ship;
         }
-
-        shuffle($this->dictionary);
     }
 }
