@@ -17,9 +17,7 @@ class Dictionary
     /** @var Ship[] */
     protected array $dictionary = [];
 
-    /**
-     * $var string[]
-     */
+    /** @var string[] */
     public const FIELDS_NAME =
         [
             'Type',
@@ -30,7 +28,7 @@ class Dictionary
             'SimilarTo',
         ];
 
-    /** @param string[] $readRawData */
+    /** @param string[][] $readRawData */
     public function __construct(array $readRawData)
     {
         $this->hydrate($readRawData);
@@ -60,7 +58,7 @@ class Dictionary
         }
 
         if (0 === count($result)) {
-            throw new NoShipException('No ship found matching the required criteria:' . print_r($criteria, true));
+            throw new NoShipException('No ship found matching the required criteria: ' . $this->formatCriteriaForException($criteria));
         }
 
         return $result;
@@ -95,7 +93,7 @@ class Dictionary
         } else {
             $result = $this->searchInList($criteria);
             if (count($result) > 1) {
-                throw new MoreThanOneShipException('More than one result found for the given criteria: ' . print_r($criteria, true));
+                throw new MoreThanOneShipException('More than one result found for the given criteria: ' . $this->formatCriteriaForException($criteria));
             }
             $ship = $result[0];
         }
@@ -103,7 +101,7 @@ class Dictionary
         return $ship;
     }
 
-    /** @param string[] $data */
+    /** @param string[][] $data */
     protected function hydrate(array $data): void
     {
         foreach ($data as $element) {
@@ -114,5 +112,16 @@ class Dictionary
             $ship = new Ship($dataToInject);
             $this->dictionary[] = $ship;
         }
+    }
+
+    /** @param string[] $criteria */
+    protected function formatCriteriaForException(array $criteria): string
+    {
+        $msg = [];
+        foreach ($criteria as $key => $value) {
+            $msg[] = "'{$key}' => '$value'";
+        }
+
+        return implode(',', $msg);
     }
 }

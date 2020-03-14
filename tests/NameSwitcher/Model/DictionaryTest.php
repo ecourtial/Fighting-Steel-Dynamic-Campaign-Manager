@@ -7,6 +7,8 @@ declare(strict_types=1);
  * @date       13/03/2020 (dd-mm-YYYY)
  */
 
+use App\NameSwitcher\Exception\MoreThanOneShipException;
+use App\NameSwitcher\Exception\NoShipException;
 use App\NameSwitcher\Model\Dictionary;
 use App\NameSwitcher\Model\Ship;
 use App\NameSwitcher\Reader\DictionaryReader;
@@ -54,5 +56,76 @@ class DictionaryTest extends TestCase
             [$this->ship1, $this->ship2],
             $dictionary->getShipsList()
         );
+    }
+
+    public function testSearchInList(): void
+    {
+        $dictionary = new Dictionary(static::$rawData);
+
+        static::assertEquals(
+            [$this->ship1, $this->ship2],
+            $dictionary->searchInList(['Type' => 'BB'])
+        );
+
+        static::assertEquals(
+            [$this->ship1, $this->ship2],
+            $dictionary->searchInList(['Type' => 'BB', 'Class' => 'Richelieu'])
+        );
+
+        static::assertEquals(
+            [$this->ship2],
+            $dictionary->searchInList(['Type' => 'BB', 'TasName' => 'Clemenceau'])
+        );
+
+        static::assertEquals(
+            [$this->ship1, $this->ship2],
+            $dictionary->searchInList(['SimilarTo' => 'Nelson'])
+        );
+
+        try {
+            $dictionary->searchInList(['SimilarTo' => 'Hood']);
+            static::fail('An exception was expected since no ship matches the criteria');
+        } catch (NoShipException $exception) {
+            $expected = "No ship found matching the required criteria: 'SimilarTo' => 'Hood'";
+            static::assertEquals($expected, $exception->getMessage());
+        }
+    }
+
+    public function testRandomWithCriteria(): void
+    {
+        $dictionary = new Dictionary(static::$rawData);
+
+        static::assertEquals(
+            $this->ship2,
+            $dictionary->randomWithCriteria(['Type' => 'BB', 'TasName' => 'Clemenceau'])
+        );
+
+        $ship = $dictionary->randomWithCriteria(['Type' => 'BB']);
+        if ($ship == $this->ship1 && $ship == $this->ship2) {
+            static::fail('The result is not the one expected');
+        }
+    }
+
+    public function testFindOneShip(): void
+    {
+        $dictionary = new Dictionary(static::$rawData);
+
+        // Normal case
+        static::assertEquals($this->ship2, $dictionary->findOneShip(['TasName' => 'Clemenceau']));
+
+        // Normal with random
+        $ship = $dictionary->findOneShip(['Type' => 'BB'], true);
+        if ($ship == $this->ship1 && $ship == $this->ship2) {
+            static::fail('The result is not the one expected');
+        }
+
+        // More than one result
+        try {
+            $dictionary->findOneShip(['Type' => 'BB']);
+            static::fail('An exception was expected since more than one ship match the criteria');
+        } catch (MoreThanOneShipException $exception) {
+            $expected = "More than one result found for the given criteria: 'Type' => 'BB'";
+            static::assertEquals($expected, $exception->getMessage());
+        }
     }
 }
