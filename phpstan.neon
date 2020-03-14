@@ -4,3 +4,7 @@ parameters:
         - src
     autoload_files:
         - %currentWorkingDirectory%/src/Core/File/TextFileReader.php
+    ignoreErrors:
+        -
+            message: '~^Variable method call on ~'
+            path: src/NameSwitcher/Model/Ship.php
