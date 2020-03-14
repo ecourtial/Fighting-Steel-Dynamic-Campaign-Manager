@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 use App\NameSwitcher\Reader\DictionaryReader;
 use PHPUnit\Framework\TestCase;
-use Wizaplace\Etl\Etl;
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
 
 class DictionaryReaderTest extends TestCase
@@ -35,10 +34,12 @@ class DictionaryReaderTest extends TestCase
 
     public function testReader(): void
     {
-        $reader = new DictionaryReader(new Etl(), new CsvExtractor());
-        static::assertEquals(
-            self::RESULT_DATA,
-            $reader->extractData('tests/Assets/dictionary-small.csv')
-        );
+        $reader = new DictionaryReader(new CsvExtractor());
+        $data = [];
+        foreach ($reader->extractData('tests/Assets/dictionary-small.csv') as $element) {
+            $data[] = $element;
+        }
+
+        static::assertEquals(self::RESULT_DATA, $data);
     }
 }

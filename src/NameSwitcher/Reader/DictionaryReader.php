@@ -9,25 +9,25 @@ declare(strict_types=1);
 
 namespace App\NameSwitcher\Reader;
 
-use Wizaplace\Etl\Etl;
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
 
 class DictionaryReader
 {
-    protected Etl $etl;
     protected CsvExtractor $csvExtractor;
 
-    public function __construct(Etl $etl, CsvExtractor $csvExtractor)
+    public function __construct(CsvExtractor $csvExtractor)
     {
-        $this->etl = $etl;
         $this->csvExtractor = $csvExtractor;
     }
 
-    /** @return string[] */
-    public function extractData(string $file): array
+    /** @return string[][] */
+    public function extractData(string $file): \Generator
     {
-        return $this->etl
-            ->extract($this->csvExtractor, $file, ['delimiter' => ';'])
-            ->toArray();
+        $this->csvExtractor->input($file)->options(['delimiter' => ';']);
+
+        foreach ($this->csvExtractor->extract() as $row) {
+            /* @var \Wizaplace\Etl\Row $row */
+            yield $row->toArray();
+        }
     }
 }

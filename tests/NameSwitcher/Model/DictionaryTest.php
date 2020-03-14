@@ -14,7 +14,6 @@ use App\NameSwitcher\Model\Dictionary;
 use App\NameSwitcher\Model\Ship;
 use App\NameSwitcher\Reader\DictionaryReader;
 use PHPUnit\Framework\TestCase;
-use Wizaplace\Etl\Etl;
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
 
 class DictionaryTest extends TestCase
@@ -25,8 +24,11 @@ class DictionaryTest extends TestCase
 
     public static function setUpBeforeClass()
     {
-        $reader = new DictionaryReader(new Etl(), new CsvExtractor());
-        static::$rawData = $reader->extractData('tests/Assets/dictionary-small.csv');
+        $reader = new DictionaryReader(new CsvExtractor());
+        static::$rawData = [];
+        foreach ($reader->extractData('tests/Assets/dictionary-small.csv') as $element) {
+            static::$rawData[] = $element;
+        }
     }
 
     public function setUp()
