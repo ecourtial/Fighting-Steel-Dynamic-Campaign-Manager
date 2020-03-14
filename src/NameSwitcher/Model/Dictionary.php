@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace App\NameSwitcher\Model;
 
+use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\MoreThanOneShipException;
 use App\NameSwitcher\Exception\NoShipException;
 
@@ -73,10 +74,8 @@ class Dictionary
     public function randomWithCriteria(array $criteria): Ship
     {
         $result = $this->searchInList($criteria);
-        $resultCount = count($result);
-        $randInt = rand(0, $resultCount - 1);
 
-        return $result[$randInt];
+        return $result[array_rand($result)];
     }
 
     /**
@@ -107,6 +106,9 @@ class Dictionary
         foreach ($data as $element) {
             $dataToInject = [];
             foreach (self::FIELDS_NAME as $field) {
+                if (false === array_key_exists($field, $element)) {
+                    throw new InvalidShipDataException("Field '{$field}' is missing. Given data was: " . $this->formatCriteriaForException($element));
+                }
                 $dataToInject[$field] = $element[$field];
             }
             $ship = new Ship($dataToInject);

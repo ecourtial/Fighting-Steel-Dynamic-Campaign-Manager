@@ -78,16 +78,30 @@ class ShipTest extends TestCase
         }
     }
 
-    public function testInvalidInputData(): void
+    public function testInvalidInputField(): void
     {
         $data = static::CSV_DATA;
         $data['Foo'] = ['Bar'];
+        unset($data['TasName']);
 
         try {
             new Ship($data);
             static::fail('Since the input data is invalid, an exception was expected.');
         } catch (InvalidShipDataException $exception) {
-            static::assertEquals('Invalid ship data', $exception->getMessage());
+            static::assertEquals("The attribute 'Foo' is unknown", $exception->getMessage());
+        }
+    }
+
+    public function testInvalidInputFieldQty(): void
+    {
+        $data = static::CSV_DATA;
+        unset($data['TasName']);
+
+        try {
+            new Ship($data);
+            static::fail('An exception was expected since the field qty is not the correct one');
+        } catch (InvalidShipDataException $exception) {
+            static::assertEquals('Invalid ship attribute quantity', $exception->getMessage());
         }
     }
 

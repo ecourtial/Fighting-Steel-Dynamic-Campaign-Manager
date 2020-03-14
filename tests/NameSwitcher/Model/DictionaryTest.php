@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @date       13/03/2020 (dd-mm-YYYY)
  */
 
+use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\MoreThanOneShipException;
 use App\NameSwitcher\Exception\NoShipException;
 use App\NameSwitcher\Model\Dictionary;
@@ -47,6 +48,29 @@ class DictionaryTest extends TestCase
             'FsShortName' => 'Clemenceau',
             'SimilarTo' => 'Dunkerque|Nelson',
         ]);
+    }
+
+    public function testMissingField(): void
+    {
+        $data = [
+            [
+                'Type' => 'BB',
+                'Class' => 'Richelieu',
+                'TasName' => 'Clemenceau',
+                'FsName' => 'Richelieu',
+                'SimilarTo' => 'Dunkerque|Nelson',
+            ],
+        ];
+
+        try {
+            new Dictionary($data);
+            static::fail('Since the input data was invalid, an exception was expected');
+        } catch (InvalidShipDataException $exception) {
+            static::assertEquals(
+                "Field 'FsShortName' is missing. Given data was: 'Type' => 'BB','Class' => 'Richelieu','TasName' => 'Clemenceau','FsName' => 'Richelieu','SimilarTo' => 'Dunkerque|Nelson'",
+                $exception->getMessage()
+            );
+        }
     }
 
     public function testGetShipsList(): void

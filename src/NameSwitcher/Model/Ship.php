@@ -25,9 +25,6 @@ class Ship
     /** @var string[] */
     protected array $similarTo = [];
 
-    /** int qty of fields expected in the dictionary */
-    public const FIELD_QTY = 6;
-
     /** @param string[] $data */
     public function __construct(array $data)
     {
@@ -159,21 +156,22 @@ class Ship
             throw new NoShipException('No similar ship found for ' . $this->getType() . ' ' . $this->getTasName());
         }
 
-        return $this->similarTo[random_int(0, $count - 1)];
+        return $this->similarTo[array_rand($this->similarTo)];
     }
 
     /** @param string[] $data */
     protected function hydrate(array $data): Ship
     {
-        if (count($data) !== static::FIELD_QTY) {
-            throw new InvalidShipDataException('Invalid ship data');
+        if (count($data) !== count(Dictionary::FIELDS_NAME)) {
+            throw new InvalidShipDataException('Invalid ship attribute quantity');
         }
 
         foreach ($data as $key => $value) {
-            $methodName = 'set' . $key;
-            if (method_exists($this, $methodName)) {
-                $this->$methodName($value);
+            if (false === in_array($key, Dictionary::FIELDS_NAME, true)) {
+                throw new InvalidShipDataException("The attribute '{$key}' is unknown");
             }
+            $methodName = 'set' . $key;
+            $this->$methodName($value);
         }
 
         return $this;
