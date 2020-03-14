@@ -2,3 +2,5 @@ parameters:
     level: 6
     paths:
         - src
+    autoload_files:
+        - %currentWorkingDirectory%/src/Core/File/TextFileReader.php

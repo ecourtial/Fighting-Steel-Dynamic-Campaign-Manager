@@ -15,13 +15,14 @@ namespace App\Core\File;
 use App\Core\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-function fclose($resource, bool $test = false): bool
+/** @param mixed[] $resource */
+function fclose(array $resource, bool $test = false): bool
 {
     if ($test) {
         return false;
     }
 
-    return \fclose($resource);
+    return \fclose($resource['resource']);
 }
 
 class TextFileReader
@@ -43,7 +44,7 @@ class TextFileReader
             $content[] = trim($buffer);
         }
 
-        if (false === fclose($this->handle, $test)) {
+        if (false === fclose(['resource' => $this->handle], $test)) {
             throw new IOException("Impossible to close the file '{$filename}'");
         }
 
