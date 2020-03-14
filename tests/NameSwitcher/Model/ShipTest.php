@@ -53,7 +53,7 @@ class ShipTest extends TestCase
         static::assertFalse($ship->matchCriteria(['Type' => 'BB', 'TasName' => 'Clemenceau', 'SimilarTo' => 'Roma']));
     }
 
-    public function testRandomSimilarTo(): void
+    public function testRandomSimilarShip(): void
     {
         $ship = new Ship(static::CSV_DATA);
 
@@ -62,6 +62,11 @@ class ShipTest extends TestCase
         if ('Nelson' !== $similarShip && 'Dunkerque' !== $similarShip) {
             static::fail('Fail test get random similar ship');
         }
+
+        // Test randomness control
+        $ship->setSimilarTo(null);
+        $ship->setSimilarTo('Nelson');
+        static::assertEquals('Nelson', $ship->getRandomSimilarShip());
 
         // Test fails
         $ship->setSimilarTo(null);

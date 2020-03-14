@@ -89,7 +89,7 @@ class Ship
 
     public function setFsShortName(string $fsShortName): void
     {
-        if (mb_strlen($fsShortName) > static::SHORT_NAME_MAX_LENGTH) {
+        if (strlen($fsShortName) > static::SHORT_NAME_MAX_LENGTH) {
             throw new InvalidShipDataException("FS Short name is too long: '{$fsShortName}'");
         }
         $this->fsShortName = $fsShortName;
@@ -135,7 +135,7 @@ class Ship
                     $match = false;
                 }
             } else {
-                $methodName = 'get' . ucfirst($ruleName);
+                $methodName = 'get' . $ruleName;
                 if (
                     !method_exists($this, $methodName)
                     || $this->$methodName() !== $ruleValue
@@ -145,7 +145,7 @@ class Ship
             }
 
             if (false === $match) {
-                break;
+                return $match;
             }
         }
 
@@ -170,7 +170,7 @@ class Ship
         }
 
         foreach ($data as $key => $value) {
-            $methodName = 'set' . ucfirst($key);
+            $methodName = 'set' . $key;
             if (method_exists($this, $methodName)) {
                 $this->$methodName($value);
             }

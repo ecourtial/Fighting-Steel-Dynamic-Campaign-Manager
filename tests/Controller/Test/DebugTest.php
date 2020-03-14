@@ -17,7 +17,9 @@ class DebugTest extends TestCase
     public function testResponse(string $env): void
     {
         $debugController = new Debug($env);
-        static::assertInstanceOf(JsonResponse::class, $debugController());
+        $response = $debugController();
+        static::assertInstanceOf(JsonResponse::class, $response);
+        static::assertEquals('{"msg":"This route is for debug only"}', $response->getContent());
     }
 
     public function responseDataProvider(): array
@@ -26,5 +28,16 @@ class DebugTest extends TestCase
             ['test'],
             ['prod'],
         ];
+    }
+
+    public function testError(): void
+    {
+        try {
+            $debugController = new Debug('dev');
+            $debugController();
+            static::fail('An exception was expected! No code should be executed here!');
+        } catch (\RuntimeException $exception) {
+            static::assertEquals('Please make sur that no code is executed!', $exception->getMessage());
+        }
     }
 }

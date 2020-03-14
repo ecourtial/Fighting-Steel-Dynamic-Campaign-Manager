@@ -74,7 +74,7 @@ class Dictionary
     {
         $result = $this->searchInList($criteria);
         $resultCount = count($result);
-        $randInt = random_int(0, $resultCount - 1);
+        $randInt = rand(0, $resultCount - 1);
 
         return $result[$randInt];
     }

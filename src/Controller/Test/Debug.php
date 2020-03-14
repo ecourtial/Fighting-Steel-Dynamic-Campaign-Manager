@@ -28,6 +28,7 @@ class Debug extends AbstractController
     {
         if ('dev' === $this->env) {
             // Do debug stuff here.
+            throw new \RuntimeException('Please make sur that no code is executed!');
         }
 
         return new JsonResponse(['msg' => 'This route is for debug only']);
