@@ -1,13 +1,16 @@
 <?php
 
 declare(strict_types=1);
+
 /*
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       29/02/2020 (dd-mm-YYYY)
  */
+
 use App\Core\Exception\FileNotFoundException;
 use App\Core\File\TextFileReader;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class TextFileReaderTest extends TestCase
 {
@@ -36,6 +39,22 @@ class TextFileReaderTest extends TestCase
         } catch (FileNotFoundException $ex) {
             static::assertEquals(
                 "Impossible to read the content of the file '$file'.",
+                $ex->getMessage()
+            );
+        }
+    }
+
+    public function testImpossibleToClose(): void
+    {
+        $fileReader = new TextFileReader();
+        $file = 'tests/Assets/dcm-config.ini';
+
+        try {
+            $fileReader->getFileContent($file, true);
+            static::fail('An exception was expected since the could not be closed!');
+        } catch (IOException $ex) {
+            static::assertEquals(
+                "Impossible to close the file 'tests/Assets/dcm-config.ini'",
                 $ex->getMessage()
             );
         }

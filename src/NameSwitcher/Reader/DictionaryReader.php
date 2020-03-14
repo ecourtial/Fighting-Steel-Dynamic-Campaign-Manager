@@ -20,7 +20,7 @@ class DictionaryReader
         $this->csvExtractor = $csvExtractor;
     }
 
-    /** @return string[][] */
+    /** @return \Generator<array> */
     public function extractData(string $file): \Generator
     {
         $this->csvExtractor->input($file)->options(['delimiter' => ';']);
