@@ -56,7 +56,7 @@ class TextFileReader
         $this->handle = @fopen($filename, 'r');
 
         if (false === is_resource($this->handle)) {
-            throw new FileNotFoundException("Impossible to read the content of the file '{$filename}'.");
+            throw new FileNotFoundException($filename);
         }
     }
 }
