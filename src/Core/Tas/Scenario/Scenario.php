@@ -49,7 +49,14 @@ class Scenario
         return $this->fullPath;
     }
 
-    /** @param Ship[] */
+    /**
+     * In fact $ships is an array of Ship.
+     * But PHPStan is complaining because of my double check (instance of).
+     * I keep it because we have no guarantee that the dev will pass us
+     * an array of Ship objects.
+     *
+     * @param mixed[] $ships
+     */
     public function setShips(string $side, array $ships): void
     {
         static::validateSide($side);
