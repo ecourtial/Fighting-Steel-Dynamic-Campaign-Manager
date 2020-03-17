@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c65b04cdd72b5aafade684743c32349d",
+    "content-hash": "41cd5d2d2f44194456c626738f4afeab",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -4685,16 +4685,16 @@
         },
         {
             "name": "wizaplace/php-etl",
-            "version": "1.0",
+            "version": "dev-bugfix-20-throw-exception-if-csv-columns-does-not-match",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wizaplace/php-etl.git",
-                "reference": "1ef64efa4cec9fa573baae4c40365f851c86fe22"
+                "reference": "8fa18f889578ea8d8b213c004e6248cd410cc9a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wizaplace/php-etl/zipball/1ef64efa4cec9fa573baae4c40365f851c86fe22",
-                "reference": "1ef64efa4cec9fa573baae4c40365f851c86fe22",
+                "url": "https://api.github.com/repos/wizaplace/php-etl/zipball/8fa18f889578ea8d8b213c004e6248cd410cc9a9",
+                "reference": "8fa18f889578ea8d8b213c004e6248cd410cc9a9",
                 "shasum": ""
             },
             "require": {
@@ -4703,6 +4703,7 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
+                "infection/infection": "^0.15.3",
                 "phpstan/phpstan": "^0.12.7",
                 "phpunit/phpunit": "^8.5",
                 "squizlabs/php_codesniffer": "^3.5"
@@ -4739,10 +4740,10 @@
                 "transformation"
             ],
             "support": {
-                "source": "https://github.com/wizaplace/php-etl/tree/1.0",
+                "source": "https://github.com/wizaplace/php-etl/tree/bugfix-20-throw-exception-if-csv-columns-does-not-match",
                 "issues": "https://github.com/wizaplace/php-etl/issues"
             },
-            "time": "2020-01-30T20:35:04+00:00"
+            "time": "2020-03-15T12:22:59+00:00"
         }
     ],
     "packages-dev": [
@@ -6576,7 +6577,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "wizaplace/php-etl": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

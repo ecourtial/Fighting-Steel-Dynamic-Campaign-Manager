@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-/*
- * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       29/02/2020 (dd-mm-YYYY)
+/**
+ * @author Eric COURTIAL <e.courtial30@gmail.com>
+ * @licence MIT
  */
+
+namespace Tests\Core\File;
 
 use App\Core\Exception\FileNotFoundException;
 use App\Core\File\TextFileReader;
@@ -17,12 +19,16 @@ class TextFileReaderTest extends TestCase
     public function testGetDataSuccess(): void
     {
         $fileReader = new TextFileReader();
-        $data = $fileReader->getFileContent('tests/Assets/dcm-config.ini');
+        $data = [];
+        foreach ($fileReader->getFileContent('tests/Assets/dcm-config.ini') as $line) {
+            $data[] = $line;
+        }
 
         static::assertEquals(
            [
-               'TAS_PATH="C:\Program Files\Thunder At Sea"',
-               'FS_PATH="C:\Program Files\Fighting Steel"',
+               '[GENERAL CONFIG - NOTE FILE HAS SPACES FOR TESTING PURPOSE]',
+               'TAS_PATH= "C:\Program Files\Thunder At Sea"',
+               'FS_PATH=" C:\Program Files\Fighting Steel"',
            ],
             $data
         );
@@ -34,7 +40,8 @@ class TextFileReaderTest extends TestCase
         $file = 'tests/Assets/dcm-config.iniZ';
 
         try {
-            $fileReader->getFileContent($file);
+            foreach ($fileReader->getFileContent($file) as $line) {
+            }
             static::fail('An exception was expected since the file does not exist!');
         } catch (FileNotFoundException $ex) {
             static::assertEquals(
@@ -47,10 +54,12 @@ class TextFileReaderTest extends TestCase
     public function testImpossibleToClose(): void
     {
         $fileReader = new TextFileReader();
-        $file = 'tests/Assets/dcm-config.ini';
 
         try {
-            $fileReader->getFileContent($file, true);
+            $data = [];
+            foreach ($fileReader->getFileContent('tests/Assets/dcm-config.ini', true) as $line) {
+                $data[] = $line;
+            }
             static::fail('An exception was expected since the could not be closed!');
         } catch (IOException $ex) {
             static::assertEquals(

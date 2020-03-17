@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-/*
- * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       13/03/2020 (dd-mm-YYYY)
+/**
+ * @author Eric COURTIAL <e.courtial30@gmail.com>
+ * @licence MIT
  */
+
+namespace Tests\NameSwitcher\Model;
 
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\MoreThanOneShipException;

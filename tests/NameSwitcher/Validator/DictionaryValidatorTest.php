@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-/*
- * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       29/02/2020 (dd-mm-YYYY)
+/**
+ * @author Eric COURTIAL <e.courtial30@gmail.com>
+ * @licence MIT
  */
+
+namespace Tests\NameSwitcher\Validator;
 
 use App\NameSwitcher\Reader\DictionaryReader;
 use App\NameSwitcher\Validator\DictionaryValidator;

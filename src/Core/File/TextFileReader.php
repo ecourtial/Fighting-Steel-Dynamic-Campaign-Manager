@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       27/02/2020 (dd-mm-YYYY)
+ * @author Eric COURTIAL <e.courtial30@gmail.com>
+ * @licence MIT
  *
  * Warning: this class is "full" of "hacks to workaround
  * native functions PHP issues.
@@ -31,17 +31,17 @@ class TextFileReader
     protected $handle;
 
     /**
-     * @return string[]
+     * @return \Generator<String>
      *
      * @throws \App\Core\Exception\FileNotFoundException
      */
-    public function getFileContent(string $filename, bool $test = false): array
+    public function getFileContent(string $filename, bool $test = false): \Generator
     {
         $content = [];
         $this->openFile($filename);
 
         while (false !== ($buffer = fgets($this->handle))) {
-            $content[] = trim($buffer);
+            yield trim($buffer);
         }
 
         if (false === fclose(['resource' => $this->handle], $test)) {

@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-/*
- * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       14/03/2020 (dd-mm-YYYY)
+/**
+ * @author Eric COURTIAL <e.courtial30@gmail.com>
+ * @licence MIT
  */
 
-use App\Core\Exception\MissingTasScenarioException;
+namespace Tests\Core\Tas\Scenario;
+
+use App\Core\Tas\Exception\MissingTasScenarioException;
 use App\Core\Tas\Scenario\Scenario;
 use App\Core\Tas\Scenario\ScenarioRepository;
 use PHPUnit\Framework\TestCase;
@@ -40,6 +42,9 @@ class ScenarioRepositoryTest extends TestCase
         $repo = new ScenarioRepository($_ENV['TAS_LOCATION']);
         $scenario = $repo->getOne('EmptyScenario');
         static::assertEquals('EmptyScenario', $scenario->getName());
+
+        $expectedFullPath = $_ENV['TAS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR . 'EmptyScenario';
+        static::assertEquals($expectedFullPath, $scenario->getFullPath());
     }
 
     public function testGetOneDoesNotExists(): void

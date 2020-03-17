@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace App\Core\Tas\Scenario;
 
-use App\Core\Exception\MissingTasScenarioException;
+use App\Core\Tas\Exception\MissingTasScenarioException;
 
 class ScenarioRepository
 {
@@ -35,13 +35,14 @@ class ScenarioRepository
         $folderContent = scandir($this->scenarioDirectory);
 
         foreach ($folderContent as $element) {
+            $scenarioFullPath = $this->scenarioDirectory . DIRECTORY_SEPARATOR . $element;
             if (
-                is_dir($this->scenarioDirectory . DIRECTORY_SEPARATOR . $element)
+                is_dir($scenarioFullPath)
                 && preg_match('/^[a-zA-Z0-9 ]*$/', $element)
             ) {
                 $exploded = explode(DIRECTORY_SEPARATOR, $element);
                 $scenarioKey = array_pop($exploded);
-                $this->scenarios[$scenarioKey] = new Scenario($scenarioKey, $element);
+                $this->scenarios[$scenarioKey] = new Scenario($scenarioKey, $scenarioFullPath);
             }
         }
 

@@ -3,13 +3,11 @@
 declare(strict_types=1);
 
 /**
- * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       27/02/2020 (dd-mm-YYYY)
+ * @author Eric COURTIAL <e.courtial30@gmail.com>
+ * @licence MIT
  */
 
 namespace App\Core\File;
-
-use App\Core\Exception\SyntaxException;
 
 class IniReader
 {
@@ -21,27 +19,29 @@ class IniReader
     }
 
     /**
-     * @return string[]
+     * @return \Generator<array>
      *
-     * @throws \App\Core\Exception\SyntaxException
      * @throws \App\Core\Exception\FileNotFoundException
      */
-    public function getData(string $fileName): array
+    public function getData(string $fileName): \Generator
     {
-        $data = $this->textFileReader->getFileContent($fileName);
-        $parsedData = [];
         $lineCount = 1;
 
-        foreach ($data as $line) {
-            $keys = explode('=', $line);
-            if (2 !== count($keys)) {
-                throw new SyntaxException("For line #{$lineCount} in file '{$fileName}': malformed line");
+        foreach ($this->textFileReader->getFileContent($fileName) as $line) {
+            if(preg_match('/^\[.*]$/', $line)) { // Ignore headers of sections
+                continue;
             }
 
-            $parsedData[trim($keys[0])] = trim($keys[1]);
+            $keys = explode('=', $line);
+            if (2 !== count($keys)) {
+                continue;
+            }
             $lineCount++;
-        }
 
-        return $parsedData;
+            yield [
+                'key' => trim($keys[0]),
+                'value' => trim($keys[1], ' "')
+            ];
+        }
     }
 }

@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-/*
- * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       14/03/2020 (dd-mm-YYYY)
+/**
+ * @author Eric COURTIAL <e.courtial30@gmail.com>
+ * @licence MIT
  */
+
+namespace Tests\Core\Tas\Scenario;
 
 use App\Core\Tas\Scenario\Scenario;
 use PHPUnit\Framework\TestCase;
@@ -20,5 +22,30 @@ class ScenarioTest extends TestCase
         $scenario = new Scenario($scenarioName, $scenarioFullPath);
         static::assertEquals($scenarioName, $scenario->getName());
         static::assertEquals($scenarioFullPath, $scenario->getFullPath());
+    }
+
+    public function testSetShipsWrongSide(): void
+    {
+
+    }
+
+    public function testSetShipsBadInput(): void
+    {
+
+    }
+
+    public function testSetShipsDuplicateShip(): void
+    {
+
+    }
+
+    public function testSetShipsAndGetShipsNormalCase(): void
+    {
+
+    }
+
+    public function testGetShipsWrongSide(): void
+    {
+
     }
 }
