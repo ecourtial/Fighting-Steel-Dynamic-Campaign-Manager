@@ -11,5 +11,4 @@ namespace App\Core\Exception;
 
 class SideErrorException extends \Exception
 {
-
 }

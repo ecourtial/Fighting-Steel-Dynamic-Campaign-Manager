@@ -17,7 +17,7 @@ class ShipTest extends TestCase
     public function testHydration(): void
     {
         $name = 'Bismarck';
-        $ype = "BB";
+        $ype = 'BB';
 
         $ship = new Ship($name, $ype);
         static::assertEquals($name, $ship->getName());

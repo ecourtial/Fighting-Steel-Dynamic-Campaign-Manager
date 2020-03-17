@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace Tests\Core\Tas\Ship;
 
+use App\Core\Exception\FileNotFoundException;
+use App\Core\Exception\SideErrorException;
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
-use App\Core\Exception\SideErrorException;
 use App\Core\Tas\Scenario\ScenarioRepository;
 use App\Core\Tas\Ship\Ship;
 use App\Core\Tas\Ship\ShipExtractor;
 use PHPUnit\Framework\TestCase;
-use App\Core\Exception\FileNotFoundException;
 
 class ShipExtractorTest extends TestCase
 {
@@ -35,7 +35,7 @@ class ShipExtractorTest extends TestCase
         $count = 1;
         foreach ($ships as $ship) {
             static::assertInstanceOf(Ship::class, $ship);
-            if ($count === 1) {
+            if (1 === $count) {
                 static::assertEquals('Gneisenau', $ship->getName());
                 static::assertEquals('BC', $ship->getType());
             } else {

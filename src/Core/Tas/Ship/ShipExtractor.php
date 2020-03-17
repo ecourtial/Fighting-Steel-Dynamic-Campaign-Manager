@@ -11,7 +11,6 @@ namespace App\Core\Tas\Ship;
 
 use App\Core\File\IniReader;
 use App\Core\Tas\Scenario\Scenario;
-use App\Core\Exception\FileNotFoundException;
 
 class ShipExtractor
 {
@@ -33,14 +32,14 @@ class ShipExtractor
 
         // WILL NEED REFACTO IF WE WANT MORE FIELDS
         foreach ($this->iniReader->getData($filePath) as $line) {
-            if ($line['key'] === 'NAME') {
+            if ('NAME' === $line['key']) {
                 $mayBe = true;
                 $currentName = $line['value'];
 
                 continue;
             }
 
-            if ($mayBe && $line['key'] === 'TYPE') {
+            if ($mayBe && 'TYPE' === $line['key']) {
                 $ships[] = new Ship($currentName, $line['value']);
                 $mayBe = false;
             } else {
@@ -50,5 +49,4 @@ class ShipExtractor
 
         return $ships;
     }
-
 }

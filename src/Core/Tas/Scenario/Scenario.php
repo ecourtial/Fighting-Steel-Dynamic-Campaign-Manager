@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace App\Core\Tas\Scenario;
 
-use App\Core\Tas\Ship\Ship;
-use App\Core\Exception\SideErrorException;
 use App\Core\Exception\InvalidInputException;
-use App\Tas\Exception\DuplicateShipException;
+use App\Core\Exception\SideErrorException;
+use App\Core\Tas\Exception\DuplicateShipException;
+use App\Core\Tas\Ship\Ship;
 
 class Scenario
 {
@@ -21,16 +21,16 @@ class Scenario
 
     public const SIDES = [
         self::ALLIED_SIDE,
-        self::AXIS_SIDE
+        self::AXIS_SIDE,
     ];
 
     private string $name;
     private string $fullPath;
 
-    /** @var Ship[]  */
+    /** @var Ship[] */
     private array $alliedShips = [];
 
-    /** @var Ship[]  */
+    /** @var Ship[] */
     private array $axisShips = [];
 
     public function __construct(string $name, string $fullPath)
@@ -53,7 +53,7 @@ class Scenario
     public function setShips(string $side, array $ships): void
     {
         static::validateSide($side);
-        $propertyName = strtolower($side) .'Ships';
+        $propertyName = strtolower($side) . 'Ships';
         $this->$propertyName = [];
         $count = 0;
 
@@ -63,8 +63,15 @@ class Scenario
             }
 
             /** @var \App\Core\Tas\Ship\Ship $ship */
-            if (array_key_exists($ship->getName(), $this->$propertyName)) {
-                throw new DuplicateShipException($ship->getName(), $side);
+            $existInSide = '';
+            if (array_key_exists($ship->getName(), $this->alliedShips)) {
+                $existInSide = 'Allied';
+            } elseif (array_key_exists($ship->getName(), $this->axisShips)) {
+                $existInSide = 'Axis';
+            }
+
+            if ('' !== $existInSide) {
+                throw new DuplicateShipException($ship->getName(), $existInSide);
             }
 
             $this->$propertyName[$ship->getName()] = $ship;
@@ -76,7 +83,7 @@ class Scenario
     public function getShips(string $side): array
     {
         static::validateSide($side);
-        $propertyName = strtolower($side) .'Ships';
+        $propertyName = strtolower($side) . 'Ships';
 
         return $this->$propertyName;
     }
