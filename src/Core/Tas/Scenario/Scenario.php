@@ -11,8 +11,9 @@ namespace App\Core\Tas\Scenario;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\Exception\SideErrorException;
+use App\Core\Fs\Ship\Ship as FsShip;
 use App\Core\Tas\Exception\DuplicateShipException;
-use App\Core\Tas\Ship\Ship;
+use App\Core\Tas\Ship\Ship as TasShip;
 
 class Scenario
 {
@@ -24,14 +25,17 @@ class Scenario
         self::AXIS_SIDE,
     ];
 
-    private string $name;
-    private string $fullPath;
+    protected string $name;
+    protected string $fullPath;
 
-    /** @var Ship[] */
-    private array $alliedShips = [];
+    /** @var TasShip[] */
+    protected array $alliedShips = [];
 
-    /** @var Ship[] */
-    private array $axisShips = [];
+    /** @var TasShip[] */
+    protected array $axisShips = [];
+
+    /** @var FsShip[] */
+    protected $fsShips = [];
 
     public function __construct(string $name, string $fullPath)
     {
@@ -50,14 +54,14 @@ class Scenario
     }
 
     /**
-     * In fact $ships is an array of Ship.
+     * In fact $ships is an array of TasShip.
      * But PHPStan is complaining because of my double check (instance of).
      * I keep it because we have no guarantee that the dev will pass us
      * an array of Ship objects.
      *
      * @param mixed[] $ships
      */
-    public function setShips(string $side, array $ships): void
+    public function setTasShips(string $side, array $ships): void
     {
         static::validateSide($side);
         $propertyName = strtolower($side) . 'Ships';
@@ -65,8 +69,8 @@ class Scenario
         $count = 0;
 
         foreach ($ships as $ship) {
-            if (false === $ship instanceof Ship) {
-                throw new InvalidInputException("Data at index #{$count} is not a proper Ship object");
+            if (false === $ship instanceof TasShip) {
+                throw new InvalidInputException("Data at index #{$count} is not a proper TAS Ship object");
             }
 
             /** @var \App\Core\Tas\Ship\Ship $ship */
@@ -86,8 +90,8 @@ class Scenario
         }
     }
 
-    /** @return Ship[] */
-    public function getShips(string $side): array
+    /** @return TasShip[] */
+    public function getTasShips(string $side): array
     {
         static::validateSide($side);
         $propertyName = strtolower($side) . 'Ships';
@@ -99,6 +103,40 @@ class Scenario
     {
         if (false === in_array($side, static::SIDES, true)) {
             throw new SideErrorException("Invalid side: '{$side}'");
+        }
+    }
+
+    /** @return FsShip[] */
+    public function getFsShips(): array
+    {
+        return $this->fsShips;
+    }
+
+    /**
+     * In fact $ships is an array of FsShip.
+     * But PHPStan is complaining because of my double check (instance of).
+     * I keep it because we have no guarantee that the dev will pass us
+     * an array of Ship objects.
+     *
+     * @param mixed[] $ships
+     */
+    public function setFsShips(array $ships): void
+    {
+        $count = 0;
+        $this->fsShips = [];
+
+        foreach ($ships as $ship) {
+            if (false === $ship instanceof FsShip) {
+                throw new InvalidInputException("Data at index #{$count} is not a proper FS Ship object");
+            }
+
+            /** @var \App\Core\Fs\Ship\Ship $ship */
+            if (array_key_exists($ship->getShortname(), $this->fsShips)) {
+                throw new DuplicateShipException($ship->getShortname());
+            }
+
+            $this->fsShips[$ship->getShortname()] = $ship;
+            $count++;
         }
     }
 }

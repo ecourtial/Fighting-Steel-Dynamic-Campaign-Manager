@@ -11,9 +11,12 @@ namespace App\Core\Tas\Exception;
 
 class DuplicateShipException extends \Exception
 {
-    public function __construct(string $shipName, string $side)
+    public function __construct(string $shipName, ?string $side = null)
     {
-        $message = "Duplicate ship entry with name '{$shipName}' in side '{$side}'";
+        $message = "Duplicate ship entry with name '{$shipName}'";
+        if (is_string($side)) {
+            $message .= " in side '{$side}'";
+        }
         parent::__construct($message, 0, null);
     }
 }

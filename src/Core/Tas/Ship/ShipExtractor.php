@@ -30,7 +30,7 @@ class ShipExtractor
         $mayBe = false;
         $currentName = '';
 
-        // WILL NEED REFACTO IF WE WANT MORE FIELDS
+        // WILL NEED REFACTO IF WE WANT MORE FIELDS. See the FS Extractor?
         foreach ($this->iniReader->getData($filePath) as $line) {
             if ('NAME' === $line['key']) {
                 $mayBe = true;

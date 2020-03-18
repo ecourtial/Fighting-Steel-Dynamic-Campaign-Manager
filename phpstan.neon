@@ -12,3 +12,7 @@ parameters:
         -
             message: '~^Variable property access on ~'
             path: src/Core/Tas/Scenario/Scenario.php
+
+        -
+            message: '~^Variable method call on ~'
+            path: src/Core/Fs/Ship/Ship.php

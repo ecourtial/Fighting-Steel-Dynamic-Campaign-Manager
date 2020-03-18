@@ -11,9 +11,10 @@ namespace Tests\Core\Tas\Scenario;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\Exception\SideErrorException;
+use App\Core\Fs\Ship\Ship as FsShip;
 use App\Core\Tas\Exception\DuplicateShipException;
 use App\Core\Tas\Scenario\Scenario;
-use App\Core\Tas\Ship\Ship;
+use App\Core\Tas\Ship\Ship as TasShip;
 use PHPUnit\Framework\TestCase;
 
 class ScenarioTest extends TestCase
@@ -35,7 +36,7 @@ class ScenarioTest extends TestCase
 
         try {
             $scenario = new Scenario($scenarioName, $scenarioFullPath);
-            $scenario->setShips('Ah', []);
+            $scenario->setTasShips('Ah', []);
         } catch (SideErrorException $exception) {
             static::assertEquals(
                 "Invalid side: 'Ah'",
@@ -44,36 +45,36 @@ class ScenarioTest extends TestCase
         }
     }
 
-    public function testSetShipsBadInput(): void
+    public function testSetTasShipsBadInput(): void
     {
         $scenarioName = 'Bismarck';
         $scenarioFullPath = "C:\Tas\Scenario\Bismarck";
 
         try {
             $scenario = new Scenario($scenarioName, $scenarioFullPath);
-            $scenario->setShips('Axis', [new \stdClass()]);
+            $scenario->setTasShips('Axis', [new \stdClass()]);
         } catch (InvalidInputException $exception) {
             static::assertEquals(
-                'Data at index #0 is not a proper Ship object',
+                'Data at index #0 is not a proper TAS Ship object',
                 $exception->getMessage()
             );
         }
     }
 
-    public function testSetShipsDuplicateShip(): void
+    public function testSetShipsDuplicateTasShip(): void
     {
         $scenarioName = 'Iceberg';
         $scenarioFullPath = "C:\Tas\Scenario\Iceberg";
         $scenario = new Scenario($scenarioName, $scenarioFullPath);
 
         $ships = [
-            new Ship('Titanic', 'Liner'),
-            new Ship('Missouri', 'BB'),
-            new Ship('Titanic', 'Liner'),
+            new TasShip('Titanic', 'Liner'),
+            new TasShip('Missouri', 'BB'),
+            new TasShip('Titanic', 'Liner'),
         ];
 
         try {
-            $scenario->setShips('Allied', $ships);
+            $scenario->setTasShips('Allied', $ships);
         } catch (DuplicateShipException $exception) {
             static::assertEquals(
                 "Duplicate ship entry with name 'Titanic' in side 'Allied'",
@@ -82,11 +83,11 @@ class ScenarioTest extends TestCase
         }
 
         $ships = [
-            new Ship('GrossDeutschland', 'BB'),
-            new Ship('Titanic', 'Liner'),
+            new TasShip('GrossDeutschland', 'BB'),
+            new TasShip('Titanic', 'Liner'),
         ];
         try {
-            $scenario->setShips('Axis', $ships);
+            $scenario->setTasShips('Axis', $ships);
         } catch (DuplicateShipException $exception) {
             static::assertEquals(
                 "Duplicate ship entry with name 'Titanic' in side 'Allied'",
@@ -95,11 +96,11 @@ class ScenarioTest extends TestCase
         }
 
         $ships = [
-            new Ship('GrossDeutschland', 'BB'),
-            new Ship('Titanic', 'Liner'),
+            new TasShip('GrossDeutschland', 'BB'),
+            new TasShip('Titanic', 'Liner'),
         ];
         try {
-            $scenario->setShips('Allied', $ships);
+            $scenario->setTasShips('Allied', $ships);
         } catch (DuplicateShipException $exception) {
             static::assertEquals(
                 "Duplicate ship entry with name 'GrossDeutschland' in side 'Axis'",
@@ -111,24 +112,24 @@ class ScenarioTest extends TestCase
     public function testSetShipsAndGetShipsNormalCase(): void
     {
         $alliedShips = [
-            'Titanic' => new Ship('Titanic', 'Liner'),
-            'Foch' => new Ship('Foch', 'CA'),
+            'Titanic' => new TasShip('Titanic', 'Liner'),
+            'Foch' => new TasShip('Foch', 'CA'),
         ];
 
         $axisShips = [
-            'Bismarck' => new Ship('Bismarck', 'BB'),
-            'Tirpitz' => new Ship('Tirpitz', 'BB'),
-            'Prinz Eugen' => new Ship('Prinz Eugen', 'CA'),
+            'Bismarck' => new TasShip('Bismarck', 'BB'),
+            'Tirpitz' => new TasShip('Tirpitz', 'BB'),
+            'Prinz Eugen' => new TasShip('Prinz Eugen', 'CA'),
         ];
 
         $scenarioName = 'Iceberg';
         $scenarioFullPath = "C:\Tas\Scenario\Iceberg";
         $scenario = new Scenario($scenarioName, $scenarioFullPath);
-        $scenario->setShips('Allied', $alliedShips);
-        $scenario->setShips('Axis', $axisShips);
+        $scenario->setTasShips('Allied', $alliedShips);
+        $scenario->setTasShips('Axis', $axisShips);
 
-        static::assertEquals($alliedShips, $scenario->getShips('Allied'));
-        static::assertEquals($axisShips, $scenario->getShips('Axis'));
+        static::assertEquals($alliedShips, $scenario->getTasShips('Allied'));
+        static::assertEquals($axisShips, $scenario->getTasShips('Axis'));
     }
 
     public function testGetShipsWrongSide(): void
@@ -138,10 +139,97 @@ class ScenarioTest extends TestCase
 
         try {
             $scenario = new Scenario($scenarioName, $scenarioFullPath);
-            $scenario->getShips('Ah');
+            $scenario->getTasShips('Ah');
         } catch (SideErrorException $exception) {
             static::assertEquals(
                 "Invalid side: 'Ah'",
+                $exception->getMessage()
+            );
+        }
+    }
+
+    public function testBasicSetGetFsShips(): void
+    {
+        $result = [
+            'Scharnhrst' => new FsShip(
+                [
+                    'NAME' => 'Scharnhorst',
+                    'SHORTNAME' => 'Scharnhrst',
+                    'TYPE' => 'BC',
+                    'CLASS' => 'Scharnhorst',
+                ]
+            ),
+            'Gneisenau' => new FsShip(
+                [
+                    'NAME' => 'Gneisenau',
+                    'SHORTNAME' => 'Gneisenau',
+                    'TYPE' => 'BC',
+                    'CLASS' => 'Scharnhorst',
+                ]
+            ),
+        ];
+
+        $scenarioName = 'Iceberg';
+        $scenarioFullPath = "C:\Tas\Scenario\Iceberg";
+        $scenario = new Scenario($scenarioName, $scenarioFullPath);
+        $scenario->setFsShips($result);
+        static::assertEquals($result, $scenario->getFsShips());
+    }
+
+    public function testSetFsShipsBadInput(): void
+    {
+        $scenarioName = 'Bismarck';
+        $scenarioFullPath = "C:\Tas\Scenario\Bismarck";
+
+        try {
+            $scenario = new Scenario($scenarioName, $scenarioFullPath);
+            $scenario->setFsShips([new \stdClass()]);
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                'Data at index #0 is not a proper FS Ship object',
+                $exception->getMessage()
+            );
+        }
+    }
+
+    public function testDuplicateFsShip(): void
+    {
+        $scenarioName = 'Iceberg';
+        $scenarioFullPath = "C:\Tas\Scenario\Iceberg";
+        $scenario = new Scenario($scenarioName, $scenarioFullPath);
+
+        $ships = [
+            new FsShip(
+                [
+                    'NAME' => 'Scharnhorst',
+                    'SHORTNAME' => 'Scharnhrst',
+                    'TYPE' => 'BC',
+                    'CLASS' => 'Scharnhorst',
+                ]
+            ),
+            new FsShip(
+                [
+                    'NAME' => 'Gneisenau',
+                    'SHORTNAME' => 'Gneisenau',
+                    'TYPE' => 'BC',
+                    'CLASS' => 'Scharnhorst',
+                ]
+            ),
+            new FsShip(
+                [
+                    'NAME' => 'Scharnhorst',
+                    'SHORTNAME' => 'Scharnhrst',
+                    'TYPE' => 'BC',
+                    'CLASS' => 'Scharnhorst',
+                ]
+            ),
+        ];
+
+        try {
+            $scenario->setFsShips($ships);
+        } catch (DuplicateShipException $exception) {
+            static::assertEquals(
+                "Duplicate ship entry with name 'Scharnhrst'",
                 $exception->getMessage()
             );
         }
