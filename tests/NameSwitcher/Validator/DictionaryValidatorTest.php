@@ -43,8 +43,9 @@ class DictionaryValidatorTest extends TestCase
             "Error at line #5. The name 'Richelieu' is already used at line #2",
             "Error at line #6. FS Short name is too long: 'Mogador|Hunt'",
             "Error at line #8. The name 'Lutzow' is already used at line #7",
-            'Row with index #9 only contains 2 elements while 6 were expected.',
+            'Row with index #9 only contains 3 elements while 7 were expected.',
         ];
+
         static::assertEquals($expected, static::$dictionaryValidator->validate('tests/Assets/dictionary-bad.csv'));
     }
 }

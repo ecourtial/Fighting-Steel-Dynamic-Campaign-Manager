@@ -20,6 +20,7 @@ class ShipTest extends TestCase
         'Type' => 'BB',
         'Class' => 'Richelieu',
         'TasName' => 'Clemenceau',
+        'FsClass' => 'Richelieu',
         'FsName' => 'Richelieu',
         'FsShortName' => 'Clemenceau',
         'SimilarTo' => 'Dunkerque|Nelson',

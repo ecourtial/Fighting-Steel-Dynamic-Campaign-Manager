@@ -39,6 +39,7 @@ class DictionaryTest extends TestCase
             'Type' => 'BB',
             'Class' => 'Richelieu',
             'TasName' => 'Richelieu',
+            'FsClass' => 'Richelieu',
             'FsName' => 'Richelieu',
             'FsShortName' => 'Richelieu',
             'SimilarTo' => 'Dunkerque|Nelson',
@@ -48,6 +49,7 @@ class DictionaryTest extends TestCase
             'Type' => 'BB',
             'Class' => 'Richelieu',
             'TasName' => 'Clemenceau',
+            'FsClass' => 'Richelieu',
             'FsName' => 'Richelieu',
             'FsShortName' => 'Clemenceau',
             'SimilarTo' => 'Dunkerque|Nelson',
@@ -61,6 +63,7 @@ class DictionaryTest extends TestCase
                 'Type' => 'BB',
                 'Class' => 'Richelieu',
                 'TasName' => 'Clemenceau',
+                'FsClass' => 'Richelieu',
                 'FsName' => 'Richelieu',
                 'SimilarTo' => 'Dunkerque|Nelson',
             ],
@@ -71,7 +74,7 @@ class DictionaryTest extends TestCase
             static::fail('Since the input data was invalid, an exception was expected');
         } catch (InvalidShipDataException $exception) {
             static::assertEquals(
-                "Field 'FsShortName' is missing. Given data was: 'Type' => 'BB','Class' => 'Richelieu','TasName' => 'Clemenceau','FsName' => 'Richelieu','SimilarTo' => 'Dunkerque|Nelson'",
+                "Field 'FsShortName' is missing. Given data was: 'Type' => 'BB','Class' => 'Richelieu','TasName' => 'Clemenceau','FsClass' => 'Richelieu','FsName' => 'Richelieu','SimilarTo' => 'Dunkerque|Nelson'",
                 $exception->getMessage()
             );
         }

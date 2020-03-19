@@ -24,6 +24,7 @@ class Dictionary
             'Type',
             'Class',
             'TasName',
+            'FsClass',
             'FsName',
             'FsShortName',
             'SimilarTo',

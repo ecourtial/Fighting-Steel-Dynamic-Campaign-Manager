@@ -19,6 +19,7 @@ class Ship
     protected string $type = '';
     protected string $class = '';
     protected string $tasName = '';
+    protected string $fsClass = '';
     protected string $fsName = '';
     protected string $fsShortName = '';
 
@@ -63,6 +64,18 @@ class Ship
     public function setTasName(string $tasName): Ship
     {
         $this->tasName = $tasName;
+
+        return $this;
+    }
+
+    public function getFsClass(): string
+    {
+        return $this->fsClass;
+    }
+
+    public function setFsClass(string $fsClass): Ship
+    {
+        $this->fsClass = $fsClass;
 
         return $this;
     }
