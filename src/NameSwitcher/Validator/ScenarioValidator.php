@@ -78,7 +78,8 @@ class ScenarioValidator
         // Check that all the ships in TAS are present in the dictionary file
         foreach (Scenario::SIDES as $side) {
             foreach ($scenario->getTasShips($side) as $ship) {
-                if (false === array_key_exists(
+                if (
+                    false === array_key_exists(
                     $ship->getName(),
                     $dictionary->getShipsList())
                 ) {
