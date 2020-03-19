@@ -15,7 +15,11 @@ namespace App\Core\File;
 use App\Core\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-/** @param mixed[] $resource */
+/**
+ * This hack is here to be able to mock the fclose() native PHP function.
+ *
+ * @param mixed[] $resource
+ */
 function fclose(array $resource, bool $test = false): bool
 {
     if ($test) {

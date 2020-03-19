@@ -12,6 +12,7 @@ namespace Tests\Controller\Test;
 use App\Controller\Test\Debug;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Core\Exception\SecurityException;
 
 class DebugTest extends TestCase
 {
@@ -38,7 +39,7 @@ class DebugTest extends TestCase
             $debugController = new Debug('dev');
             $debugController();
             static::fail('An exception was expected! No code should be executed here!');
-        } catch (\RuntimeException $exception) {
+        } catch (SecurityException $exception) {
             static::assertEquals('Please make sur that no code is executed!', $exception->getMessage());
         }
     }

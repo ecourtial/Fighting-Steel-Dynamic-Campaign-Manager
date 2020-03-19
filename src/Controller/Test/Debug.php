@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Core\Exception\SecurityException;
 
 class Debug extends AbstractController
 {
@@ -28,7 +29,7 @@ class Debug extends AbstractController
     {
         if ('dev' === $this->env) {
             // Do debug stuff here.
-            throw new \RuntimeException('Please make sur that no code is executed!');
+            throw new SecurityException('Please make sur that no code is executed!');
         }
 
         return new JsonResponse(['msg' => 'This route is for debug only']);
