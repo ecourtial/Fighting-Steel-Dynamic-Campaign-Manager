@@ -27,7 +27,7 @@ class ShipExtractorTest extends TestCase
         $textReader = new TextFileReader();
         $iniReader = new IniReader($textReader);
         $this->extractor = new ShipExtractor($iniReader);
-        $this->scenarioRepository = new ScenarioRepository($_ENV['TAS_LOCATION']);
+        $this->scenarioRepository = new ScenarioRepository($_ENV['TAS_LOCATION'], $iniReader);
     }
 
     public function testNormalExtraction(): void
@@ -69,7 +69,7 @@ class ShipExtractorTest extends TestCase
 
         static::assertEquals(
             $result,
-            $this->extractor->extract($this->scenarioRepository->getOne('IncompleteScenario'))
+            $this->extractor->extract($this->scenarioRepository->getOne('IncompleteScenarioWithNotTasShipFile'))
         );
     }
 

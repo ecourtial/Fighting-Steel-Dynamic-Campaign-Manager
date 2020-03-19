@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace App\Core\Tas\Scenario;
 
+use App\Core\Exception\InvalidInputException;
+use App\Core\File\IniReader;
 use App\Core\Tas\Exception\MissingTasScenarioException;
 
 class ScenarioRepository
@@ -18,13 +20,16 @@ class ScenarioRepository
     /** @var \App\Core\Tas\Scenario\Scenario[]|null */
     protected ?array $scenarios = null;
 
-    public function __construct(string $tasDirectory)
+    protected IniReader $iniReader;
+
+    public function __construct(string $tasDirectory, IniReader $iniReader)
     {
         $this->scenarioDirectory = $tasDirectory . DIRECTORY_SEPARATOR . 'Scenarios';
+        $this->iniReader = $iniReader;
     }
 
     /** @return Scenario[] */
-    public function getAll(bool $lazy = true): array
+    public function getAll(bool $lazy = true, bool $ignoreUnreadable = true): array
     {
         if (true === $lazy && null !== $this->scenarios) {
             return $this->scenarios;
@@ -42,7 +47,20 @@ class ScenarioRepository
             ) {
                 $exploded = explode(DIRECTORY_SEPARATOR, $element);
                 $scenarioKey = array_pop($exploded);
-                $this->scenarios[$scenarioKey] = new Scenario($scenarioKey, $scenarioFullPath);
+                try {
+                    [$shipFile] = $this->extractScenarioInfo($scenarioFullPath);
+                } catch (\Exception $exception) {
+                    if ($ignoreUnreadable) {
+                        continue;
+                    }
+                    throw $exception;
+                }
+
+                $this->scenarios[$scenarioKey] = new Scenario(
+                    $scenarioKey,
+                    $scenarioFullPath,
+                    $shipFile
+                );
             }
         }
 
@@ -51,10 +69,45 @@ class ScenarioRepository
 
     public function getOne(string $name): Scenario
     {
-        if (false === array_key_exists($name, $this->getAll())) {
+        $scenarioFullPath = $this->scenarioDirectory . DIRECTORY_SEPARATOR . $name;
+
+        if (false === is_dir($scenarioFullPath)) {
             throw new MissingTasScenarioException($name);
         }
 
-        return $this->scenarios[$name];
+        [$shipFile] = $this->extractScenarioInfo($scenarioFullPath);
+
+        return new Scenario(
+            $name,
+            $scenarioFullPath,
+            $shipFile
+        );
+    }
+
+    /** @return string[] */
+    protected function extractScenarioInfo(string $fullPath): array
+    {
+        $fullPath .= DIRECTORY_SEPARATOR . 'ScenarioInfo.cfg';
+        $scenarioInfo = [
+            'Shipdatafile' => '',
+        ];
+
+        foreach ($this->iniReader->getData($fullPath) as $line) {
+            // Keep the order
+            if ('Shipdatafile' === $line['key']) {
+                $scenarioInfo['Shipdatafile'] = $line['value'];
+            }
+        }
+
+        $newData = [];
+
+        foreach ($scenarioInfo as $key => $value) {
+            if ('' === $value) {
+                throw new InvalidInputException("Scenario info not found : '{$key}' in '{$fullPath}'");
+            }
+            $newData[] = $value;
+        }
+
+        return $newData;
     }
 }

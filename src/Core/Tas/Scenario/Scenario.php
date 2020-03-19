@@ -27,6 +27,7 @@ class Scenario
 
     protected string $name;
     protected string $fullPath;
+    protected string $shipDataFile;
 
     /** @var TasShip[] */
     protected array $alliedShips = [];
@@ -37,10 +38,11 @@ class Scenario
     /** @var FsShip[] */
     protected $fsShips = [];
 
-    public function __construct(string $name, string $fullPath)
+    public function __construct(string $name, string $fullPath, string $shipDataFile)
     {
         $this->name = $name;
         $this->fullPath = $fullPath;
+        $this->shipDataFile = $shipDataFile;
     }
 
     public function getName(): string
@@ -51,6 +53,11 @@ class Scenario
     public function getFullPath(): string
     {
         return $this->fullPath;
+    }
+
+    public function getShipDataFile(): string
+    {
+        return $this->shipDataFile;
     }
 
     /**

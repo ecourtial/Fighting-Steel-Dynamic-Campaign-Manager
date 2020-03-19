@@ -23,8 +23,9 @@ class ScenarioTest extends TestCase
     {
         $scenarioName = 'Bismarck';
         $scenarioFullPath = "C:\Tas\Scenario\Bismarck";
+        $scenarioShipFile = 'GR.scn';
 
-        $scenario = new Scenario($scenarioName, $scenarioFullPath);
+        $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
         static::assertEquals($scenarioName, $scenario->getName());
         static::assertEquals($scenarioFullPath, $scenario->getFullPath());
     }
@@ -33,9 +34,10 @@ class ScenarioTest extends TestCase
     {
         $scenarioName = 'Bismarck';
         $scenarioFullPath = "C:\Tas\Scenario\Bismarck";
+        $scenarioShipFile = 'GR.scn';
 
         try {
-            $scenario = new Scenario($scenarioName, $scenarioFullPath);
+            $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
             $scenario->setTasShips('Ah', []);
         } catch (SideErrorException $exception) {
             static::assertEquals(
@@ -49,9 +51,10 @@ class ScenarioTest extends TestCase
     {
         $scenarioName = 'Bismarck';
         $scenarioFullPath = "C:\Tas\Scenario\Bismarck";
+        $scenarioShipFile = 'GR.scn';
 
         try {
-            $scenario = new Scenario($scenarioName, $scenarioFullPath);
+            $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
             $scenario->setTasShips('Axis', [new \stdClass()]);
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -65,7 +68,8 @@ class ScenarioTest extends TestCase
     {
         $scenarioName = 'Iceberg';
         $scenarioFullPath = "C:\Tas\Scenario\Iceberg";
-        $scenario = new Scenario($scenarioName, $scenarioFullPath);
+        $scenarioShipFile = 'GR.scn';
+        $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
 
         $ships = [
             new TasShip('Titanic', 'Liner'),
@@ -124,7 +128,8 @@ class ScenarioTest extends TestCase
 
         $scenarioName = 'Iceberg';
         $scenarioFullPath = "C:\Tas\Scenario\Iceberg";
-        $scenario = new Scenario($scenarioName, $scenarioFullPath);
+        $shipDataFile = "C:\Tas\Scenario\Bismarck\kjljl.gg";
+        $scenario = new Scenario($scenarioName, $scenarioFullPath, $shipDataFile);
         $scenario->setTasShips('Allied', $alliedShips);
         $scenario->setTasShips('Axis', $axisShips);
 
@@ -136,9 +141,10 @@ class ScenarioTest extends TestCase
     {
         $scenarioName = 'Bismarck';
         $scenarioFullPath = "C:\Tas\Scenario\Bismarck";
+        $shipDataFile = "C:\Tas\Scenario\Bismarck\kjljl.gg";
 
         try {
-            $scenario = new Scenario($scenarioName, $scenarioFullPath);
+            $scenario = new Scenario($scenarioName, $scenarioFullPath, $shipDataFile);
             $scenario->getTasShips('Ah');
         } catch (SideErrorException $exception) {
             static::assertEquals(
@@ -171,7 +177,8 @@ class ScenarioTest extends TestCase
 
         $scenarioName = 'Iceberg';
         $scenarioFullPath = "C:\Tas\Scenario\Iceberg";
-        $scenario = new Scenario($scenarioName, $scenarioFullPath);
+        $scenarioShipFile = 'GR.scn';
+        $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
         $scenario->setFsShips($result);
         static::assertEquals($result, $scenario->getFsShips());
     }
@@ -180,9 +187,10 @@ class ScenarioTest extends TestCase
     {
         $scenarioName = 'Bismarck';
         $scenarioFullPath = "C:\Tas\Scenario\Bismarck";
+        $scenarioShipFile = 'GR.scn';
 
         try {
-            $scenario = new Scenario($scenarioName, $scenarioFullPath);
+            $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
             $scenario->setFsShips([new \stdClass()]);
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -196,7 +204,8 @@ class ScenarioTest extends TestCase
     {
         $scenarioName = 'Iceberg';
         $scenarioFullPath = "C:\Tas\Scenario\Iceberg";
-        $scenario = new Scenario($scenarioName, $scenarioFullPath);
+        $scenarioShipFile = 'GR.scn';
+        $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
 
         $ships = [
             new FsShip(

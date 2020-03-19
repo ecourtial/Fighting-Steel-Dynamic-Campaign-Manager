@@ -20,9 +20,17 @@ use PHPUnit\Framework\TestCase;
 
 class ShipExtractorTest extends TestCase
 {
+    protected static IniReader $iniReader;
+
+    public static function setUpBeforeClass()
+    {
+        $textReader = new TextFileReader();
+        static::$iniReader = new IniReader($textReader);
+    }
+
     public function testNormalExtraction()
     {
-        $repo = new ScenarioRepository($_ENV['TAS_LOCATION']);
+        $repo = new ScenarioRepository($_ENV['TAS_LOCATION'], static::$iniReader);
         $scenario = $repo->getOne('Bad GoebenReminiscence');
         $textReader = new TextFileReader();
         $iniReader = new IniReader($textReader);
@@ -49,15 +57,15 @@ class ShipExtractorTest extends TestCase
 
     public function testFileDoesNotExist(): void
     {
-        $repo = new ScenarioRepository($_ENV['TAS_LOCATION']);
-        $scenario = $repo->getOne('EmptyScenario');
+        $repo = new ScenarioRepository($_ENV['TAS_LOCATION'], static::$iniReader);
+        $scenario = $repo->getOne('IncompleteScenarioWithNotTasShipFile');
         $textReader = new TextFileReader();
         $iniReader = new IniReader($textReader);
         try {
             (new ShipExtractor($iniReader))->extract($scenario, 'Axis');
         } catch (FileNotFoundException $exception) {
             static::assertEquals(
-                "Impossible to read the content of the file 'tests/Assets/Tas/Scenarios/EmptyScenario/AxisShips.cfg'.",
+                "Impossible to read the content of the file 'tests/Assets/Tas/Scenarios/IncompleteScenarioWithNotTasShipFile/AxisShips.cfg'.",
                 $exception->getMessage()
             );
         }
@@ -65,8 +73,8 @@ class ShipExtractorTest extends TestCase
 
     public function testUnknownSide(): void
     {
-        $repo = new ScenarioRepository($_ENV['TAS_LOCATION']);
-        $scenario = $repo->getOne('EmptyScenario');
+        $repo = new ScenarioRepository($_ENV['TAS_LOCATION'], static::$iniReader);
+        $scenario = $repo->getOne('IncompleteScenarioWithNotTasShipFile');
         $textReader = new TextFileReader();
         $iniReader = new IniReader($textReader);
         try {
