@@ -80,8 +80,9 @@ class ScenarioValidator
             foreach ($scenario->getTasShips($side) as $ship) {
                 if (
                     false === array_key_exists(
-                    $ship->getName(),
-                    $dictionary->getShipsList())
+                        $ship->getName(),
+                        $dictionary->getShipsList()
+                    )
                 ) {
                     $errors[] = "Tas Ship '{$ship->getName()}' is not present in the dictionary file";
                 }
