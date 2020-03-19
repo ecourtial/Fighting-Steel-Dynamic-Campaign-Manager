@@ -12,12 +12,12 @@ namespace Tests\NameSwitcher\Validator;
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
 use App\Core\Fs\Ship\ShipExtractor as FsShipExtractor;
+use App\Core\Tas\Scenario\ScenarioRepository;
 use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
 use App\NameSwitcher\Reader\DictionaryReader;
-use PHPUnit\Framework\TestCase;
-use App\NameSwitcher\Validator\ScenarioValidator;
 use App\NameSwitcher\Validator\DictionaryValidator;
-use App\Core\Tas\Scenario\ScenarioRepository;
+use App\NameSwitcher\Validator\ScenarioValidator;
+use PHPUnit\Framework\TestCase;
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
 
 class ScenarioValidatorTest extends TestCase
@@ -39,7 +39,11 @@ class ScenarioValidatorTest extends TestCase
         );
 
         $dictionaryReader = new DictionaryReader(new CsvExtractor());
-        static::$scenarioValidator = new ScenarioValidator(new DictionaryValidator($dictionaryReader), $repo);
+        static::$scenarioValidator = new ScenarioValidator(
+            new DictionaryValidator($dictionaryReader),
+            $repo,
+            $dictionaryReader
+        );
     }
 
     public function testSuccessValidation(): void
@@ -48,7 +52,7 @@ class ScenarioValidatorTest extends TestCase
             [],
             static::$scenarioValidator->validate(
                 'Good Scenario',
-                'tests/Assets/dictionary.csv'
+                'tests/Assets/TAS/Scenarios/Good Scenario/dictionary.csv'
             )
         );
     }
@@ -65,7 +69,7 @@ class ScenarioValidatorTest extends TestCase
             1 => "Error at line #5. The name 'Richelieu' is already used at line #2",
             2 => "Error at line #6. FS Short name is too long: 'Mogador|Hunt'",
             3 => "Error at line #8. The name 'Lutzow' is already used at line #7",
-            4 => "Row with index #9 only contains 3 elements while 7 were expected.",
+            4 => 'Row with index #9 only contains 3 elements while 7 were expected.',
         ];
 
         static::assertEquals($expected, $errors);
@@ -90,7 +94,13 @@ class ScenarioValidatorTest extends TestCase
 
         $expected = [
             0 => "Tas Ship 'Algerie' is not present in the FS file",
-            1 => "Tas Ship 'Scharnhorst' is not present in the FS file"
+            1 => "Tas Ship 'Scharnhorst' is not present in the FS file",
+            2 => "Tas Ship 'Bretagne' is not present in the dictionary file",
+            3 => "Tas Ship 'Provence' is not present in the dictionary file",
+            4 => "Tas Ship 'Algerie' is not present in the dictionary file",
+            5 => "Tas Ship 'La Palme' is not present in the dictionary file",
+            6 => "Tas Ship 'Gneisenau' is not present in the dictionary file",
+            7 => "Tas Ship 'Scharnhorst' is not present in the dictionary file",
         ];
 
         static::assertEquals($expected, $errors);

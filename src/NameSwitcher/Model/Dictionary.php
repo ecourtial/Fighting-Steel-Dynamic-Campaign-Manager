@@ -113,7 +113,7 @@ class Dictionary
                 $dataToInject[$field] = $element[$field];
             }
             $ship = new Ship($dataToInject);
-            $this->dictionary[] = $ship;
+            $this->dictionary[$ship->getTasName()] = $ship;
         }
     }
 

@@ -19,18 +19,23 @@ namespace App\NameSwitcher\Validator;
 
 use App\Core\Tas\Scenario\Scenario;
 use App\Core\Tas\Scenario\ScenarioRepository;
+use App\NameSwitcher\Model\Dictionary;
+use App\NameSwitcher\Reader\DictionaryReader;
 
 class ScenarioValidator
 {
-    private DictionaryValidator $dictionaryValidator;
-    private ScenarioRepository $scenarioRepository;
+    protected DictionaryValidator $dictionaryValidator;
+    protected ScenarioRepository $scenarioRepository;
+    protected DictionaryReader $dictionaryReader;
 
     public function __construct(
         DictionaryValidator $dictionaryValidator,
-        ScenarioRepository $scenarioRepository
+        ScenarioRepository $scenarioRepository,
+        DictionaryReader $dictionaryReader
     ) {
         $this->dictionaryValidator = $dictionaryValidator;
         $this->scenarioRepository = $scenarioRepository;
+        $this->dictionaryReader = $dictionaryReader;
     }
 
     /** @return string[] */
@@ -41,6 +46,13 @@ class ScenarioValidator
         if ([] !== $errors) {
             return $errors;
         }
+
+        // Store the dictionary content and initialize it
+        $dictionaryContent = [];
+        foreach ($this->dictionaryReader->extractData($dictionaryFullPath) as $entry) {
+            $dictionaryContent[] = $entry;
+        }
+        $dictionary = new Dictionary($dictionaryContent);
 
         // Load the scenario data (performs a lot of controls...)
         try {
@@ -55,7 +67,7 @@ class ScenarioValidator
         }
 
         // Check that all the tas ships in TAS are present in the .scn file
-        foreach(Scenario::SIDES as $side) {
+        foreach (Scenario::SIDES as $side) {
             foreach ($scenario->getTasShips($side) as $ship) {
                 if (false === array_key_exists($ship->getName(), $scenario->getFsShips())) {
                     $errors[] = "Tas Ship '{$ship->getName()}' is not present in the FS file";
@@ -63,9 +75,17 @@ class ScenarioValidator
             }
         }
 
-        // Check that all the allied ships in TAS are present in the dictionary file
-
-        // Check that all the axis ships in TAS are present in the dictionary file
+        // Check that all the ships in TAS are present in the dictionary file
+        foreach (Scenario::SIDES as $side) {
+            foreach ($scenario->getTasShips($side) as $ship) {
+                if (false === array_key_exists(
+                    $ship->getName(),
+                    $dictionary->getShipsList())
+                ) {
+                    $errors[] = "Tas Ship '{$ship->getName()}' is not present in the dictionary file";
+                }
+            }
+        }
 
         return $errors;
     }

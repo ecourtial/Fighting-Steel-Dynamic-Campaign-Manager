@@ -84,7 +84,7 @@ class DictionaryTest extends TestCase
     {
         $dictionary = new Dictionary(static::$rawData);
         static::assertEquals(
-            [$this->ship1, $this->ship2],
+            ['Richelieu' => $this->ship1, 'Clemenceau' => $this->ship2],
             $dictionary->getShipsList()
         );
     }
