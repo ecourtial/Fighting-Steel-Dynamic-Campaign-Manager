@@ -5,8 +5,8 @@ declare(strict_types=1);
 /**
  * This class validate the FORMAT of a dictionary.
  *
- * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       11/03/2020 (dd-mm-YYYY)
+ * @author Eric COURTIAL <e.courtial30@gmail.com>
+ * @licence MIT
  */
 
 namespace App\NameSwitcher\Validator;
