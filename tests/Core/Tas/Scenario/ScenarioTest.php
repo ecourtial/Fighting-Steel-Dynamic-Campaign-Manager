@@ -157,7 +157,7 @@ class ScenarioTest extends TestCase
     public function testBasicSetGetFsShips(): void
     {
         $result = [
-            'Scharnhrst' => new FsShip(
+            'Scharnhorst' => new FsShip(
                 [
                     'NAME' => 'Scharnhorst',
                     'SHORTNAME' => 'Scharnhrst',
@@ -238,7 +238,7 @@ class ScenarioTest extends TestCase
             $scenario->setFsShips($ships);
         } catch (DuplicateShipException $exception) {
             static::assertEquals(
-                "Duplicate ship entry with name 'Scharnhrst'",
+                "Duplicate ship entry with name 'Scharnhorst'",
                 $exception->getMessage()
             );
         }

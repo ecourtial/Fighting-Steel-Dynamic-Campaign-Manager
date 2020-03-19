@@ -11,7 +11,9 @@ namespace App\Core\Tas\Scenario;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
+use App\Core\Fs\Ship\ShipExtractor as FsShipExtractor;
 use App\Core\Tas\Exception\MissingTasScenarioException;
+use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
 
 class ScenarioRepository
 {
@@ -21,11 +23,19 @@ class ScenarioRepository
     protected ?array $scenarios = null;
 
     protected IniReader $iniReader;
+    protected TasShipExtractor $tasShipExtractor;
+    protected FsShipExtractor $fsShipExtractor;
 
-    public function __construct(string $tasDirectory, IniReader $iniReader)
-    {
+    public function __construct(
+        string $tasDirectory,
+        IniReader $iniReader,
+        TasShipExtractor $tasShipExtractor,
+        FsShipExtractor $fsShipExtractor
+    ) {
         $this->scenarioDirectory = $tasDirectory . DIRECTORY_SEPARATOR . 'Scenarios';
         $this->iniReader = $iniReader;
+        $this->tasShipExtractor = $tasShipExtractor;
+        $this->fsShipExtractor = $fsShipExtractor;
     }
 
     /** @return Scenario[] */
@@ -67,6 +77,7 @@ class ScenarioRepository
         return $this->scenarios;
     }
 
+    /** Return the scenario object with only its metadata */
     public function getOne(string $name): Scenario
     {
         $scenarioFullPath = $this->scenarioDirectory . DIRECTORY_SEPARATOR . $name;
@@ -82,6 +93,17 @@ class ScenarioRepository
             $scenarioFullPath,
             $shipFile
         );
+    }
+
+    /** Return the scenario object with all its data */
+    public function getOneWillAllData(string $name): Scenario
+    {
+        $scenario = $this->getOne($name);
+        $scenario->setFsShips($this->fsShipExtractor->extract($scenario));
+        $scenario->setTasShips('Axis', $this->tasShipExtractor->extract($scenario, 'Axis'));
+        $scenario->setTasShips('Allied', $this->tasShipExtractor->extract($scenario, 'Allied'));
+
+        return $scenario;
     }
 
     /** @return string[] */

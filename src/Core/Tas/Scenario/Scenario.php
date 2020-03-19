@@ -138,11 +138,11 @@ class Scenario
             }
 
             /** @var \App\Core\Fs\Ship\Ship $ship */
-            if (array_key_exists($ship->getShortname(), $this->fsShips)) {
-                throw new DuplicateShipException($ship->getShortname());
+            if (array_key_exists($ship->getName(), $this->fsShips)) {
+                throw new DuplicateShipException($ship->getName());
             }
 
-            $this->fsShips[$ship->getShortname()] = $ship;
+            $this->fsShips[$ship->getName()] = $ship;
             $count++;
         }
     }
