@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace App\NameSwitcher\Model;
 
+use App\Core\Exception\InvalidInputException;
+use App\Core\Fs\Ship\Ship as FsShip;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\NoShipException;
 
@@ -39,6 +41,9 @@ class Ship
 
     public function setType(string $type): Ship
     {
+        if (false === in_array($type, FsShip::SHIP_TYPES, true)) {
+            throw new InvalidInputException("Ship type '{$type}' is unknown");
+        }
         $this->type = $type;
 
         return $this;

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Tests\Core\Tas\Ship;
 
+use App\Core\Exception\InvalidInputException;
 use App\Core\Tas\Ship\Ship;
 use PHPUnit\Framework\TestCase;
 
@@ -22,5 +23,14 @@ class ShipTest extends TestCase
         $ship = new Ship($name, $ype);
         static::assertEquals($name, $ship->getName());
         static::assertEquals($ype, $ship->getType());
+    }
+
+    public function testBadType(): void
+    {
+        try {
+            new Ship('Titanic', 'AH');
+        } catch (InvalidInputException $exception) {
+            static::assertEquals("Ship type 'AH' is unknown", $exception->getMessage());
+        }
     }
 }

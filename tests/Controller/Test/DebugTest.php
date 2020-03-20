@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace Tests\Controller\Test;
 
 use App\Controller\Test\Debug;
+use App\Core\Exception\SecurityException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Core\Exception\SecurityException;
 
 class DebugTest extends TestCase
 {

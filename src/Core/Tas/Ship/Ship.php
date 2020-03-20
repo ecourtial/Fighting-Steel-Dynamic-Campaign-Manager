@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace App\Core\Tas\Ship;
 
+use App\Core\Exception\InvalidInputException;
+use App\Core\Fs\Ship\Ship as FsShip;
+
 class Ship
 {
     private string $name;
@@ -17,7 +20,11 @@ class Ship
     public function __construct(string $name, string $type)
     {
         $this->name = $name;
-        // @TODO Control the Ship type
+
+        if (false === in_array($type, FsShip::SHIP_TYPES, true)) {
+            throw new InvalidInputException("Ship type '{$type}' is unknown");
+        }
+
         $this->type = $type;
     }
 

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Tests\NameSwitcher\Model;
 
+use App\Core\Exception\InvalidInputException;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\NoShipException;
 use App\NameSwitcher\Model\Ship;
@@ -118,6 +119,17 @@ class ShipTest extends TestCase
             static::fail('Since the short name is too long, an exception was expected.');
         } catch (InvalidShipDataException $exception) {
             static::assertEquals("FS Short name is too long: '12345678900'", $exception->getMessage());
+        }
+    }
+
+    public function testBadType(): void
+    {
+        $data = static::CSV_DATA;
+        $data['Type'] = 'AH';
+        try {
+            new Ship($data);
+        } catch (InvalidInputException $exception) {
+            static::assertEquals("Ship type 'AH' is unknown", $exception->getMessage());
         }
     }
 }

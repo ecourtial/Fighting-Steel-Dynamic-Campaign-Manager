@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace App\Core\Fs\Ship;
 
+use App\Core\Exception\InvalidInputException;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Model\Ship as DictionaryShip;
 
@@ -27,6 +28,17 @@ class Ship
             'TYPE',
             'CLASS',
         ];
+
+    /** @var string[] */
+    public const SHIP_TYPES = [
+        'BB',
+        'BC',
+        'CA',
+        'CL',
+        'DD',
+        'TR',
+        'CV',
+    ];
 
     /** @param string[] $data */
     public function __construct(array $data)
@@ -69,6 +81,10 @@ class Ship
 
     public function setType(string $type): void
     {
+        if (false === in_array($type, static::SHIP_TYPES, true)) {
+            throw new InvalidInputException("Ship type '{$type}' is unknown");
+        }
+
         $this->type = $type;
     }
 

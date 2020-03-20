@@ -72,9 +72,9 @@ class ScenarioTest extends TestCase
         $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
 
         $ships = [
-            new TasShip('Titanic', 'Liner'),
+            new TasShip('Titanic', 'DD'),
             new TasShip('Missouri', 'BB'),
-            new TasShip('Titanic', 'Liner'),
+            new TasShip('Titanic', 'DD'),
         ];
 
         try {
@@ -88,7 +88,7 @@ class ScenarioTest extends TestCase
 
         $ships = [
             new TasShip('GrossDeutschland', 'BB'),
-            new TasShip('Titanic', 'Liner'),
+            new TasShip('Titanic', 'DD'),
         ];
         try {
             $scenario->setTasShips('Axis', $ships);
@@ -101,7 +101,7 @@ class ScenarioTest extends TestCase
 
         $ships = [
             new TasShip('GrossDeutschland', 'BB'),
-            new TasShip('Titanic', 'Liner'),
+            new TasShip('Titanic', 'DD'),
         ];
         try {
             $scenario->setTasShips('Allied', $ships);
@@ -116,7 +116,7 @@ class ScenarioTest extends TestCase
     public function testSetShipsAndGetShipsNormalCase(): void
     {
         $alliedShips = [
-            'Titanic' => new TasShip('Titanic', 'Liner'),
+            'Titanic' => new TasShip('Titanic', 'DD'),
             'Foch' => new TasShip('Foch', 'CA'),
         ];
 
