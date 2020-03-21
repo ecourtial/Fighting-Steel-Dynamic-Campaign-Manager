@@ -25,8 +25,6 @@ class IniReader
      */
     public function getData(string $fileName): \Generator
     {
-        $lineCount = 1;
-
         foreach ($this->textFileReader->getFileContent($fileName) as $line) {
             // Ignore headers of sections
             if (preg_match('/^\[.*]$/', $line)) {
@@ -37,7 +35,6 @@ class IniReader
             if (2 !== count($keys)) {
                 continue;
             }
-            $lineCount++;
 
             yield [
                 'key' => trim($keys[0]),

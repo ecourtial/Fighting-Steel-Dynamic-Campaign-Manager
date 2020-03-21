@@ -47,6 +47,8 @@ class ScenarioRepositoryTest extends TestCase
         static::assertTrue(array_key_exists('Bad GoebenReminiscence', $scenarios));
         static::assertInstanceOf(Scenario::class, $scenarios['Bad GoebenReminiscence']);
         static::assertEquals('Bad GoebenReminiscence', $scenarios['Bad GoebenReminiscence']->getName());
+        static::assertEquals('GR.scn', $scenarios['Bad GoebenReminiscence']->getShipDataFile());
+
         static::assertTrue(array_key_exists('IncompleteScenarioWithNotTasShipFile', $scenarios));
         static::assertInstanceOf(Scenario::class, $scenarios['IncompleteScenarioWithNotTasShipFile']);
         static::assertEquals('IncompleteScenarioWithNotTasShipFile', $scenarios['IncompleteScenarioWithNotTasShipFile']->getName());
@@ -57,9 +59,17 @@ class ScenarioRepositoryTest extends TestCase
         $textReader = new TextFileReader();
         $iniReader = new IniReader($textReader);
         $repo = new ExtendedRepository($_ENV['TAS_LOCATION'], $iniReader, new TasShipExtractor($iniReader), new FsShipExtractor($iniReader));
-        $repo->getAll();
+        $scenarios = $repo->getAll();
+        static::assertEquals(5, count($scenarios));
+
+        $scenarios = $repo->getAll();
+        static::assertEquals(5, count($scenarios));
+
         $repo->clearScenarios();
-        static::assertEquals([], $repo->getAll(true));
+        static::assertEquals([], $repo->getAll());
+
+        $scenarios = $repo->getAll(false);
+        static::assertEquals(5, count($scenarios));
     }
 
     public function testGetOneExists(): void
@@ -78,6 +88,8 @@ class ScenarioRepositoryTest extends TestCase
             static::fail("The 'Foo' scenario does not exist so an exception was expected");
         } catch (MissingTasScenarioException $exception) {
             static::assertEquals("Scenario 'Foo' not found", $exception->getMessage());
+            static::assertEquals(0, $exception->getCode());
+            static::assertNull($exception->getPrevious());
         }
     }
 
@@ -89,6 +101,8 @@ class ScenarioRepositoryTest extends TestCase
             static::fail("The 'EmptyScenario' scenario has no config file so an exception was expected");
         } catch (FileNotFoundException $exception) {
             static::assertEquals("Impossible to read the content of the file 'tests/Assets/TAS/Scenarios/EmptyScenario/ScenarioInfo.cfg'.", $exception->getMessage());
+            static::assertEquals(0, $exception->getCode());
+            static::assertNull($exception->getPrevious());
         }
     }
 

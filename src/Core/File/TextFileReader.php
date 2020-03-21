@@ -55,7 +55,7 @@ class TextFileReader
         return $content;
     }
 
-    protected function openFile(string $filename): void
+    private function openFile(string $filename): void
     {
         $this->handle = @fopen($filename, 'r');
 

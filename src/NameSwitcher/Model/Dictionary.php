@@ -106,7 +106,7 @@ class Dictionary
     }
 
     /** @param string[][] $data */
-    protected function hydrate(array $data): void
+    private function hydrate(array $data): void
     {
         foreach ($data as $element) {
             $dataToInject = [];
@@ -124,7 +124,7 @@ class Dictionary
     }
 
     /** @param string[] $criteria */
-    protected function formatCriteriaForException(array $criteria): string
+    private function formatCriteriaForException(array $criteria): string
     {
         $msg = [];
         foreach ($criteria as $key => $value) {

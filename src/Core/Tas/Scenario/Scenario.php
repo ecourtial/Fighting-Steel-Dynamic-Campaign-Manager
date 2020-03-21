@@ -91,7 +91,7 @@ class Scenario
             }
 
             if ('' !== $existInSide) {
-                throw new DuplicateShipException($ship->getName(), $existInSide);
+                throw new DuplicateShipException($ship->getName() . " (data at index #{$count})", $existInSide);
             }
 
             $count++;

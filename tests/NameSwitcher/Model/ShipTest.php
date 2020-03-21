@@ -70,6 +70,7 @@ class ShipTest extends TestCase
         // Test randomness control
         $ship->setSimilarTo(null);
         $ship->setSimilarTo('Nelson');
+        static::assertEquals(['Nelson'], $ship->getSimilarTo());
         static::assertEquals('Nelson', $ship->getRandomSimilarShip());
 
         // Test fails
@@ -128,6 +129,7 @@ class ShipTest extends TestCase
         $data['Type'] = 'AH';
         try {
             new Ship($data);
+            static::fail('Since the ship type is unknown, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals("Ship type 'AH' is unknown", $exception->getMessage());
         }

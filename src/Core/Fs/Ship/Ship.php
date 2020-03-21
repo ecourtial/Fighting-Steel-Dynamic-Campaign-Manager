@@ -40,6 +40,7 @@ class Ship
         'DD',
         'TR',
         'CV',
+        'CVE',
     ];
 
     /** @param string[] $data */
@@ -68,12 +69,12 @@ class Ship
         return $this->class;
     }
 
-    public function setName(string $name): void
+    private function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    public function setShortname(string $shortName): void
+    private function setShortname(string $shortName): void
     {
         if (strlen($shortName) > DictionaryShip::SHORT_NAME_MAX_LENGTH) {
             throw new InvalidShipDataException("FS Short name is too long: '{$shortName}'");
@@ -81,7 +82,7 @@ class Ship
         $this->shortname = $shortName;
     }
 
-    public function setType(string $type): void
+    private function setType(string $type): void
     {
         if (false === in_array($type, static::SHIP_TYPES, true)) {
             throw new InvalidInputException("Ship type '{$type}' is unknown");
@@ -90,13 +91,13 @@ class Ship
         $this->type = $type;
     }
 
-    public function setClass(string $class): void
+    private function setClass(string $class): void
     {
         $this->class = $class;
     }
 
     /** @param string[] $data */
-    protected function hydrate(array $data): void
+    private function hydrate(array $data): void
     {
         if (count($data) !== count(static::FIELDS_NAME)) {
             throw new InvalidShipDataException('Invalid ship attribute quantity');

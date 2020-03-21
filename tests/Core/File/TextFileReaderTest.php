@@ -27,7 +27,7 @@ class TextFileReaderTest extends TestCase
         static::assertEquals(
            [
                '[GENERAL CONFIG - NOTE FILE HAS SPACES FOR TESTING PURPOSE]',
-               'TAS_PATH= "C:\Program Files\Thunder At Sea"',
+               'TAS_PATH = "C:\Program Files\Thunder At Sea"',
                'FS_PATH=" C:\Program Files\Fighting Steel"',
            ],
             $data
@@ -48,6 +48,8 @@ class TextFileReaderTest extends TestCase
                 "Impossible to read the content of the file '$file'.",
                 $ex->getMessage()
             );
+            static::assertEquals(0, $ex->getCode());
+            static::assertNull($ex->getPrevious());
         }
     }
 

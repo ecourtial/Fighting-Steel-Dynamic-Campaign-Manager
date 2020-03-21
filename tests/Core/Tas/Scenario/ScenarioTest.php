@@ -39,6 +39,7 @@ class ScenarioTest extends TestCase
         try {
             $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
             $scenario->setTasShips('Ah', []);
+            static::fail('Since the side is invalid, an exception was expected');
         } catch (SideErrorException $exception) {
             static::assertEquals(
                 "Invalid side: 'Ah'",
@@ -56,6 +57,7 @@ class ScenarioTest extends TestCase
         try {
             $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
             $scenario->setTasShips('Axis', [new \stdClass()]);
+            static::fail('Since the data is not a proper TAS ship object, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
                 'Data at index #0 is not a proper TAS Ship object',
@@ -79,11 +81,14 @@ class ScenarioTest extends TestCase
 
         try {
             $scenario->setTasShips('Allied', $ships);
+            static::fail('Since the ship entry is duplicated, an exception was expected');
         } catch (DuplicateShipException $exception) {
             static::assertEquals(
-                "Duplicate ship entry with name 'Titanic' in side 'Allied'",
+                "Duplicate ship entry with name 'Titanic (data at index #2)' in side 'Allied'",
                 $exception->getMessage()
             );
+            static::assertEquals(0, $exception->getCode());
+            static::assertNull($exception->getPrevious());
         }
 
         $ships = [
@@ -92,11 +97,14 @@ class ScenarioTest extends TestCase
         ];
         try {
             $scenario->setTasShips('Axis', $ships);
+            static::fail('Since the ship entry is duplicated, an exception was expected');
         } catch (DuplicateShipException $exception) {
             static::assertEquals(
-                "Duplicate ship entry with name 'Titanic' in side 'Allied'",
+                "Duplicate ship entry with name 'Titanic (data at index #1)' in side 'Allied'",
                 $exception->getMessage()
             );
+            static::assertEquals(0, $exception->getCode());
+            static::assertNull($exception->getPrevious());
         }
 
         $ships = [
@@ -105,11 +113,14 @@ class ScenarioTest extends TestCase
         ];
         try {
             $scenario->setTasShips('Allied', $ships);
+            static::fail('Since the ship entry is duplicated, an exception was expected');
         } catch (DuplicateShipException $exception) {
             static::assertEquals(
-                "Duplicate ship entry with name 'GrossDeutschland' in side 'Axis'",
+                "Duplicate ship entry with name 'GrossDeutschland (data at index #0)' in side 'Axis'",
                 $exception->getMessage()
             );
+            static::assertEquals(0, $exception->getCode());
+            static::assertNull($exception->getPrevious());
         }
     }
 
@@ -188,13 +199,20 @@ class ScenarioTest extends TestCase
         $scenarioName = 'Bismarck';
         $scenarioFullPath = "C:\Tas\Scenario\Bismarck";
         $scenarioShipFile = 'GR.scn';
+        $fsShip = new FsShip([
+            'NAME' => 'Tirpitz',
+            'SHORTNAME' => 'Tirpitz',
+            'TYPE' => 'BB',
+            'CLASS' => 'Bismarck',
+        ]);
 
         try {
             $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
-            $scenario->setFsShips([new \stdClass()]);
+            $scenario->setFsShips([$fsShip, new \stdClass()]);
+            static::fail('Since the data is not a proper FS ship object, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
-                'Data at index #0 is not a proper FS Ship object',
+                'Data at index #1 is not a proper FS Ship object',
                 $exception->getMessage()
             );
         }
@@ -236,6 +254,7 @@ class ScenarioTest extends TestCase
 
         try {
             $scenario->setFsShips($ships);
+            static::fail('Since the ship entry is duplicated, an exception was expected');
         } catch (DuplicateShipException $exception) {
             static::assertEquals(
                 "Duplicate ship entry with name 'Scharnhorst'",

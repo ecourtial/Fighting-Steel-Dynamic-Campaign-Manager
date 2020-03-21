@@ -58,12 +58,7 @@ class ScenarioValidator
         try {
             $scenario = $this->scenarioRepository->getOneWillAllData($scenarioName);
         } catch (\Throwable $exception) {
-            $errors[] = $exception->getMessage();
-        }
-
-        // Note that the second condition is because the logic is not understood by PHPStan
-        if ([] !== $errors || false === isset($scenario)) {
-            return $errors;
+            return [$exception->getMessage()];
         }
 
         // Check that all the tas ships in TAS are present in the .scn file
@@ -85,7 +80,7 @@ class ScenarioValidator
      *
      * @param string[] $errors
      */
-    protected function checkTasShipInDictionary(
+    private function checkTasShipInDictionary(
         array &$errors,
         Scenario $scenario,
         Dictionary $dictionary

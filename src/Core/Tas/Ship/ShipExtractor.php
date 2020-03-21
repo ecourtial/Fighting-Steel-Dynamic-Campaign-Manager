@@ -27,23 +27,20 @@ class ShipExtractor
         Scenario::validateSide($side);
         $filePath = $scenario->getFullPath() . DIRECTORY_SEPARATOR . $side . 'Ships.cfg';
         $ships = [];
-        $mayBe = false;
         $currentName = '';
 
         // WILL NEED REFACTO IF WE WANT MORE FIELDS. See the FS Extractor?
         foreach ($this->iniReader->getData($filePath) as $line) {
             if ('NAME' === $line['key']) {
-                $mayBe = true;
                 $currentName = $line['value'];
 
                 continue;
             }
 
-            if ($mayBe && 'TYPE' === $line['key']) {
+            if ('' !== $currentName && 'TYPE' === $line['key']) {
                 $ships[] = new Ship($currentName, $line['value']);
-                $mayBe = false;
             } else {
-                $mayBe = false; // Safety
+                $currentName = ''; // Safety
             }
         }
 

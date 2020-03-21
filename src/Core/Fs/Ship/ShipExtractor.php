@@ -14,6 +14,13 @@ use App\Core\Tas\Scenario\Scenario;
 
 class ShipExtractor
 {
+    protected const DATA_MAPPING = [
+        'NAME' => '',
+        'SHORTNAME' => '',
+        'TYPE' => '',
+        'CLASS' => '',
+    ];
+
     protected IniReader $iniReader;
 
     public function __construct(IniReader $iniReader)
@@ -26,16 +33,7 @@ class ShipExtractor
     {
         $filePath = $scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn';
         $ships = [];
-
-        $entryValues = [
-            'NAME' => '',
-            'SHORTNAME' => '',
-            'TYPE' => '',
-            'CLASS' => '',
-        ];
-
-        // Variable for parsing the current entry
-        $mayBe = false;
+        $entryValues = static::DATA_MAPPING;
 
         foreach ($this->iniReader->getData($filePath) as $line) {
             // Check the entry type
@@ -43,7 +41,7 @@ class ShipExtractor
                 continue;
             }
 
-            $this->handleLine($entryValues, $ships, $line, $mayBe);
+            $this->handleLine($entryValues, $ships, $line);
         }
 
         return $ships;
@@ -54,65 +52,44 @@ class ShipExtractor
      * @param Ship[]   $ships
      * @param string[] $line
      */
-    protected function handleLine(
+    private function handleLine(
         array &$entryValues,
         array &$ships,
-        array $line,
-        bool &$mayBe
+        array $line
     ): void {
-        // Safety to ignore non matching entries (good expected order)
-        if (false === $mayBe && 'NAME' !== $line['key']) {
-            $this->cleanVariables($entryValues);
-
-            return;
-        }
-
         // First expected key
         if ('NAME' === $line['key']) {
-            $mayBe = true;
+            $entryValues = static::DATA_MAPPING;
         }
 
         $entryValues[$line['key']] = $line['value'];
 
         // Last expected key
-        if ($mayBe && 'CLASS' === $line['key']) {
+        if ('CLASS' === $line['key']) {
             // Check that all the var are filled
             if (false === $this->validateValues($entryValues)) {
                 // Another security
                 return;
             }
 
-            $mayBe = false;
-
             // Create SHIP here
             $ships[] = new Ship($entryValues);
 
             // clean variables
-            $this->cleanVariables($entryValues);
+            $entryValues = static::DATA_MAPPING;
         }
     }
 
     /** @param string[] $entryValues */
-    protected function validateValues(array &$entryValues): bool
+    private function validateValues(array &$entryValues): bool
     {
         $allFieldValid = true;
         foreach ($entryValues as $content) {
             if ('' === $content) {
-                $this->cleanVariables($entryValues);
-                $allFieldValid = false;
-                break;
+                return false;
             }
         }
 
         return $allFieldValid;
-    }
-
-    /** @param string[] $entryValues */
-    protected function cleanVariables(array &$entryValues): void
-    {
-        foreach ($entryValues as &$varContent) {
-            $varContent = '';
-        }
-        unset($varContent);
     }
 }

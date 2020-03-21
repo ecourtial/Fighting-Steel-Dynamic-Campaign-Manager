@@ -29,6 +29,7 @@ class ShipTest extends TestCase
     {
         try {
             new Ship('Titanic', 'AH');
+            static::fail('Since the ship type is unknown, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals("Ship type 'AH' is unknown", $exception->getMessage());
         }

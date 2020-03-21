@@ -39,7 +39,7 @@ class Ship
         return $this->type;
     }
 
-    public function setType(string $type): Ship
+    private function setType(string $type): Ship
     {
         if (false === in_array($type, FsShip::SHIP_TYPES, true)) {
             throw new InvalidInputException("Ship type '{$type}' is unknown");
@@ -54,7 +54,7 @@ class Ship
         return $this->class;
     }
 
-    public function setClass(string $class): Ship
+    private function setClass(string $class): Ship
     {
         $this->class = $class;
 
@@ -66,7 +66,7 @@ class Ship
         return $this->tasName;
     }
 
-    public function setTasName(string $tasName): Ship
+    private function setTasName(string $tasName): Ship
     {
         $this->tasName = $tasName;
 
@@ -78,7 +78,7 @@ class Ship
         return $this->fsClass;
     }
 
-    public function setFsClass(string $fsClass): Ship
+    private function setFsClass(string $fsClass): Ship
     {
         $this->fsClass = $fsClass;
 
@@ -90,7 +90,7 @@ class Ship
         return $this->fsName;
     }
 
-    public function setFsName(string $fsName): Ship
+    private function setFsName(string $fsName): Ship
     {
         $this->fsName = $fsName;
 
@@ -102,7 +102,7 @@ class Ship
         return $this->fsShortName;
     }
 
-    public function setFsShortName(string $fsShortName): void
+    private function setFsShortName(string $fsShortName): void
     {
         if (strlen($fsShortName) > static::SHORT_NAME_MAX_LENGTH) {
             throw new InvalidShipDataException("FS Short name is too long: '{$fsShortName}'");
@@ -178,7 +178,7 @@ class Ship
     }
 
     /** @param string[] $data */
-    protected function hydrate(array $data): Ship
+    private function hydrate(array $data): Ship
     {
         if (count($data) !== count(Dictionary::FIELDS_NAME)) {
             throw new InvalidShipDataException('Invalid ship attribute quantity');

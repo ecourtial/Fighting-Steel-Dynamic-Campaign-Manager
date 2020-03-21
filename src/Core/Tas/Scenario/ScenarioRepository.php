@@ -47,7 +47,6 @@ class ScenarioRepository
         }
 
         $this->scenarios = [];
-        clearstatcache();
         $folderContent = scandir($this->scenarioDirectory);
 
         foreach ($folderContent as $element) {
@@ -59,7 +58,7 @@ class ScenarioRepository
                 $exploded = explode(DIRECTORY_SEPARATOR, $element);
                 $scenarioKey = array_pop($exploded);
                 try {
-                    [$shipFile] = $this->extractScenarioInfo($scenarioFullPath);
+                    $scenarioInfoFile = $this->getShipDataFile($scenarioFullPath);
                 } catch (\Exception $exception) {
                     if ($ignoreUnreadable) {
                         continue;
@@ -70,7 +69,7 @@ class ScenarioRepository
                 $this->scenarios[$scenarioKey] = new Scenario(
                     $scenarioKey,
                     $scenarioFullPath,
-                    $shipFile
+                    $scenarioInfoFile
                 );
             }
         }
@@ -87,12 +86,10 @@ class ScenarioRepository
             throw new MissingTasScenarioException($name);
         }
 
-        [$shipFile] = $this->extractScenarioInfo($scenarioFullPath);
-
         return new Scenario(
             $name,
             $scenarioFullPath,
-            $shipFile
+            $this->getShipDataFile($scenarioFullPath)
         );
     }
 
@@ -107,30 +104,17 @@ class ScenarioRepository
         return $scenario;
     }
 
-    /** @return string[] */
-    protected function extractScenarioInfo(string $fullPath): array
+    private function getShipDataFile(string $fullPath): string
     {
         $fullPath .= DIRECTORY_SEPARATOR . 'ScenarioInfo.cfg';
-        $scenarioInfo = [
-            static::SHIP_DATA_FILE_KEY => '',
-        ];
 
         foreach ($this->iniReader->getData($fullPath) as $line) {
-            // Keep the order
             if (static::SHIP_DATA_FILE_KEY === $line['key']) {
-                $scenarioInfo[static::SHIP_DATA_FILE_KEY] = $line['value'];
+                return $line['value'];
             }
         }
 
-        $newData = [];
-
-        foreach ($scenarioInfo as $key => $value) {
-            if ('' === $value) {
-                throw new InvalidInputException("Scenario info not found : '{$key}' in '{$fullPath}'");
-            }
-            $newData[] = $value;
-        }
-
-        return $newData;
+        $message = "Scenario info not found : '" . static::SHIP_DATA_FILE_KEY . "' in '{$fullPath}'";
+        throw new InvalidInputException($message);
     }
 }
