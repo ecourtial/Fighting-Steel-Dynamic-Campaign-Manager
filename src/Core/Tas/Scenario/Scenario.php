@@ -86,13 +86,14 @@ class Scenario
                 $existInSide = 'Allied';
             } elseif (array_key_exists($ship->getName(), $this->axisShips)) {
                 $existInSide = 'Axis';
+            } else {
+                $this->$propertyName[$ship->getName()] = $ship;
             }
 
             if ('' !== $existInSide) {
                 throw new DuplicateShipException($ship->getName(), $existInSide);
             }
 
-            $this->$propertyName[$ship->getName()] = $ship;
             $count++;
         }
     }

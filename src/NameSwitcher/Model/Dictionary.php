@@ -60,7 +60,9 @@ class Dictionary
         }
 
         if (0 === count($result)) {
-            throw new NoShipException('No ship found matching the required criteria: ' . $this->formatCriteriaForException($criteria));
+            $errorMsg = 'No ship found matching the required criteria: '
+                . $this->formatCriteriaForException($criteria);
+            throw new NoShipException($errorMsg);
         }
 
         return $result;
@@ -93,7 +95,9 @@ class Dictionary
         } else {
             $result = $this->searchInList($criteria);
             if (count($result) > 1) {
-                throw new MoreThanOneShipException('More than one result found for the given criteria: ' . $this->formatCriteriaForException($criteria));
+                $errorMsg = 'More than one result found for the given criteria: '
+                    . $this->formatCriteriaForException($criteria);
+                throw new MoreThanOneShipException($errorMsg);
             }
             $ship = $result[0];
         }
@@ -108,7 +112,9 @@ class Dictionary
             $dataToInject = [];
             foreach (self::FIELDS_NAME as $field) {
                 if (false === array_key_exists($field, $element)) {
-                    throw new InvalidShipDataException("Field '{$field}' is missing. Given data was: " . $this->formatCriteriaForException($element));
+                    $errorMsg = "Field '{$field}' is missing. Given data was: "
+                        . $this->formatCriteriaForException($element);
+                    throw new InvalidShipDataException($errorMsg);
                 }
                 $dataToInject[$field] = $element[$field];
             }

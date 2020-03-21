@@ -17,11 +17,12 @@ use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
 
 class ScenarioRepository
 {
-    protected string $scenarioDirectory;
+    public const SHIP_DATA_FILE_KEY = 'Shipdatafile';
 
     /** @var \App\Core\Tas\Scenario\Scenario[]|null */
     protected ?array $scenarios = null;
 
+    protected string $scenarioDirectory;
     protected IniReader $iniReader;
     protected TasShipExtractor $tasShipExtractor;
     protected FsShipExtractor $fsShipExtractor;
@@ -111,13 +112,13 @@ class ScenarioRepository
     {
         $fullPath .= DIRECTORY_SEPARATOR . 'ScenarioInfo.cfg';
         $scenarioInfo = [
-            'Shipdatafile' => '',
+            static::SHIP_DATA_FILE_KEY => '',
         ];
 
         foreach ($this->iniReader->getData($fullPath) as $line) {
             // Keep the order
-            if ('Shipdatafile' === $line['key']) {
-                $scenarioInfo['Shipdatafile'] = $line['value'];
+            if (static::SHIP_DATA_FILE_KEY === $line['key']) {
+                $scenarioInfo[static::SHIP_DATA_FILE_KEY] = $line['value'];
             }
         }
 

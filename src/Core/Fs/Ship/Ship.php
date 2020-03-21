@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 /**
+ * This class represent a Ship entity in the .scn file of Fighting Steel
+ *
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       16/03/2020 (dd-mm-YYYY)
  */

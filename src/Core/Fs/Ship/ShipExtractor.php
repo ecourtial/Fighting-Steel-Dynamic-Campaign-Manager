@@ -51,16 +51,15 @@ class ShipExtractor
 
     /**
      * @param string[] $entryValues
-     * @param Ship[] $ships
+     * @param Ship[]   $ships
      * @param string[] $line
-     * @param bool  $mayBe
      */
     protected function handleLine(
         array &$entryValues,
         array &$ships,
         array $line,
-        bool &$mayBe): void
-    {
+        bool &$mayBe
+    ): void {
         // Safety to ignore non matching entries (good expected order)
         if (false === $mayBe && 'NAME' !== $line['key']) {
             $this->cleanVariables($entryValues);
@@ -79,7 +78,8 @@ class ShipExtractor
         if ($mayBe && 'CLASS' === $line['key']) {
             // Check that all the var are filled
             if (false === $this->validateValues($entryValues)) {
-                return; // Another security
+                // Another security
+                return;
             }
 
             $mayBe = false;

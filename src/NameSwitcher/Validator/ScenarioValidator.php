@@ -75,7 +75,21 @@ class ScenarioValidator
             }
         }
 
-        // Check that all the ships in TAS are present in the dictionary file
+        $this->checkTasShipInDictionary($errors, $scenario, $dictionary);
+
+        return $errors;
+    }
+
+    /**
+     * Check that all the ships in TAS are present in the dictionary file
+     *
+     * @param string[] $errors
+     */
+    protected function checkTasShipInDictionary(
+        array &$errors,
+        Scenario $scenario,
+        Dictionary $dictionary
+    ): void {
         foreach (Scenario::SIDES as $side) {
             foreach ($scenario->getTasShips($side) as $ship) {
                 if (
@@ -88,7 +102,5 @@ class ScenarioValidator
                 }
             }
         }
-
-        return $errors;
     }
 }

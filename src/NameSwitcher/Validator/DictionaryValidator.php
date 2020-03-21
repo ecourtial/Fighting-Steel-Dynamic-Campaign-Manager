@@ -28,9 +28,10 @@ class DictionaryValidator
     public function validate(string $fullPath): array
     {
         $errors = [];
-        $lineCount = 2; // Because the header doesn't count
         $ships = [];
         $extractionIsStarted = false;
+        // Because the header doesn't count
+        $lineCount = 2;
 
         try {
             foreach ($this->dictionaryReader->extractData($fullPath) as $line) {
@@ -38,7 +39,9 @@ class DictionaryValidator
                     $extractionIsStarted = true;
                     $ship = new Ship($line);
                     if (array_key_exists($ship->getTasName(), $ships)) {
-                        throw new InvalidDictionaryException("The name '{$ship->getTasName()}' is already used at line #" . $ships[$ship->getTasName()]);
+                        $errorMsg = "The name '{$ship->getTasName()}' is already used at line #"
+                            . $ships[$ship->getTasName()];
+                        throw new InvalidDictionaryException($errorMsg);
                     }
                     $ships[$ship->getTasName()] = $lineCount;
                 } catch (\Exception $exception) {

@@ -28,7 +28,8 @@ class IniReader
         $lineCount = 1;
 
         foreach ($this->textFileReader->getFileContent($fileName) as $line) {
-            if (preg_match('/^\[.*]$/', $line)) { // Ignore headers of sections
+            // Ignore headers of sections
+            if (preg_match('/^\[.*]$/', $line)) {
                 continue;
             }
 
