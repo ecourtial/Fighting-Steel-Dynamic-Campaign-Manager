@@ -24,7 +24,7 @@ class ScenarioValidatorTest extends TestCase
 {
     protected static ScenarioValidator $scenarioValidator;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $textReader = new TextFileReader();
         $iniReader = new IniReader($textReader);

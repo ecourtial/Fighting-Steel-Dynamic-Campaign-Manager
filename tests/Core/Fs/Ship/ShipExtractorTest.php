@@ -23,7 +23,7 @@ class ShipExtractorTest extends TestCase
     protected FsShipExtractor $extractor;
     protected ScenarioRepository $scenarioRepository;
 
-    public function setUp()
+    public function setUp(): void
     {
         $textReader = new TextFileReader();
         $iniReader = new IniReader($textReader);

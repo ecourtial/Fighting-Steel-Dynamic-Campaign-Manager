@@ -25,7 +25,7 @@ class ShipExtractorTest extends TestCase
     protected static TasShipExtractor $tasShipExtractor;
     protected static FsShipExtractor $fsShipExtractor;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $textReader = new TextFileReader();
         static::$iniReader = new IniReader($textReader);
@@ -33,7 +33,7 @@ class ShipExtractorTest extends TestCase
         static::$fsShipExtractor = new FsShipExtractor(static::$iniReader);
     }
 
-    public function testNormalExtraction()
+    public function testNormalExtraction(): void
     {
         $repo = new ScenarioRepository($_ENV['TAS_LOCATION'], static::$iniReader, static::$tasShipExtractor, static::$fsShipExtractor);
         $scenario = $repo->getOne('Bad GoebenReminiscence');

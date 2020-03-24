@@ -24,7 +24,7 @@ class DictionaryTest extends TestCase
     protected Ship $ship2;
     protected static array $rawData;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $reader = new DictionaryReader(new CsvExtractor());
         static::$rawData = [];
@@ -33,7 +33,7 @@ class DictionaryTest extends TestCase
         }
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->ship1 = new Ship([
             'Type' => 'BB',

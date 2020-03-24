@@ -27,7 +27,7 @@ class ScenarioRepositoryTest extends TestCase
 {
     protected static ScenarioRepository $scenarioRepository;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $textReader = new TextFileReader();
         $iniReader = new IniReader($textReader);
