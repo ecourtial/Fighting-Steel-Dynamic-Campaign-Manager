@@ -8,7 +8,7 @@ phpcsfixer:
 	vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes
 
 test:
-	bin/phpunit --testdox
+	vendor/bin/phpunit --testdox
 
 infection:
 	vendor/bin/infection

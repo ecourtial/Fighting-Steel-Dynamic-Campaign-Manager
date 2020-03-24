@@ -1,11 +1,14 @@
 <?php
 
 declare(strict_types=1);
-/*
- * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       29/02/2020 (dd-mm-YYYY)
+
+/**
+ * @author Eric COURTIAL <e.courtial30@gmail.com>
+ * @licence MIT
  */
-use App\Core\Exception\SyntaxException;
+
+namespace Tests\Core\File;
+
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
 use PHPUnit\Framework\TestCase;
@@ -14,23 +17,18 @@ class IniFileReaderTest extends TestCase
 {
     public function testGetDataSuccess(): void
     {
-        $fileReaderMock = $this->createMock(TextFileReader::class);
-        $fileReaderMock->expects($this->once())
-            ->method('getFileContent')
-            ->will($this->returnValue(
-                [
-                    'TAS_PATH=C:\Program Files\Thunder At Sea ',
-                    ' FS_PATH=C:\Program Files\Fighting Steel',
-                ]
-            ));
+        $textFileReader = new TextFileReader();
+        $iniReader = new IniReader($textFileReader);
 
-        $iniReader = new IniReader($fileReaderMock);
-        $data = $iniReader->getData('tests/Assets/dcm-config.ini');
+        $data = [];
+        foreach ($iniReader->getData('tests/Assets/dcm-config.ini') as $line) {
+            $data[] = $line;
+        }
 
         static::assertEquals(
             [
-                'TAS_PATH' => 'C:\Program Files\Thunder At Sea',
-                'FS_PATH' => 'C:\Program Files\Fighting Steel',
+                ['key' => 'TAS_PATH', 'value' => 'C:\Program Files\Thunder At Sea'],
+                ['key' => 'FS_PATH', 'value' => 'C:\Program Files\Fighting Steel'],
             ],
             $data
         );
@@ -38,26 +36,18 @@ class IniFileReaderTest extends TestCase
 
     public function testGetDataMalformedLine(): void
     {
-        $fileReaderMock = $this->createMock(TextFileReader::class);
-        $fileReaderMock->expects($this->once())
-            ->method('getFileContent')
-            ->will($this->returnValue(
-                [
-                    'TAS_PATH=C:\Program Files\Thunder At Sea',
-                    'FS_PATH C:\Program Files\Fighting Steel',
-                ]
-            ));
+        $textFileReader = new TextFileReader();
+        $iniReader = new IniReader($textFileReader);
+        $fileName = 'tests/Assets/dcm-config-bad.ini';
+        $data = [];
 
-        $iniReader = new IniReader($fileReaderMock);
-        $fileName = 'tests/Assets/dcm-config.ini';
-
-        try {
-            $iniReader->getData($fileName);
-        } catch (SyntaxException $exception) {
-            static::assertEquals(
-                "For line #2 in file '{$fileName}': malformed line",
-                $exception->getMessage()
-            );
+        foreach ($iniReader->getData($fileName) as $line) {
+            $data[] = $line;
         }
+
+        static::assertEquals(
+            [['key' => 'TAS_PATH', 'value' => 'C:\Program Files\Thunder At Sea']],
+            $data
+        );
     }
 }

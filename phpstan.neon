@@ -2,3 +2,17 @@ parameters:
     level: 6
     paths:
         - src
+    autoload_files:
+        - %currentWorkingDirectory%/src/Core/File/TextFileReader.php
+    ignoreErrors:
+        -
+            message: '~^Variable method call on ~'
+            path: src/NameSwitcher/Model/Ship.php
+
+        -
+            message: '~^Variable property access on ~'
+            path: src/Core/Tas/Scenario/Scenario.php
+
+        -
+            message: '~^Variable method call on ~'
+            path: src/Core/Fs/Ship/Ship.php

@@ -1,0 +1,16 @@
+V1.0
+
+A fictional scenario based on the original timeline (OTL). On the third of september 1939, the United Kingdom and the French Republic declare war at Nazi Germany.
+
+The scenario starts here...
+On the mediteranean field, the allied are immediatly on alert: a british report state that a little group of german warships crossed the strait of Gibraltar eastward in the mist on the early hours of the 2nd of september. The exact quantity, type and name of the ships, their objectives, as they location, is unknow...
+
+Tips: It is recommended to play on the allied side at first, because doing the opposite will spoil you the german intentions (which however, are randomized with 6 differents patterns).This means that the scenario is playable many time with different results :) .
+
+Note: The position and name of the main allied warships are historically accurate.Same thing for air force bases.
+
+Difficulty level: I consider this scenario to be hard on the german side, and medium on the allied one: while the first hours are very easy the scenario become more and more difficult after the first days. It also highly depends on the path choosen by the german ships.
+
+The utilization of FS_NameSwitcher is compulsory. The dictionary file is included in the archive. Same thing for the endurance file (make a copy of you original one).
+
+Contact: e.courtial30@gmail.com

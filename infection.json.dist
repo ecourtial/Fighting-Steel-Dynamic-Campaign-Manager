@@ -1,32 +1,22 @@
 {
-  "source": {
-    "directories": [
-      "src"
-    ],
-    "excludes": [
-      "Kernel.php"
-    ]
-  },
-  "timeout": 10,
-  "logs": {
-    "text": "var/tmp-infection/infection.log",
-    "summary": "var/tmp-infection/summary.log",
-    "perMutator": "var/tmp-infection/per-mutator.md",
-    "badge": {
-      "branch": "master"
-    }
-  },
-  "tmpDir": "var/tmp-infection",
-  "mutators": {
-    "@default": true,
-    "@function_signature": false,
-    "TrueValue": {
-      "ignore": [
-        "NameSpace\\*\\Class::method"
-      ]
-    }
-  },
-  "testFramework":"phpunit",
-  "bootstrap":"./tests/bootstrap.php",
-  "testFrameworkOptions": "-vvv"
+    "timeout": 10,
+    "source": {
+        "directories": [
+            "src"
+        ],
+        "excludes": [
+            "Kernel.php"
+        ]
+    },
+    "logs": {
+        "text": "var/tmp-infection/infection.log",
+        "summary": "var/tmp-infection/summary.log",
+        "perMutator": "var/tmp-infection/per-mutator.md"
+    },
+    "mutators": {
+        "@default": true
+    },
+    "tmpDir": "var/tmp-infection",
+    "testFramework":"phpunit",
+    "testFrameworkOptions": "-vvv"
 }
