@@ -18,18 +18,6 @@ class Dictionary
     /** @var Ship[] */
     protected array $dictionary = [];
 
-    /** @var string[] */
-    public const FIELDS_NAME =
-        [
-            'Type',
-            'Class',
-            'TasName',
-            'FsClass',
-            'FsName',
-            'FsShortName',
-            'SimilarTo',
-        ];
-
     /** @param string[][] $readRawData */
     public function __construct(array $readRawData)
     {
@@ -110,7 +98,7 @@ class Dictionary
     {
         foreach ($data as $element) {
             $dataToInject = [];
-            foreach (self::FIELDS_NAME as $field) {
+            foreach (Ship::FIELDS_NAME as $field) {
                 if (false === array_key_exists($field, $element)) {
                     $errorMsg = "Field '{$field}' is missing. Given data was: "
                         . $this->formatCriteriaForException($element);

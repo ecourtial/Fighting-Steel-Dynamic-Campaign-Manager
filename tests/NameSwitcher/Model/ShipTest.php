@@ -134,4 +134,34 @@ class ShipTest extends TestCase
             static::assertEquals("Ship type 'AH' is unknown", $exception->getMessage());
         }
     }
+
+    public function testMissingMethod(): void
+    {
+        $data = static::CSV_DATA;
+        $data['Foo'] = 'Bar';
+        try {
+            new ShipExtended($data);
+            static::fail("Since the 'setFoo' method does not exist, an exception was expected");
+        } catch (\Throwable $exception) {
+            static::assertEquals(
+                "Method 'setFoo' does not exist in App\NameSwitcher\Model\Ship",
+                $exception->getMessage()
+            );
+        }
+    }
+}
+
+class ShipExtended extends Ship
+{
+    public const FIELDS_NAME =
+        [
+            'Type',
+            'Class',
+            'TasName',
+            'FsClass',
+            'FsName',
+            'FsShortName',
+            'SimilarTo',
+            'Foo',
+        ];
 }

@@ -18,6 +18,18 @@ class Ship
 {
     public const SHORT_NAME_MAX_LENGTH = 10;
 
+    /** @var string[] */
+    public const FIELDS_NAME =
+        [
+            'Type',
+            'Class',
+            'TasName',
+            'FsClass',
+            'FsName',
+            'FsShortName',
+            'SimilarTo',
+        ];
+
     protected string $type = '';
     protected string $class = '';
     protected string $tasName = '';
@@ -180,15 +192,19 @@ class Ship
     /** @param string[] $data */
     private function hydrate(array $data): Ship
     {
-        if (count($data) !== count(Dictionary::FIELDS_NAME)) {
+        if (count($data) !== count(static::FIELDS_NAME)) {
             throw new InvalidShipDataException('Invalid ship attribute quantity');
         }
 
         foreach ($data as $key => $value) {
-            if (false === in_array($key, Dictionary::FIELDS_NAME, true)) {
+            if (false === in_array($key, static::FIELDS_NAME, true)) {
                 throw new InvalidShipDataException("The attribute '{$key}' is unknown");
             }
+
             $methodName = 'set' . $key;
+            if (false === method_exists($this, $methodName)) {
+                throw new \RuntimeException("Method '{$methodName}' does not exist in " . __CLASS__);
+            }
             $this->$methodName($value);
         }
 

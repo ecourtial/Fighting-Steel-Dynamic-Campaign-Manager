@@ -104,10 +104,15 @@ class Ship
         }
 
         foreach ($data as $key => $value) {
-            if (false === in_array($key, self::FIELDS_NAME, true)) {
+            if (false === in_array($key, static::FIELDS_NAME, true)) {
                 throw new InvalidShipDataException("The attribute '{$key}' is unknown");
             }
+
             $methodName = 'set' . $key;
+            if (false === method_exists($this, $methodName)) {
+                throw new \RuntimeException("Method '{$methodName}' does not exist in " . __CLASS__);
+            }
+
             $this->$methodName($value);
         }
     }
