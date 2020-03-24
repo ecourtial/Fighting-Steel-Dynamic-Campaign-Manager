@@ -75,8 +75,7 @@ jobs:
           command: |
             wget https://getcomposer.org/composer.phar > /dev/null
             chmod +x composer.phar
-            #bin/phpunit
-            vendor/bin/phpunit --testdox -coverage-clover build/coverage-report/phpunit.coverage.xml --log-junit build/coverage-report/phpunit.report.xml
+            bin/phpunit --testdox -coverage-clover build/coverage-report/phpunit.coverage.xml --log-junit build/coverage-report/phpunit.report.xml
       - store_artifacts:
           path:  build/coverage-report
       - codecov/upload:
