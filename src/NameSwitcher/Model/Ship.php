@@ -11,11 +11,14 @@ namespace App\NameSwitcher\Model;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\Fs\Ship\Ship as FsShip;
+use App\Core\Traits\HydrateTrait;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\NoShipException;
 
 class Ship
 {
+    use HydrateTrait;
+
     public const SHORT_NAME_MAX_LENGTH = 10;
 
     /** @var string[] */
@@ -187,27 +190,5 @@ class Ship
         }
 
         return $this->similarTo[array_rand($this->similarTo)];
-    }
-
-    /** @param string[] $data */
-    private function hydrate(array $data): Ship
-    {
-        if (count($data) !== count(static::FIELDS_NAME)) {
-            throw new InvalidShipDataException('Invalid ship attribute quantity');
-        }
-
-        foreach ($data as $key => $value) {
-            if (false === in_array($key, static::FIELDS_NAME, true)) {
-                throw new InvalidShipDataException("The attribute '{$key}' is unknown");
-            }
-
-            $methodName = 'set' . $key;
-            if (false === method_exists($this, $methodName)) {
-                throw new \RuntimeException("Method '{$methodName}' does not exist in " . __CLASS__);
-            }
-            $this->$methodName($value);
-        }
-
-        return $this;
     }
 }

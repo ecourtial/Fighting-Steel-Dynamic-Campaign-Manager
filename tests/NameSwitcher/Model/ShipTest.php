@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Tests\NameSwitcher\Model;
 
+use App\Core\Exception\CoreException;
 use App\Core\Exception\InvalidInputException;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\NoShipException;
@@ -142,7 +143,7 @@ class ShipTest extends TestCase
         try {
             new ShipExtended($data);
             static::fail("Since the 'setFoo' method does not exist, an exception was expected");
-        } catch (\Throwable $exception) {
+        } catch (CoreException $exception) {
             static::assertEquals(
                 "Method 'setFoo' does not exist in App\NameSwitcher\Model\Ship",
                 $exception->getMessage()

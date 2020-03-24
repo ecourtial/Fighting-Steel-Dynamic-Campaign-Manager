@@ -12,11 +12,14 @@ declare(strict_types=1);
 namespace App\Core\Fs\Ship;
 
 use App\Core\Exception\InvalidInputException;
+use App\Core\Traits\HydrateTrait;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Model\Ship as DictionaryShip;
 
 class Ship
 {
+    use HydrateTrait;
+
     protected string $name;
     protected string $shortname;
     protected string $type;
@@ -94,26 +97,5 @@ class Ship
     private function setClass(string $class): void
     {
         $this->class = $class;
-    }
-
-    /** @param string[] $data */
-    private function hydrate(array $data): void
-    {
-        if (count($data) !== count(static::FIELDS_NAME)) {
-            throw new InvalidShipDataException('Invalid ship attribute quantity');
-        }
-
-        foreach ($data as $key => $value) {
-            if (false === in_array($key, static::FIELDS_NAME, true)) {
-                throw new InvalidShipDataException("The attribute '{$key}' is unknown");
-            }
-
-            $methodName = 'set' . $key;
-            if (false === method_exists($this, $methodName)) {
-                throw new \RuntimeException("Method '{$methodName}' does not exist in " . __CLASS__);
-            }
-
-            $this->$methodName($value);
-        }
     }
 }
