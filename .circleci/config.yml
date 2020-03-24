@@ -65,9 +65,6 @@ jobs:
     docker:
       - image: mobtitude/php-xdebug:7.4-cli
     steps:
-#      - run:
-#          name: Install alpine requirements for checkout
-#          command: apk add git openssh-client curl
       - checkout
       - attach_workspace:
           at: .
@@ -84,11 +81,6 @@ jobs:
             # Note bin/phpunit if we want to use the Symfony phpunit bridge
             vendor/bin/phpunit --testdox --coverage-clover phpunit.coverage.xml --log-junit phpunit.report.xml
             curl -s https://codecov.io/bash | bash -s -- -c -F aFlag -t ${CODECOV_TOKEN} -n ${CIRCLE_BUILD_NUM} -f phpunit.coverage.xml
-#      - store_artifacts:
-#          path:  build/coverage-report
-      #- codecov/upload:
-          #file: build/coverage-report/phpunit.coverage.xml
-          #file: phpunit.coverage.xml
 
   sonarcloud:
     docker:
