@@ -74,6 +74,9 @@
     "ocramius/package-versions": {
         "version": "1.6.0"
     },
+    "ondram/ci-detector": {
+        "version": "3.3.0"
+    },
     "phar-io/manifest": {
         "version": "1.0.3"
     },
