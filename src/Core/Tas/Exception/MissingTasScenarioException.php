@@ -13,6 +13,6 @@ class MissingTasScenarioException extends \Exception
 {
     public function __construct(string $name)
     {
-        parent::__construct("Scenario '{$name}' not found", 0, null);
+        parent::__construct("Scenario '{$name}' not found");
     }
 }

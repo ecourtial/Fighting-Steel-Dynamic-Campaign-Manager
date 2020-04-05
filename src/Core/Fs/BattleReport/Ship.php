@@ -38,6 +38,11 @@ class Ship implements FsShipInterface
             'STATUS',
         ];
 
+    public const STATUS = [
+      'SHIP_NORMAL',
+      'SHIP_SUNK',
+    ];
+
     /** @param string[] $data */
     public function __construct(array $data)
     {
@@ -98,6 +103,10 @@ class Ship implements FsShipInterface
 
     private function setStatus(string $status): void
     {
+        if (false === in_array($status, static::STATUS, true)) {
+            throw new InvalidInputException("Ship status '{$status}' is unknown");
+        }
+
         $this->status = $status;
     }
 }

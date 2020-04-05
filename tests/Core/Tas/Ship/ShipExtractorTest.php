@@ -69,8 +69,6 @@ class ShipExtractorTest extends TestCase
                 "Impossible to read the content of the file 'tests/Assets/TAS/Scenarios/IncompleteScenarioWithNotTasShipFile/AxisShips.cfg'.",
                 $exception->getMessage()
             );
-            static::assertEquals(0, $exception->getCode());
-            static::assertNull($exception->getPrevious());
         }
     }
 

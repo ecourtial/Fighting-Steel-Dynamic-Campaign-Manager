@@ -87,8 +87,6 @@ class ScenarioTest extends TestCase
                 "Duplicate ship entry with name 'Titanic (data at index #2)' in side 'Allied'",
                 $exception->getMessage()
             );
-            static::assertEquals(0, $exception->getCode());
-            static::assertNull($exception->getPrevious());
         }
 
         $ships = [
@@ -103,8 +101,6 @@ class ScenarioTest extends TestCase
                 "Duplicate ship entry with name 'Titanic (data at index #1)' in side 'Allied'",
                 $exception->getMessage()
             );
-            static::assertEquals(0, $exception->getCode());
-            static::assertNull($exception->getPrevious());
         }
 
         $ships = [
@@ -119,8 +115,6 @@ class ScenarioTest extends TestCase
                 "Duplicate ship entry with name 'GrossDeutschland (data at index #0)' in side 'Axis'",
                 $exception->getMessage()
             );
-            static::assertEquals(0, $exception->getCode());
-            static::assertNull($exception->getPrevious());
         }
     }
 

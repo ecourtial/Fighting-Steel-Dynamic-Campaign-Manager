@@ -35,7 +35,7 @@ class ShipExtractor extends AbstractShipExtractor
         return $this->extractShips($filePath, 'STATUS');
     }
 
-    public function getEmptyValues(): array
+    protected function getEmptyValues(): array
     {
         $values = \array_flip(Ship::FIELDS_NAME);
         foreach ($values as &$value) {
