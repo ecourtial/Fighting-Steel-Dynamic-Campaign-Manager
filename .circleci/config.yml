@@ -1,6 +1,4 @@
 version: '2.1'
-orbs:
-  codecov: codecov/codecov@1.0.2
 executors:
   php:
     docker:
@@ -109,11 +107,26 @@ jobs:
           command: |
             /usr/local/sonar-scanner/bin/sonar-scanner
 
+  infection:
+    docker:
+      - image: mobtitude/php-xdebug:7.4-cli
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: infection
+          command: |
+            vendor/bin/infection --min-msi=80 -q
+
 workflows:
   version: '2.1'
   Code quality:
     jobs:
       - composer
+      - infection:
+          requires:
+            - phpunit
       - phpcs:
           requires:
             - composer

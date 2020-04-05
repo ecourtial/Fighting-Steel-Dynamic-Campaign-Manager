@@ -11,7 +11,10 @@
     "logs": {
         "text": "var/tmp-infection/infection.log",
         "summary": "var/tmp-infection/summary.log",
-        "perMutator": "var/tmp-infection/per-mutator.md"
+        "perMutator": "var/tmp-infection/per-mutator.md",
+        "badge": {
+            "branch": "master"
+        }
     },
     "mutators": {
         "@default": true
