@@ -3,16 +3,17 @@
 declare(strict_types=1);
 
 /**
- * This class represent a Ship entity in the .scn file of Fighting Steel
+ * This class represent a Ship entity in the battle report of Fighting Steel
  *
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       16/03/2020 (dd-mm-YYYY)
+ * @date       05/04/2020 (dd-mm-YYYY)
  */
 
-namespace App\Core\Fs\Scenario\Ship;
+namespace App\Core\Fs\BattleReport;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\Fs\FsShipInterface;
+use App\Core\Fs\Scenario\Ship\Ship as FsScenarioShip;
 use App\Core\Traits\HydrateTrait;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Model\Ship as DictionaryShip;
@@ -25,6 +26,7 @@ class Ship implements FsShipInterface
     protected string $shortname;
     protected string $type;
     protected string $class;
+    protected string $status;
 
     /** @var string[] */
     public const FIELDS_NAME =
@@ -33,19 +35,8 @@ class Ship implements FsShipInterface
             'SHORTNAME',
             'TYPE',
             'CLASS',
+            'STATUS',
         ];
-
-    /** @var string[] */
-    public const SHIP_TYPES = [
-        'BB',
-        'BC',
-        'CA',
-        'CL',
-        'DD',
-        'TR',
-        'CV',
-        'CVE',
-    ];
 
     /** @param string[] $data */
     public function __construct(array $data)
@@ -88,7 +79,7 @@ class Ship implements FsShipInterface
 
     private function setType(string $type): void
     {
-        if (false === in_array($type, static::SHIP_TYPES, true)) {
+        if (false === in_array($type, FsScenarioShip::SHIP_TYPES, true)) {
             throw new InvalidInputException("Ship type '{$type}' is unknown");
         }
 
@@ -98,5 +89,15 @@ class Ship implements FsShipInterface
     private function setClass(string $class): void
     {
         $this->class = $class;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    private function setStatus(string $status): void
+    {
+        $this->status = $status;
     }
 }

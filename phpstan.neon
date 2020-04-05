@@ -15,4 +15,8 @@ parameters:
 
         -
             message: '~^Variable method call on ~'
-            path: src/Core/Fs/Ship/Ship.php
+            path: src/Core/Fs/Scenario/Ship/Ship.php
+
+        -
+            message: '~^Variable method call on ~'
+            path: src/Core/Fs/BattleReport/Ship.php

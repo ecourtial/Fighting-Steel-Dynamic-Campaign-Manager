@@ -9,87 +9,37 @@ declare(strict_types=1);
 
 namespace App\Core\Fs\Scenario\Ship;
 
-use App\Core\File\IniReader;
+use App\Core\Fs\AbstractShipExtractor;
 use App\Core\Tas\Scenario\Scenario;
 
-class ShipExtractor
+class ShipExtractor extends AbstractShipExtractor
 {
-    protected const DATA_MAPPING = [
-        'NAME' => '',
-        'SHORTNAME' => '',
-        'TYPE' => '',
-        'CLASS' => '',
-    ];
-
-    protected IniReader $iniReader;
-
-    public function __construct(IniReader $iniReader)
-    {
-        $this->iniReader = $iniReader;
-    }
-
-    /** @return Ship[] */
+    /**
+     * Note: in to be more accurate, it returns an array of \App\Core\Fs\Scenario\Ship\Ship
+     * but PHPStan does not understand it.
+     *
+     * @return \App\Core\Fs\FsShipInterface[]
+     */
     public function extract(Scenario $scenario): array
     {
         $filePath = $scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn';
-        $ships = [];
-        $entryValues = static::DATA_MAPPING;
 
-        foreach ($this->iniReader->getData($filePath) as $line) {
-            // Check the entry type
-            if (false === array_key_exists($line['key'], $entryValues)) {
-                continue;
-            }
-
-            $this->handleLine($entryValues, $ships, $line);
-        }
-
-        return $ships;
+        return $this->extractShips($filePath, 'CLASS');
     }
 
-    /**
-     * @param string[] $entryValues
-     * @param Ship[]   $ships
-     * @param string[] $line
-     */
-    private function handleLine(
-        array &$entryValues,
-        array &$ships,
-        array $line
-    ): void {
-        // First expected key
-        if ('NAME' === $line['key']) {
-            $entryValues = static::DATA_MAPPING;
-        }
-
-        $entryValues[$line['key']] = $line['value'];
-
-        // Last expected key
-        if ('CLASS' === $line['key']) {
-            // Check that all the var are filled
-            if (false === $this->validateValues($entryValues)) {
-                // Another security
-                return;
-            }
-
-            // Create SHIP here
-            $ships[] = new Ship($entryValues);
-
-            // clean variables
-            $entryValues = static::DATA_MAPPING;
-        }
-    }
-
-    /** @param string[] $entryValues */
-    private function validateValues(array &$entryValues): bool
+    protected function createShip(array $data): Ship
     {
-        $allFieldValid = true;
-        foreach ($entryValues as $content) {
-            if ('' === $content) {
-                return false;
-            }
-        }
+        return  new Ship($data);
+    }
 
-        return $allFieldValid;
+    protected function getEmptyValues(): array
+    {
+        $values = \array_flip(Ship::FIELDS_NAME);
+        foreach ($values as &$value) {
+            $value = '';
+        }
+        unset($value);
+
+        return $values;
     }
 }
