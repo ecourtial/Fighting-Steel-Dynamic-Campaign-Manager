@@ -7,12 +7,12 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\Fs\Ship;
+namespace Tests\Core\Fs\Scenario\Ship;
 
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
-use App\Core\Fs\Ship\Ship;
-use App\Core\Fs\Ship\ShipExtractor as FsShipExtractor;
+use App\Core\Fs\Scenario\Ship\Ship;
+use App\Core\Fs\Scenario\Ship\ShipExtractor as FsShipExtractor;
 use App\Core\Tas\Scenario\ScenarioRepository;
 use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
 use App\NameSwitcher\Exception\InvalidShipDataException;

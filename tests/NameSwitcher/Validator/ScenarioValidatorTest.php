@@ -11,7 +11,7 @@ namespace Tests\NameSwitcher\Validator;
 
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
-use App\Core\Fs\Ship\ShipExtractor as FsShipExtractor;
+use App\Core\Fs\Scenario\Ship\ShipExtractor as FsShipExtractor;
 use App\Core\Tas\Scenario\ScenarioRepository;
 use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
 use App\NameSwitcher\Reader\DictionaryReader;

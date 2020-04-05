@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace App\NameSwitcher\Model;
 
 use App\Core\Exception\InvalidInputException;
-use App\Core\Fs\Ship\Ship as FsShip;
+use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 use App\Core\Traits\HydrateTrait;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\NoShipException;

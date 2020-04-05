@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace App\Core\Tas\Ship;
 
 use App\Core\Exception\InvalidInputException;
-use App\Core\Fs\Ship\Ship as FsShip;
+use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 
 class Ship
 {

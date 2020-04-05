@@ -11,7 +11,7 @@ namespace App\Core\Tas\Scenario;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\Exception\SideErrorException;
-use App\Core\Fs\Ship\Ship as FsShip;
+use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 use App\Core\Tas\Exception\DuplicateShipException;
 use App\Core\Tas\Ship\Ship as TasShip;
 

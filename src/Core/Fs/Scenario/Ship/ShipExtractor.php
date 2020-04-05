@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @date       16/03/2020 (dd-mm-YYYY)
  */
 
-namespace App\Core\Fs\Ship;
+namespace App\Core\Fs\Scenario\Ship;
 
 use App\Core\File\IniReader;
 use App\Core\Tas\Scenario\Scenario;
