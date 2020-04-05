@@ -66,16 +66,13 @@ class ShipExtractorTest extends TestCase
 
     public function testFileDoesNotExist(): void
     {
-        $realPath = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR . '_End Of Engagement.sce';
-        $badPath = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR . '_End Of Engagement.sceZ';
-        rename($realPath, $badPath);
+        $extractor = new ShipExtractor(static::$iniReader, '');
 
         try {
-            static::$shipExtractor->extract();
+            $extractor->extract();
         } catch (FileNotFoundException $exception) {
-            rename($badPath, $realPath);
             static::assertEquals(
-                "Impossible to read the content of the file 'tests/Assets/FS/Scenarios/_End Of Engagement.sce'.",
+                "Impossible to read the content of the file '/Scenarios/_End Of Engagement.sce'.",
                 $exception->getMessage()
             );
         }

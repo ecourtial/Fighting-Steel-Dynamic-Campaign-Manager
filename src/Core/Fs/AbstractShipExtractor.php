@@ -24,7 +24,7 @@ abstract class AbstractShipExtractor
     protected function extractShips(string $filePath, string $lastKey): array
     {
         $ships = [];
-        $entryValues = static::getEmptyValues();
+        $entryValues = $this->getEmptyValues();
 
         foreach ($this->iniReader->getData($filePath) as $line) {
             // Check the entry type
