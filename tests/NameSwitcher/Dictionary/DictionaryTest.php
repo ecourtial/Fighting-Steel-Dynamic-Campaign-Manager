@@ -7,14 +7,14 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\NameSwitcher\Model;
+namespace Tests\NameSwitcher\Dictionary;
 
+use App\NameSwitcher\Dictionary\Dictionary;
+use App\NameSwitcher\Dictionary\DictionaryReader;
+use App\NameSwitcher\Dictionary\Ship;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\MoreThanOneShipException;
 use App\NameSwitcher\Exception\NoShipException;
-use App\NameSwitcher\Model\Dictionary;
-use App\NameSwitcher\Model\Ship;
-use App\NameSwitcher\Reader\DictionaryReader;
 use PHPUnit\Framework\TestCase;
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
 

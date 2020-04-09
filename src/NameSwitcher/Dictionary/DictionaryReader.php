@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace App\NameSwitcher\Reader;
+namespace App\NameSwitcher\Dictionary;
 
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
 

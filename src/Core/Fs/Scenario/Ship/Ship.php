@@ -14,8 +14,8 @@ namespace App\Core\Fs\Scenario\Ship;
 use App\Core\Exception\InvalidInputException;
 use App\Core\Fs\FsShipInterface;
 use App\Core\Traits\HydrateTrait;
+use App\NameSwitcher\Dictionary\Ship as DictionaryShip;
 use App\NameSwitcher\Exception\InvalidShipDataException;
-use App\NameSwitcher\Model\Ship as DictionaryShip;
 
 class Ship implements FsShipInterface
 {
@@ -25,6 +25,10 @@ class Ship implements FsShipInterface
     protected string $shortname;
     protected string $type;
     protected string $class;
+    protected ?string $side;
+    protected ?string $crewQuality;
+    protected ?string $crewFatigue;
+    protected ?string $nightTraining;
 
     /** @var string[] */
     public const FIELDS_NAME =
@@ -34,6 +38,9 @@ class Ship implements FsShipInterface
             'TYPE',
             'CLASS',
         ];
+
+    /** @var string[] */
+    public const BATTLE_FIELDS = ['CREWQUALITY', 'CREWFATIGUE', 'NIGHTTRAINING'];
 
     /** @var string[] */
     public const SHIP_TYPES = [
@@ -73,6 +80,18 @@ class Ship implements FsShipInterface
         return $this->class;
     }
 
+    public function getSide(): ?string
+    {
+        return $this->side;
+    }
+
+    public function setSide(string $side): self
+    {
+        $this->side = $side;
+
+        return $this;
+    }
+
     private function setName(string $name): void
     {
         $this->name = $name;
@@ -98,5 +117,49 @@ class Ship implements FsShipInterface
     private function setClass(string $class): void
     {
         $this->class = $class;
+    }
+
+    public function getCrewQuality(): ?string
+    {
+        return $this->crewQuality;
+    }
+
+    public function setCrewQuality(string $crewQuality): self
+    {
+        if (false === in_array($crewQuality, ['Green', 'Average', 'Veteran', 'Elite'], true)) {
+            throw new InvalidInputException("Unknown crew quality level: '{$crewQuality}'");
+        }
+
+        $this->crewQuality = $crewQuality;
+
+        return $this;
+    }
+
+    public function getCrewFatigue(): ?string
+    {
+        return $this->crewFatigue;
+    }
+
+    public function setCrewFatigue(string $crewFatigue): self
+    {
+        if (false === in_array($crewFatigue, ['Fresh', 'Normal', 'Tired'], true)) {
+            throw new InvalidInputException("Unknown fatigue level: '{$crewFatigue}'");
+        }
+
+        $this->crewFatigue = $crewFatigue;
+
+        return $this;
+    }
+
+    public function getNightTraining(): ?string
+    {
+        return $this->nightTraining;
+    }
+
+    public function setNightTraining(string $nightTraining): self
+    {
+        $this->nightTraining = $nightTraining;
+
+        return $this;
     }
 }

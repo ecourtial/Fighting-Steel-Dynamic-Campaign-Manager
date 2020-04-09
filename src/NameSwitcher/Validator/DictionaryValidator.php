@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace App\NameSwitcher\Validator;
 
+use App\NameSwitcher\Dictionary\DictionaryReader;
+use App\NameSwitcher\Dictionary\Ship;
 use App\NameSwitcher\Exception\InvalidDictionaryException;
-use App\NameSwitcher\Model\Ship;
-use App\NameSwitcher\Reader\DictionaryReader;
 
 class DictionaryValidator
 {

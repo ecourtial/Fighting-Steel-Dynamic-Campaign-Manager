@@ -7,9 +7,9 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\NameSwitcher\Reader;
+namespace Tests\NameSwitcher\Dictionary;
 
-use App\NameSwitcher\Reader\DictionaryReader;
+use App\NameSwitcher\Dictionary\DictionaryReader;
 use PHPUnit\Framework\TestCase;
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
 

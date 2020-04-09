@@ -75,16 +75,19 @@ class ShipExtractorTest extends TestCase
             ),
         ];
 
+        $scenario = $this->scenarioRepository->getOne('IncompleteScenarioWithNotTasShipFile');
+
         static::assertEquals(
             $result,
-            $this->extractor->extract($this->scenarioRepository->getOne('IncompleteScenarioWithNotTasShipFile'))
+            $this->extractor->extract($scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn')
         );
     }
 
     public function testExtractionWithError(): void
     {
         try {
-            $this->extractor->extract($this->scenarioRepository->getOne('Bad GoebenReminiscence'));
+            $scenario = $this->scenarioRepository->getOne('Bad GoebenReminiscence');
+            $this->extractor->extract($scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn');
             static::fail("Since the ship short name 'La Bombarde' is too long, an exception was expected");
         } catch (InvalidShipDataException $exception) {
             static::assertEquals(
@@ -92,5 +95,22 @@ class ShipExtractorTest extends TestCase
                 $exception->getMessage()
             );
         }
+    }
+
+    public function testExtractorWithSide(): void
+    {
+        $path = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR . 'Backup'
+                . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn';
+
+        $result = $this->extractor->extract($path, true);
+
+        // Just testing the side. Since other tests here already test the content of the ship.
+        $expected = ['Blue', 'Blue', 'Blue', 'Red', 'Red'];
+        $obtained = [];
+        foreach ($result as $ship) {
+            $obtained[] = $ship->getSide();
+        }
+
+        static::assertEquals($expected, $obtained);
     }
 }

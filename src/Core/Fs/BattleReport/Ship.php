@@ -15,8 +15,8 @@ use App\Core\Exception\InvalidInputException;
 use App\Core\Fs\FsShipInterface;
 use App\Core\Fs\Scenario\Ship\Ship as FsScenarioShip;
 use App\Core\Traits\HydrateTrait;
+use App\NameSwitcher\Dictionary\Ship as DictionaryShip;
 use App\NameSwitcher\Exception\InvalidShipDataException;
-use App\NameSwitcher\Model\Ship as DictionaryShip;
 
 class Ship implements FsShipInterface
 {

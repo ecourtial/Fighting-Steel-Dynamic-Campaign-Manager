@@ -19,8 +19,8 @@ namespace App\NameSwitcher\Validator;
 
 use App\Core\Tas\Scenario\Scenario;
 use App\Core\Tas\Scenario\ScenarioRepository;
-use App\NameSwitcher\Model\Dictionary;
-use App\NameSwitcher\Reader\DictionaryReader;
+use App\NameSwitcher\Dictionary\Dictionary;
+use App\NameSwitcher\Dictionary\DictionaryReader;
 
 class ScenarioValidator
 {

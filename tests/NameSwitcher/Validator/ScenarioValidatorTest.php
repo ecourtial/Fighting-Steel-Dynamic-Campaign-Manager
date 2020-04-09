@@ -14,7 +14,7 @@ use App\Core\File\TextFileReader;
 use App\Core\Fs\Scenario\Ship\ShipExtractor as FsShipExtractor;
 use App\Core\Tas\Scenario\ScenarioRepository;
 use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
-use App\NameSwitcher\Reader\DictionaryReader;
+use App\NameSwitcher\Dictionary\DictionaryReader;
 use App\NameSwitcher\Validator\DictionaryValidator;
 use App\NameSwitcher\Validator\ScenarioValidator;
 use PHPUnit\Framework\TestCase;

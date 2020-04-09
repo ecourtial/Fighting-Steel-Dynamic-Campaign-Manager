@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Tests\NameSwitcher\Validator;
 
-use App\NameSwitcher\Reader\DictionaryReader;
+use App\NameSwitcher\Dictionary\DictionaryReader;
 use App\NameSwitcher\Validator\DictionaryValidator;
 use PHPUnit\Framework\TestCase;
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
