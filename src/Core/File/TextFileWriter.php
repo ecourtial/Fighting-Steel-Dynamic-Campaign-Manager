@@ -23,6 +23,7 @@ function file_put_contents(string $path, string $content, bool $test = false): b
 
 class TextFileWriter
 {
+    /** @param string[] $lines */
     public function writeMultiline(string $path, array $lines, bool $test = false): void
     {
         if (false === file_put_contents($path, implode(PHP_EOL, $lines), $test)) {

@@ -34,7 +34,7 @@ class FleetLevelExperienceDetector
         return $this->evaluateLevel($experience, $shipCount);
     }
 
-    /** @param int[] */
+    /** @param int[] $experiences */
     private function evaluateLevel(array $experiences, int $shipCount): string
     {
         $experiences['Green'] = $experiences['Green'] * 6;

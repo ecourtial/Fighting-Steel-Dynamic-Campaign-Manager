@@ -44,7 +44,7 @@ class ScenarioUpdater
                     // The ship is on our side so we don't switch
                     $newContent[] = $element;
                 }
-            } elseif (0 === $shortNameIndex && 0 !== $nameLine && $nameLine = ($currentLine - 1)) {
+            } elseif (0 === $shortNameIndex && 0 !== $nameLine && $nameLine === ($currentLine - 1)) {
                 $newContent[] = 'NAME=' . $correspondence[$currentName]->getName();
                 $newContent[] = 'SHORTNAME=' . $correspondence[$currentName]->getShortName();
                 $nameLine = 0;
@@ -73,7 +73,7 @@ class ScenarioUpdater
             if (0 === $nameIndex) {
                 $nameLine = $currentLine;
                 $previousLineContent = $element;
-            } elseif (0 === $shortNameIndex && 0 !== $nameLine && $nameLine = ($currentLine - 1)) {
+            } elseif (0 === $shortNameIndex && 0 !== $nameLine && $nameLine === ($currentLine - 1)) {
                 $shortName = substr($element, 10);
                 if (array_key_exists($shortName, $correspondence)) {
                     $newContent[] = 'NAME=' . $correspondence[$shortName];
