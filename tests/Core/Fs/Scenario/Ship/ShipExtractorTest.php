@@ -99,7 +99,7 @@ class ShipExtractorTest extends TestCase
 
     public function testExtractorWithSide(): void
     {
-        $path = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR . 'Backup'
+        $path = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR . 'Sample'
                 . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn';
 
         $result = $this->extractor->extract($path, true);

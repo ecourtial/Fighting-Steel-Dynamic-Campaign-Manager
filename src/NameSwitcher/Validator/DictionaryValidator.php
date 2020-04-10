@@ -44,12 +44,12 @@ class DictionaryValidator
                         throw new InvalidDictionaryException($errorMsg);
                     }
                     $ships[$ship->getTasName()] = $lineCount;
-                } catch (\Exception $exception) {
+                } catch (\Throwable $exception) {
                     $errors[] = "Error at line #{$lineCount}. " . $exception->getMessage();
                 }
                 $lineCount++;
             }
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             if ($extractionIsStarted) {
                 $message = $exception->getMessage();
             } else {

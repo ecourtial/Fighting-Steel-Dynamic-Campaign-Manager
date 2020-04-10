@@ -24,7 +24,7 @@ class SideScenarioDetectorTest extends TestCase
     {
         static::$extractor = new ShipExtractor(new IniReader(new TextFileReader()));
         static::$scenarioPath = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR
-            . 'Backup' . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn';
+            . 'Sample' . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn';
     }
 
     /** @dataProvider normalTestProvider */

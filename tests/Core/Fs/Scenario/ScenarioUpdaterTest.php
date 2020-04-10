@@ -31,7 +31,7 @@ class ScenarioUpdaterTest extends TestCase
     public function testUpdateBeforeFsNormal(): void
     {
         $scenarDir = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
-        $backup = $scenarDir . 'Backup' . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn';
+        $backup = $scenarDir . 'Sample' . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn';
         $scenario = $scenarDir . 'A_TAS_ScenarioNormalUpdate.scn';
 
         $correspondance = [
@@ -58,5 +58,29 @@ class ScenarioUpdaterTest extends TestCase
 
     public function testUpdateAfterFs(): void
     {
+        $scenarDir = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
+        $backup = $scenarDir . 'Sample' . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn';
+        $scenario = $scenarDir . 'A_TAS_ScenarioNormalRevert.scn';
+
+        $correspondance = [
+            'Bretagne' => 'Courbet',
+            'Provence' => 'Paris',
+        ];
+        copy($backup, $scenario);
+
+        static::$scenarioUpdater->updateAfterFs($correspondance, $scenario);
+        $ships = static::$extractor->extract($scenario);
+
+        $expectedShips = [
+            new FsShip(['NAME' => 'Courbet', 'SHORTNAME' => 'Bretagne', 'TYPE' => 'BB', 'CLASS' => 'Bretagne']),
+            new FsShip(['NAME' => 'Paris', 'SHORTNAME' => 'Provence', 'TYPE' => 'BB', 'CLASS' => 'Bretagne']),
+            new FsShip(['NAME' => 'Le Fantasque', 'SHORTNAME' => 'La Palme', 'TYPE' => 'DD', 'CLASS' => 'Le Fantasque']),
+            new FsShip(['NAME' => 'Gneisenau', 'SHORTNAME' => 'Gneisenau', 'TYPE' => 'BC', 'CLASS' => 'Scharnhorst']),
+            new FsShip(['NAME' => 'Scharnhorst', 'SHORTNAME' => 'Scharnhors', 'TYPE' => 'BC', 'CLASS' => 'Scharnhorst']),
+        ];
+
+        static::assertEquals($expectedShips, $ships);
+
+        unlink($scenario);
     }
 }

@@ -59,7 +59,7 @@ class ScenarioRepository
                 $scenarioKey = array_pop($exploded);
                 try {
                     $scenarioInfoFile = $this->getShipDataFile($scenarioFullPath);
-                } catch (\Exception $exception) {
+                } catch (\Throwable $exception) {
                     if ($ignoreUnreadable) {
                         continue;
                     }

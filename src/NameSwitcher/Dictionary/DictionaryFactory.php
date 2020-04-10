@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\NameSwitcher\Dictionary;
-
-use App\NameSwitcher\Dictionary\Dictionary;
-use App\NameSwitcher\Dictionary\DictionaryReader;
+namespace App\NameSwitcher\Dictionary;
 
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
@@ -23,7 +20,8 @@ class DictionaryFactory
     public function getDictionary(string $dictionaryPath): Dictionary
     {
         $data = [];
-        foreach ($this->dictionaryReader->extractData($dictionaryPath) as $element
+        foreach (
+            $this->dictionaryReader->extractData($dictionaryPath) as $element
         ) {
             $data[] = $element;
         }

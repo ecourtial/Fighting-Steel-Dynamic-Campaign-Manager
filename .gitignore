@@ -30,3 +30,6 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+# FSDCM
+tests/Assets/FS/Scenarios/Backup/*
