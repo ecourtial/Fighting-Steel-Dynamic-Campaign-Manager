@@ -23,7 +23,7 @@ class SideDetector
 
     public function detectSide(string $path, string $oneShip): string
     {
-        $ships = $this->shipExtractor->extract($path, true);
+        $ships = $this->shipExtractor->extract($path, 'NIGHTTRAINING');
         foreach ($ships as $fsShip) {
             /** @var \App\Core\Fs\Scenario\Ship\Ship $fsShip */
             if ($fsShip->getName() === $oneShip) {

@@ -19,7 +19,7 @@ class ShipExtractor extends AbstractShipExtractor
     public function __construct(IniReader $iniReader, string $fsDirectory)
     {
         parent::__construct($iniReader);
-        $this->filePath = $fsDirectory . DIRECTORY_SEPARATOR . 'Scenarios' .DIRECTORY_SEPARATOR . '_End Of Engagement.sce';
+        $this->filePath = $fsDirectory . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR . '_End Of Engagement.sce';
     }
 
     /**
@@ -30,7 +30,7 @@ class ShipExtractor extends AbstractShipExtractor
      */
     public function extract(): array
     {
-        return $this->extractShips($this->filePath, 'STATUS', false);
+        return $this->extractShips($this->filePath, 'STATUS');
     }
 
     protected function getEmptyValues(): array

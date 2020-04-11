@@ -117,7 +117,7 @@ class ShipTest extends TestCase
         }
     }
 
-        public function testUnknownCrewQuality(): void
+    public function testUnknownCrewQuality(): void
     {
         $data = static::INPUT_DATA;
         try {

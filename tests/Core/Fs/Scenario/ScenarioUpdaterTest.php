@@ -41,7 +41,7 @@ class ScenarioUpdaterTest extends TestCase
         copy($backup, $scenario);
 
         static::$scenarioUpdater->updateBeforeFs($correspondance, $scenario, $backup);
-        $ships = static::$extractor->extract($scenario);
+        $ships = static::$extractor->extract($scenario, 'CLASS');
 
         $expectedShips = [
             new FsShip(['NAME' => 'Bretagne', 'SHORTNAME' => 'Bretagne', 'TYPE' => 'BB', 'CLASS' => 'Bretagne']),
@@ -73,7 +73,7 @@ class ScenarioUpdaterTest extends TestCase
         file_put_contents($scenario, $content);
 
         static::$scenarioUpdater->updateAfterFs($correspondance, $scenario);
-        $ships = static::$extractor->extract($scenario);
+        $ships = static::$extractor->extract($scenario, 'CLASS');
 
         $expectedShips = [
             new FsShip(['NAME' => 'Courbet', 'SHORTNAME' => 'Bretagne', 'TYPE' => 'BB', 'CLASS' => 'Bretagne']),

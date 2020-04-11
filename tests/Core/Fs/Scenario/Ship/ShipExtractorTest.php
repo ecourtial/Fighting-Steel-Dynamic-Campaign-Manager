@@ -79,7 +79,7 @@ class ShipExtractorTest extends TestCase
 
         static::assertEquals(
             $result,
-            $this->extractor->extract($scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn')
+            $this->extractor->extract($scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn', 'CLASS')
         );
     }
 
@@ -87,7 +87,7 @@ class ShipExtractorTest extends TestCase
     {
         try {
             $scenario = $this->scenarioRepository->getOne('Bad GoebenReminiscence');
-            $this->extractor->extract($scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn');
+            $this->extractor->extract($scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn', 'CLASS');
             static::fail("Since the ship short name 'La Bombarde' is too long, an exception was expected");
         } catch (InvalidShipDataException $exception) {
             static::assertEquals(
@@ -102,7 +102,7 @@ class ShipExtractorTest extends TestCase
         $path = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR . 'Sample'
                 . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn';
 
-        $result = $this->extractor->extract($path, true);
+        $result = $this->extractor->extract($path, 'NIGHTTRAINING');
 
         // Just testing the side. Since other tests here already test the content of the ship.
         $expected = ['Blue', 'Blue', 'Blue', 'Red', 'Red'];
@@ -111,9 +111,9 @@ class ShipExtractorTest extends TestCase
             $obtained[] = $ship->getSide();
             static::assertEquals('Average', $ship->getNightTraining());
             static::assertEquals('Normal', $ship->getCrewFatigue());
-            if ($ship->getName() === 'Gneisenau') {
+            if ('Gneisenau' === $ship->getName()) {
                 static::assertEquals('Veteran', $ship->getCrewQuality());
-            } elseif ($ship->getName() === 'Scharnhorst') {
+            } elseif ('Scharnhorst' === $ship->getName()) {
                 static::assertEquals('Elite', $ship->getCrewQuality());
             } else {
                 static::assertEquals('Average', $ship->getCrewQuality());

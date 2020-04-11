@@ -97,7 +97,9 @@ class ScenarioRepository
     public function getOneWillAllData(string $name): Scenario
     {
         $scenario = $this->getOne($name);
-        $scenario->setFsShips($this->fsShipExtractor->extract($scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn'));
+        $scenario->setFsShips(
+            $this->fsShipExtractor->extract($scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn', 'CLASS')
+        );
         $scenario->setTasShips('Axis', $this->tasShipExtractor->extract($scenario, 'Axis'));
         $scenario->setTasShips('Allied', $this->tasShipExtractor->extract($scenario, 'Allied'));
 

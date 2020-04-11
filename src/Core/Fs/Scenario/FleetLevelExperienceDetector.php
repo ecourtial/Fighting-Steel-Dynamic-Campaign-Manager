@@ -16,7 +16,6 @@ class FleetLevelExperienceDetector
     public const GREEN_COEF = 6;
     public const AVERAGE_COEF = 4;
     public const VETERAN_COEF = 2;
-    public const ELITE_COEF = 1;
 
     public function getFleetLevel(Scenario $scenario, string $side): string
     {
@@ -45,7 +44,6 @@ class FleetLevelExperienceDetector
         $experiences['Green'] = $experiences['Green'] * static::GREEN_COEF;
         $experiences['Average'] = $experiences['Average'] * static::AVERAGE_COEF;
         $experiences['Veteran'] = $experiences['Veteran'] * static::VETERAN_COEF;
-        $experiences['Elite'] = $experiences['Elite'] * static::ELITE_COEF;
 
         $sum = 0;
         foreach ($experiences as $experience) {
@@ -55,7 +53,7 @@ class FleetLevelExperienceDetector
 
         if ($moy < 2) {
             return 'Elite';
-        } elseif ($moy < 3) {
+        } elseif ($moy <= 3) {
             return 'Veteran';
         } elseif ($moy < 5) {
             return 'Average';

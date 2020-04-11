@@ -22,7 +22,7 @@ abstract class AbstractShipExtractor
     }
 
     /** @return \App\Core\Fs\FsShipInterface[] */
-    protected function extractShips(string $filePath, string $lastKey, bool $requireBattleData): array
+    protected function extractShips(string $filePath, string $lastKey): array
     {
         $ships = [];
         $entryValues = $this->getEmptyValues();
@@ -36,7 +36,7 @@ abstract class AbstractShipExtractor
              * a technical ship file reference for TAS.
              * Note: The side is only per division, not by ship.
              */
-            if ('SIDE' === $line['key'] && $requireBattleData) {
+            if ('SIDE' === $line['key'] && 'NIGHTTRAINING' === $lastKey) {
                 $this->currentSide = $line['value'];
             }
 

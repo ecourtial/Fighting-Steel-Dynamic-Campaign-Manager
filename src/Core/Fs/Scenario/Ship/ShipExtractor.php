@@ -24,12 +24,11 @@ class ShipExtractor extends AbstractShipExtractor
      *
      * @return \App\Core\Fs\FsShipInterface[]
      */
-    public function extract(string $filePath, bool $requireBattleData = false): array
+    public function extract(string $filePath, string $lastKey): array
     {
-        $lastKey = $requireBattleData ? 'NIGHTTRAINING' : 'CLASS';
-        $this->requireBattleData = $requireBattleData;
+        $this->requireBattleData = ('NIGHTTRAINING' === $lastKey) ? true : false;
 
-        return $this->extractShips($filePath, $lastKey, $requireBattleData);
+        return $this->extractShips($filePath, $lastKey);
     }
 
     protected function createShip(array $data): Ship
