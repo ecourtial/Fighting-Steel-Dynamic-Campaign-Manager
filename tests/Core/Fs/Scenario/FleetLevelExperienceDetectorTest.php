@@ -32,6 +32,11 @@ class FleetLevelExperienceDetectorTest extends TestCase
             [$this->getScenario(['Veteran', 'Veteran', 'Green', 'Green']), 'Average'],
             [$this->getScenario(['Elite', 'Green', 'Green', 'Green']), 'Average'],
             [$this->getScenario(['Average', 'Green', 'Green', 'Green']), 'Green'],
+            // These ones are for infection
+            [$this->getScenario(['Green', 'Green', 'Green', 'Green']), 'Green'],
+            [$this->getScenario(['Average', 'Average', 'Average', 'Average']), 'Average'],
+            [$this->getScenario(['Veteran', 'Veteran', 'Veteran', 'Veteran']), 'Veteran'],
+            [$this->getScenario(['Elite', 'Elite', 'Elite', 'Elite']), 'Elite'],
         ];
     }
 

@@ -22,7 +22,7 @@ abstract class AbstractShipExtractor
     }
 
     /** @return \App\Core\Fs\FsShipInterface[] */
-    protected function extractShips(string $filePath, string $lastKey, bool $requireBattleData = false): array
+    protected function extractShips(string $filePath, string $lastKey, bool $requireBattleData): array
     {
         $ships = [];
         $entryValues = $this->getEmptyValues();

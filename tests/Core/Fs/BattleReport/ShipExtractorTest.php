@@ -64,17 +64,37 @@ class ShipExtractorTest extends TestCase
         static::assertEquals($expected, static::$shipExtractor->extract());
     }
 
-    public function testFileDoesNotExist(): void
+    public function testThatNotExtraDataIsHere(): void
     {
-        $extractor = new ShipExtractor(static::$iniReader, '');
 
-        try {
-            $extractor->extract();
-        } catch (FileNotFoundException $exception) {
-            static::assertEquals(
-                "Impossible to read the content of the file '/Scenarios/_End Of Engagement.sce'.",
-                $exception->getMessage()
-            );
-        }
     }
+
+//    public function testFileDoesNotExist(): void
+//    {
+//        $extractor = new ShipExtractor(static::$iniReader, '');
+//
+//        try {
+//            $extractor->extract();
+//        } catch (FileNotFoundException $exception) {
+//            static::assertEquals(
+//                "Impossible to read the content of the file '/Scenarios/_End Of Engagement.sce'.",
+//                $exception->getMessage()
+//            );
+//        }
+//    }
 }
+
+//class ExtendedExtractor extends ShipExtractor
+//{
+//    public function extract(): array
+//    {
+//        $tempFile = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR  . 'Scenarios' . DIRECTORY_SEPARATOR . 'tmpEngagement.scn';
+//        copy($this->filePath, $tempFile);
+//        $content = file_get_contents($tempFile);
+//
+//
+//        $this->filePath = $tempFile;
+//        parent::extract();
+//        unlink($tempFile);
+//    }
+//}

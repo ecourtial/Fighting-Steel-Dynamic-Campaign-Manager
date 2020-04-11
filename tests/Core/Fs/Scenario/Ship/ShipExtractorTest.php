@@ -97,7 +97,7 @@ class ShipExtractorTest extends TestCase
         }
     }
 
-    public function testExtractorWithSide(): void
+    public function testExtractorWithRequiredBattleData(): void
     {
         $path = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR . 'Sample'
                 . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn';
@@ -109,6 +109,15 @@ class ShipExtractorTest extends TestCase
         $obtained = [];
         foreach ($result as $ship) {
             $obtained[] = $ship->getSide();
+            static::assertEquals('Average', $ship->getNightTraining());
+            static::assertEquals('Normal', $ship->getCrewFatigue());
+            if ($ship->getName() === 'Gneisenau') {
+                static::assertEquals('Veteran', $ship->getCrewQuality());
+            } elseif ($ship->getName() === 'Scharnhorst') {
+                static::assertEquals('Elite', $ship->getCrewQuality());
+            } else {
+                static::assertEquals('Average', $ship->getCrewQuality());
+            }
         }
 
         static::assertEquals($expected, $obtained);

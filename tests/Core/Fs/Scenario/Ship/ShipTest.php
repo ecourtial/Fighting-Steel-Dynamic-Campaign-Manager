@@ -101,6 +101,36 @@ class ShipTest extends TestCase
             );
         }
     }
+
+    public function testUnknownCrewFatigue(): void
+    {
+        $data = static::INPUT_DATA;
+        try {
+            $ship = new Ship($data);
+            $ship->setCrewFatigue('AH');
+            static::fail("Since the 'AH' crew fatique does not exist, an exception was expected");
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                "Unknown fatigue level: 'AH'",
+                $exception->getMessage()
+            );
+        }
+    }
+
+        public function testUnknownCrewQuality(): void
+    {
+        $data = static::INPUT_DATA;
+        try {
+            $ship = new Ship($data);
+            $ship->setCrewQuality('AH');
+            static::fail("Since the 'AH' crew level does not exist, an exception was expected");
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                "Unknown crew quality level: 'AH'",
+                $exception->getMessage()
+            );
+        }
+    }
 }
 
 class ShipExtended extends Ship

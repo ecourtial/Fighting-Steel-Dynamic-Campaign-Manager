@@ -54,6 +54,9 @@ class Ship implements FsShipInterface
         'CVE',
     ];
 
+    public const CREW_FATIGUE_LEVEL = ['Fresh', 'Normal', 'Tired'];
+    public const CREW_QUALITY = ['Green', 'Average', 'Veteran', 'Elite'];
+
     /** @param string[] $data */
     public function __construct(array $data)
     {
@@ -126,7 +129,7 @@ class Ship implements FsShipInterface
 
     public function setCrewQuality(string $crewQuality): self
     {
-        if (false === in_array($crewQuality, ['Green', 'Average', 'Veteran', 'Elite'], true)) {
+        if (false === in_array($crewQuality, static::CREW_QUALITY, true)) {
             throw new InvalidInputException("Unknown crew quality level: '{$crewQuality}'");
         }
 
@@ -142,7 +145,7 @@ class Ship implements FsShipInterface
 
     public function setCrewFatigue(string $crewFatigue): self
     {
-        if (false === in_array($crewFatigue, ['Fresh', 'Normal', 'Tired'], true)) {
+        if (false === in_array($crewFatigue, static::CREW_FATIGUE_LEVEL, true)) {
             throw new InvalidInputException("Unknown fatigue level: '{$crewFatigue}'");
         }
 

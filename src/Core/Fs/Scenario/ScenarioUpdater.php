@@ -28,8 +28,8 @@ class ScenarioUpdater
     public function updateBeforeFs(array $correspondence, string $fsScenarioPath): void
     {
         $newContent = [];
-        $nameLine = 0;
-        $currentLine = 0;
+        $nameLine = null;
+        $currentLine = null;
         $currentName = '';
 
         foreach ($this->fileReader->getFileContent($fsScenarioPath) as $element) {
@@ -44,10 +44,10 @@ class ScenarioUpdater
                     // The ship is on our side so we don't switch
                     $newContent[] = $element;
                 }
-            } elseif (0 === $shortNameIndex && 0 !== $nameLine && $nameLine === ($currentLine - 1)) {
+            } elseif (0 === $shortNameIndex && $nameLine === ($currentLine - 1)) {
                 $newContent[] = 'NAME=' . $correspondence[$currentName]->getName();
                 $newContent[] = 'SHORTNAME=' . $correspondence[$currentName]->getShortName();
-                $nameLine = 0;
+                $nameLine = null;
             } else {
                 $newContent[] = $element;
             }
@@ -62,9 +62,9 @@ class ScenarioUpdater
     public function updateAfterFs(array $correspondence, string $fsScenarioPath): void
     {
         $newContent = [];
-        $nameLine = 0;
-        $previousLineContent = '';
-        $currentLine = 0;
+        $nameLine = null;
+        $previousLineContent = null;
+        $currentLine = null;
 
         foreach ($this->fileReader->getFileContent($fsScenarioPath) as $element) {
             $nameIndex = strpos($element, 'NAME=');
@@ -73,7 +73,7 @@ class ScenarioUpdater
             if (0 === $nameIndex) {
                 $nameLine = $currentLine;
                 $previousLineContent = $element;
-            } elseif (0 === $shortNameIndex && 0 !== $nameLine && $nameLine === ($currentLine - 1)) {
+            } elseif (0 === $shortNameIndex && $nameLine === ($currentLine - 1)) {
                 $shortName = substr($element, 10);
                 if (array_key_exists($shortName, $correspondence)) {
                     $newContent[] = 'NAME=' . $correspondence[$shortName];
@@ -83,7 +83,6 @@ class ScenarioUpdater
                 }
 
                 $newContent[] = $element;
-                $nameLine = 0;
             } else {
                 $newContent[] = $element;
             }

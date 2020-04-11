@@ -87,7 +87,7 @@ class ScenarioProcessor
         $this->scenarioUpdater->updateAfterFs($content, $this->fsScenarioPath);
     }
 
-    protected function detectSwitchType(Scenario $scenario, string $side): string
+    private function detectSwitchType(Scenario $scenario, string $side): string
     {
         //$fleetCrewLevel = $this->levelExperienceDetector->getFleetLevel($scenario, $side);
         // And complete the unit test of the current class to check this case
@@ -95,7 +95,7 @@ class ScenarioProcessor
         // switch when many levels
     }
 
-    protected function backupFsScenario(): void
+    private function backupFsScenario(): void
     {
         $date = (new \DateTime())->format('Y-m-d-H-i-s');
         $dest = $this->fsScenarioFolder . 'Backup' . DIRECTORY_SEPARATOR . $date . '.scn.bak';

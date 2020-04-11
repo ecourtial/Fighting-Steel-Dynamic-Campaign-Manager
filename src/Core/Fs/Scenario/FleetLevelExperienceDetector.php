@@ -13,6 +13,11 @@ use App\Core\Tas\Scenario\Scenario;
 
 class FleetLevelExperienceDetector
 {
+    public const GREEN_COEF = 6;
+    public const AVERAGE_COEF = 4;
+    public const VETERAN_COEF = 2;
+    public const ELITE_COEF = 1;
+
     public function getFleetLevel(Scenario $scenario, string $side): string
     {
         $experience = [
@@ -37,10 +42,10 @@ class FleetLevelExperienceDetector
     /** @param int[] $experiences */
     private function evaluateLevel(array $experiences, int $shipCount): string
     {
-        $experiences['Green'] = $experiences['Green'] * 6;
-        $experiences['Average'] = $experiences['Average'] * 4;
-        $experiences['Veteran'] = $experiences['Veteran'] * 2;
-        $experiences['Elite'] = $experiences['Elite'] * 1;
+        $experiences['Green'] = $experiences['Green'] * static::GREEN_COEF;
+        $experiences['Average'] = $experiences['Average'] * static::AVERAGE_COEF;
+        $experiences['Veteran'] = $experiences['Veteran'] * static::VETERAN_COEF;
+        $experiences['Elite'] = $experiences['Elite'] * static::ELITE_COEF;
 
         $sum = 0;
         foreach ($experiences as $experience) {

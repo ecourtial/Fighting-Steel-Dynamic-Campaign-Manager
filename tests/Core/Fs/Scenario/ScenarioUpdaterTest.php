@@ -67,6 +67,10 @@ class ScenarioUpdaterTest extends TestCase
             'Provence' => 'Paris',
         ];
         copy($backup, $scenario);
+        $content = 'SHORTNAME=AHAH' . PHP_EOL;
+        $content .= 'NAME=AHAH' . PHP_EOL;
+        $content .= file_get_contents($scenario);
+        file_put_contents($scenario, $content);
 
         static::$scenarioUpdater->updateAfterFs($correspondance, $scenario);
         $ships = static::$extractor->extract($scenario);

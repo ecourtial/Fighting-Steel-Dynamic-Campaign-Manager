@@ -14,12 +14,12 @@ use App\Core\Fs\AbstractShipExtractor;
 
 class ShipExtractor extends AbstractShipExtractor
 {
-    protected string $scenarioDirectory;
+    protected string $filePath;
 
     public function __construct(IniReader $iniReader, string $fsDirectory)
     {
         parent::__construct($iniReader);
-        $this->scenarioDirectory = $fsDirectory . DIRECTORY_SEPARATOR . 'Scenarios';
+        $this->filePath = $fsDirectory . DIRECTORY_SEPARATOR . 'Scenarios' .DIRECTORY_SEPARATOR . '_End Of Engagement.sce';
     }
 
     /**
@@ -30,20 +30,12 @@ class ShipExtractor extends AbstractShipExtractor
      */
     public function extract(): array
     {
-        $filePath = $this->scenarioDirectory . DIRECTORY_SEPARATOR . '_End Of Engagement.sce';
-
-        return $this->extractShips($filePath, 'STATUS');
+        return $this->extractShips($this->filePath, 'STATUS', false);
     }
 
     protected function getEmptyValues(): array
     {
-        $values = \array_flip(Ship::FIELDS_NAME);
-        foreach ($values as &$value) {
-            $value = '';
-        }
-        unset($value);
-
-        return $values;
+        return \array_flip(Ship::FIELDS_NAME);
     }
 
     protected function createShip(array $data): Ship
