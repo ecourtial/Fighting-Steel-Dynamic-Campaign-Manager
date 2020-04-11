@@ -21,7 +21,6 @@ jobs:
             if [[ ! -f vendor/autoload.php ]]; then
                 curl https://getcomposer.org/composer.phar --location --silent  --output /usr/bin/composer; \
                 chmod +x /usr/bin/composer; \
-                composer global require hirak/prestissimo; \
                 composer install --no-progress --no-interaction; \
             fi
       - save_cache:
