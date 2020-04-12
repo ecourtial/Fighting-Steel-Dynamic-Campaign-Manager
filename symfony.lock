@@ -607,6 +607,6 @@
         "version": "2.3.0"
     },
     "wizaplace/php-etl": {
-        "version": "1.0"
+        "version": "dev-bugfix-docblock"
     }
 }

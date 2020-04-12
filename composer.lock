@@ -4749,12 +4749,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wizaplace/php-etl.git",
-                "reference": "206f148aa71a19b8d8e7647f35b0e404e55fe63e"
+                "reference": "2fa826a1b887c6578ac88f42db584eb1c8b1ddcd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wizaplace/php-etl/zipball/206f148aa71a19b8d8e7647f35b0e404e55fe63e",
-                "reference": "206f148aa71a19b8d8e7647f35b0e404e55fe63e",
+                "url": "https://api.github.com/repos/wizaplace/php-etl/zipball/2fa826a1b887c6578ac88f42db584eb1c8b1ddcd",
+                "reference": "2fa826a1b887c6578ac88f42db584eb1c8b1ddcd",
                 "shasum": ""
             },
             "require": {
@@ -4763,8 +4763,11 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "infection/infection": "^0.15.3",
-                "phpstan/phpstan": "^0.12.7",
+                "infection/infection": "^0.16.2",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^0.12.18",
+                "phpstan/phpstan-deprecation-rules": "^0.12.2",
+                "phpstan/phpstan-strict-rules": "^0.12.2",
                 "phpunit/phpunit": "^8.5",
                 "squizlabs/php_codesniffer": "^3.5"
             },
@@ -4786,6 +4789,10 @@
                 {
                     "name": "Wizaplace DevTeam ",
                     "email": "dev@wizacha.com"
+                },
+                {
+                    "name": "Leonardo Marquine",
+                    "email": "leonardomarquine@gmail.com"
                 }
             ],
             "description": "Extract, Transform and Load data using this PHP written migration library.",
@@ -4803,7 +4810,7 @@
                 "source": "https://github.com/wizaplace/php-etl/tree/bugfix-docblock",
                 "issues": "https://github.com/wizaplace/php-etl/issues"
             },
-            "time": "2020-04-11T17:10:14+00:00"
+            "time": "2020-04-12T10:21:28+00:00"
         }
     ],
     "packages-dev": [
