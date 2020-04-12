@@ -13,8 +13,8 @@ use App\Core\Exception\FileNotFoundException;
 use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
-use App\Core\Fs\Ship\Ship;
-use App\Core\Fs\Ship\ShipExtractor as FsShipExtractor;
+use App\Core\Fs\Scenario\Ship\Ship;
+use App\Core\Fs\Scenario\Ship\ShipExtractor as FsShipExtractor;
 use App\Core\Tas\Exception\MissingTasScenarioException;
 use App\Core\Tas\Scenario\Scenario;
 use App\Core\Tas\Scenario\ScenarioRepository;
@@ -88,8 +88,6 @@ class ScenarioRepositoryTest extends TestCase
             static::fail("The 'Foo' scenario does not exist so an exception was expected");
         } catch (MissingTasScenarioException $exception) {
             static::assertEquals("Scenario 'Foo' not found", $exception->getMessage());
-            static::assertEquals(0, $exception->getCode());
-            static::assertNull($exception->getPrevious());
         }
     }
 
@@ -101,8 +99,6 @@ class ScenarioRepositoryTest extends TestCase
             static::fail("The 'EmptyScenario' scenario has no config file so an exception was expected");
         } catch (FileNotFoundException $exception) {
             static::assertEquals("Impossible to read the content of the file 'tests/Assets/TAS/Scenarios/EmptyScenario/ScenarioInfo.cfg'.", $exception->getMessage());
-            static::assertEquals(0, $exception->getCode());
-            static::assertNull($exception->getPrevious());
         }
     }
 

@@ -11,7 +11,7 @@ namespace App\Core\Tas\Scenario;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
-use App\Core\Fs\Ship\ShipExtractor as FsShipExtractor;
+use App\Core\Fs\Scenario\Ship\ShipExtractor as FsShipExtractor;
 use App\Core\Tas\Exception\MissingTasScenarioException;
 use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
 
@@ -59,7 +59,7 @@ class ScenarioRepository
                 $scenarioKey = array_pop($exploded);
                 try {
                     $scenarioInfoFile = $this->getShipDataFile($scenarioFullPath);
-                } catch (\Exception $exception) {
+                } catch (\Throwable $exception) {
                     if ($ignoreUnreadable) {
                         continue;
                     }
@@ -97,7 +97,9 @@ class ScenarioRepository
     public function getOneWillAllData(string $name): Scenario
     {
         $scenario = $this->getOne($name);
-        $scenario->setFsShips($this->fsShipExtractor->extract($scenario));
+        $scenario->setFsShips(
+            $this->fsShipExtractor->extract($scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn', 'CLASS')
+        );
         $scenario->setTasShips('Axis', $this->tasShipExtractor->extract($scenario, 'Axis'));
         $scenario->setTasShips('Allied', $this->tasShipExtractor->extract($scenario, 'Allied'));
 

@@ -2,6 +2,7 @@ phpcs:
 	vendor/bin/phpcs
 
 phpstan:
+	vendor/bin/phpstan clear-result-cache
 	vendor/bin/phpstan analyse
 
 phpcsfixer:
@@ -11,4 +12,4 @@ test:
 	vendor/bin/phpunit --testdox
 
 infection:
-	vendor/bin/infection
+	vendor/bin/infection --threads=4

@@ -3,20 +3,22 @@
 declare(strict_types=1);
 
 /**
- * This class represent a Ship entity in the .scn file of Fighting Steel
+ * This class represent a Ship entity in the battle report of Fighting Steel
  *
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       16/03/2020 (dd-mm-YYYY)
+ * @date       05/04/2020 (dd-mm-YYYY)
  */
 
-namespace App\Core\Fs\Ship;
+namespace App\Core\Fs\BattleReport;
 
 use App\Core\Exception\InvalidInputException;
+use App\Core\Fs\FsShipInterface;
+use App\Core\Fs\Scenario\Ship\Ship as FsScenarioShip;
 use App\Core\Traits\HydrateTrait;
+use App\NameSwitcher\Dictionary\Ship as DictionaryShip;
 use App\NameSwitcher\Exception\InvalidShipDataException;
-use App\NameSwitcher\Model\Ship as DictionaryShip;
 
-class Ship
+class Ship implements FsShipInterface
 {
     use HydrateTrait;
 
@@ -24,6 +26,7 @@ class Ship
     protected string $shortname;
     protected string $type;
     protected string $class;
+    protected string $status;
 
     /** @var string[] */
     public const FIELDS_NAME =
@@ -32,18 +35,12 @@ class Ship
             'SHORTNAME',
             'TYPE',
             'CLASS',
+            'STATUS',
         ];
 
-    /** @var string[] */
-    public const SHIP_TYPES = [
-        'BB',
-        'BC',
-        'CA',
-        'CL',
-        'DD',
-        'TR',
-        'CV',
-        'CVE',
+    public const STATUS = [
+      'SHIP_NORMAL',
+      'SHIP_SUNK',
     ];
 
     /** @param string[] $data */
@@ -87,7 +84,7 @@ class Ship
 
     private function setType(string $type): void
     {
-        if (false === in_array($type, static::SHIP_TYPES, true)) {
+        if (false === in_array($type, FsScenarioShip::SHIP_TYPES, true)) {
             throw new InvalidInputException("Ship type '{$type}' is unknown");
         }
 
@@ -97,5 +94,19 @@ class Ship
     private function setClass(string $class): void
     {
         $this->class = $class;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    private function setStatus(string $status): void
+    {
+        if (false === in_array($status, static::STATUS, true)) {
+            throw new InvalidInputException("Ship status '{$status}' is unknown");
+        }
+
+        $this->status = $status;
     }
 }

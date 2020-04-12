@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace App\NameSwitcher\Reader;
+namespace App\NameSwitcher\Dictionary;
 
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
 
@@ -23,7 +23,7 @@ class DictionaryReader
     /** @return \Generator<array> */
     public function extractData(string $file): \Generator
     {
-        $this->csvExtractor->input($file)->options(['delimiter' => ';']);
+        $this->csvExtractor->input($file)->options(['delimiter' => ';', 'throwError' => true]);
 
         foreach ($this->csvExtractor->extract() as $row) {
             /* @var \Wizaplace\Etl\Row $row */

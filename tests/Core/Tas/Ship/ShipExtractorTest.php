@@ -13,7 +13,7 @@ use App\Core\Exception\FileNotFoundException;
 use App\Core\Exception\SideErrorException;
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
-use App\Core\Fs\Ship\ShipExtractor as FsShipExtractor;
+use App\Core\Fs\Scenario\Ship\ShipExtractor as FsShipExtractor;
 use App\Core\Tas\Scenario\ScenarioRepository;
 use App\Core\Tas\Ship\Ship;
 use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
@@ -69,8 +69,6 @@ class ShipExtractorTest extends TestCase
                 "Impossible to read the content of the file 'tests/Assets/TAS/Scenarios/IncompleteScenarioWithNotTasShipFile/AxisShips.cfg'.",
                 $exception->getMessage()
             );
-            static::assertEquals(0, $exception->getCode());
-            static::assertNull($exception->getPrevious());
         }
     }
 

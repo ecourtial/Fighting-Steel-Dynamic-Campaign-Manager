@@ -7,11 +7,11 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\Fs\Ship;
+namespace Tests\Core\Fs\Scenario\Ship;
 
 use App\Core\Exception\CoreException;
 use App\Core\Exception\InvalidInputException;
-use App\Core\Fs\Ship\Ship;
+use App\Core\Fs\Scenario\Ship\Ship;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use PHPUnit\Framework\TestCase;
 
@@ -96,7 +96,37 @@ class ShipTest extends TestCase
             static::fail("Since the 'setFoo' method does not exist, an exception was expected");
         } catch (CoreException $exception) {
             static::assertEquals(
-                "Method 'setFOO' does not exist in App\Core\Fs\Ship\Ship",
+                "Method 'setFOO' does not exist in App\Core\Fs\Scenario\Ship\Ship",
+                $exception->getMessage()
+            );
+        }
+    }
+
+    public function testUnknownCrewFatigue(): void
+    {
+        $data = static::INPUT_DATA;
+        try {
+            $ship = new Ship($data);
+            $ship->setCrewFatigue('AH');
+            static::fail("Since the 'AH' crew fatique does not exist, an exception was expected");
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                "Unknown fatigue level: 'AH'",
+                $exception->getMessage()
+            );
+        }
+    }
+
+    public function testUnknownCrewQuality(): void
+    {
+        $data = static::INPUT_DATA;
+        try {
+            $ship = new Ship($data);
+            $ship->setCrewQuality('AH');
+            static::fail("Since the 'AH' crew level does not exist, an exception was expected");
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                "Unknown crew quality level: 'AH'",
                 $exception->getMessage()
             );
         }

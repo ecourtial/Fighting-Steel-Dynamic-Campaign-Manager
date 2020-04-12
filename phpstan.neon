@@ -4,10 +4,11 @@ parameters:
         - src
     autoload_files:
         - %currentWorkingDirectory%/src/Core/File/TextFileReader.php
+        - %currentWorkingDirectory%/src/Core/File/TextFileWriter.php
     ignoreErrors:
         -
             message: '~^Variable method call on ~'
-            path: src/NameSwitcher/Model/Ship.php
+            path: src/NameSwitcher/Dictionary/Ship.php
 
         -
             message: '~^Variable property access on ~'
@@ -15,4 +16,8 @@ parameters:
 
         -
             message: '~^Variable method call on ~'
-            path: src/Core/Fs/Ship/Ship.php
+            path: src/Core/Fs/Scenario/Ship/Ship.php
+
+        -
+            message: '~^Variable method call on ~'
+            path: src/Core/Fs/BattleReport/Ship.php

@@ -7,10 +7,10 @@ declare(strict_types=1);
  * @date       12/03/2020 (dd-mm-YYYY)
  */
 
-namespace App\NameSwitcher\Model;
+namespace App\NameSwitcher\Dictionary;
 
 use App\Core\Exception\InvalidInputException;
-use App\Core\Fs\Ship\Ship as FsShip;
+use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 use App\Core\Traits\HydrateTrait;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\NoShipException;

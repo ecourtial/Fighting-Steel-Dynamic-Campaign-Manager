@@ -7,13 +7,13 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\NameSwitcher\Model;
+namespace Tests\NameSwitcher\Dictionary;
 
 use App\Core\Exception\CoreException;
 use App\Core\Exception\InvalidInputException;
+use App\NameSwitcher\Dictionary\Ship;
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\NoShipException;
-use App\NameSwitcher\Model\Ship;
 use PHPUnit\Framework\TestCase;
 
 class ShipTest extends TestCase
@@ -145,7 +145,7 @@ class ShipTest extends TestCase
             static::fail("Since the 'setFoo' method does not exist, an exception was expected");
         } catch (CoreException $exception) {
             static::assertEquals(
-                "Method 'setFoo' does not exist in App\NameSwitcher\Model\Ship",
+                "Method 'setFoo' does not exist in App\NameSwitcher\Dictionary\Ship",
                 $exception->getMessage()
             );
         }

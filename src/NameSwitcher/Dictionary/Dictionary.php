@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @date       12/03/2020 (dd-mm-YYYY)
  */
 
-namespace App\NameSwitcher\Model;
+namespace App\NameSwitcher\Dictionary;
 
 use App\NameSwitcher\Exception\InvalidShipDataException;
 use App\NameSwitcher\Exception\MoreThanOneShipException;

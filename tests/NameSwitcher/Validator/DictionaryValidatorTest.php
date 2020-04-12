@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Tests\NameSwitcher\Validator;
 
-use App\NameSwitcher\Reader\DictionaryReader;
+use App\NameSwitcher\Dictionary\DictionaryReader;
 use App\NameSwitcher\Validator\DictionaryValidator;
 use PHPUnit\Framework\TestCase;
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
@@ -32,7 +32,7 @@ class DictionaryValidatorTest extends TestCase
 
     public function testValidateFileReadingIssue(): void
     {
-        $expected = ['Error during the dictionary extraction: fopen(fjejkhk.csv): failed to open stream: No such file or directory'];
+        $expected = ["Error during the dictionary extraction: Impossible to open the file 'fjejkhk.csv'"];
         static::assertEquals($expected, static::$dictionaryValidator->validate('fjejkhk.csv'));
     }
 

@@ -11,7 +11,7 @@ namespace App\Core\Tas\Scenario;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\Exception\SideErrorException;
-use App\Core\Fs\Ship\Ship as FsShip;
+use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 use App\Core\Tas\Exception\DuplicateShipException;
 use App\Core\Tas\Ship\Ship as TasShip;
 
@@ -138,7 +138,7 @@ class Scenario
                 throw new InvalidInputException("Data at index #{$count} is not a proper FS Ship object");
             }
 
-            /** @var \App\Core\Fs\Ship\Ship $ship */
+            /** @var \App\Core\Fs\Scenario\Ship\Ship $ship */
             if (array_key_exists($ship->getName(), $this->fsShips)) {
                 throw new DuplicateShipException($ship->getName());
             }

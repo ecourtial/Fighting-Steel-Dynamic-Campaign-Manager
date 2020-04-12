@@ -17,6 +17,6 @@ class DuplicateShipException extends \Exception
         if (is_string($side)) {
             $message .= " in side '{$side}'";
         }
-        parent::__construct($message, 0, null);
+        parent::__construct($message);
     }
 }
