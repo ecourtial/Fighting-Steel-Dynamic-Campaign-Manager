@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d8fd8812db72fd862fdf3633a479165",
+    "content-hash": "6f0f78c1e0684201b873f82aea005c75",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -4745,16 +4745,16 @@
         },
         {
             "name": "wizaplace/php-etl",
-            "version": "dev-master",
+            "version": "dev-bugfix-docblock",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wizaplace/php-etl.git",
-                "reference": "a13a4630f71895b01748d426a0934b81ef05a98d"
+                "reference": "206f148aa71a19b8d8e7647f35b0e404e55fe63e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wizaplace/php-etl/zipball/a13a4630f71895b01748d426a0934b81ef05a98d",
-                "reference": "a13a4630f71895b01748d426a0934b81ef05a98d",
+                "url": "https://api.github.com/repos/wizaplace/php-etl/zipball/206f148aa71a19b8d8e7647f35b0e404e55fe63e",
+                "reference": "206f148aa71a19b8d8e7647f35b0e404e55fe63e",
                 "shasum": ""
             },
             "require": {
@@ -4800,10 +4800,10 @@
                 "transformation"
             ],
             "support": {
-                "source": "https://github.com/wizaplace/php-etl/tree/master",
+                "source": "https://github.com/wizaplace/php-etl/tree/bugfix-docblock",
                 "issues": "https://github.com/wizaplace/php-etl/issues"
             },
-            "time": "2020-04-06T10:24:58+00:00"
+            "time": "2020-04-11T17:10:14+00:00"
         }
     ],
     "packages-dev": [
