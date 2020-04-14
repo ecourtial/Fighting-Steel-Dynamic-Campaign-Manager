@@ -39,4 +39,11 @@ class Ship
     {
         return $this->shortName;
     }
+
+    public function setShortName(string $shortName): self
+    {
+        $this->shortName = $shortName;
+
+        return $this;
+    }
 }

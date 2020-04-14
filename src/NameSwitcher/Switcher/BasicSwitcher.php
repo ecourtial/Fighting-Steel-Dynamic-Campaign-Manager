@@ -9,19 +9,26 @@ declare(strict_types=1);
 
 namespace App\NameSwitcher\Switcher;
 
-use App\Core\Tas\Scenario\Scenario;
 use App\NameSwitcher\Dictionary\Dictionary;
 use App\NameSwitcher\Transformer\Ship;
 
 class BasicSwitcher implements SwitcherInterface
 {
-    /** @return \App\NameSwitcher\Transformer\Ship[] */
-    public function switch(Dictionary $dictionary, Scenario $scenario, string $playerSide): array
+    /**
+     * Is actually \App\Core\Fs\Scenario\Ship\Ship[] $fsShips
+     * but PHPStan has issue with interpreting interfaces
+     *
+     * @param \App\Core\Fs\FsShipInterface[] $fsShips
+     *
+     * @return \App\NameSwitcher\Transformer\Ship[]
+     */
+    public function switch(Dictionary $dictionary, array $fsShips, string $playerSide): array
     {
+        // In the basic switcher, we switch everything: we apply the dictionary without any special rule.
         $correspondence = [];
-        foreach ($scenario->getFsShips() as $fsShip) {
+        foreach ($fsShips as $fsShip) {
             // Reminder. At this point, the Name in the FS file is the same as in TAS.
-            $correspondence[] = new Ship(
+            $correspondence[$fsShip->getName()] = new Ship(
                 $fsShip->getName(),
                 $dictionary->getShipsList()[$fsShip->getName()]->getFsName(),
                 $dictionary->getShipsList()[$fsShip->getName()]->getFsShortName()

@@ -27,6 +27,7 @@ class Ship implements FsShipInterface
     protected string $type;
     protected string $class;
     protected string $status;
+    protected string $side;
 
     /** @var string[] */
     public const FIELDS_NAME =
@@ -108,5 +109,15 @@ class Ship implements FsShipInterface
         }
 
         $this->status = $status;
+    }
+
+    public function getSide(): ?string
+    {
+        return $this->side;
+    }
+
+    public function setSide(string $side): void
+    {
+        $this->side = $side;
     }
 }

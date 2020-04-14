@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace App\Tests\NameSwitcher\Switcher;
 
 use App\Core\Fs\Scenario\Ship\Ship as FsShip;
-use App\Core\Tas\Scenario\Scenario;
 use App\NameSwitcher\Dictionary\Dictionary;
 use App\NameSwitcher\Dictionary\Ship as DictionaryShip;
 use App\NameSwitcher\Switcher\BasicSwitcher;
@@ -21,14 +20,11 @@ class BasicSwitcherTest extends TestCase
 {
     public function testSwitch(): void
     {
-        $scenario = $this->getMockBuilder(Scenario::class)->disableOriginalConstructor()->getMock();
-        $scenario->method('getFsShips')->will($this->returnValue(
-           [
-               'Hood' => new FsShip(['NAME' => 'Hood', 'SHORTNAME' => 'Hood', 'TYPE' => 'BC', 'CLASS' => 'Hood']),
+        $ships = [
+               'Hood42' => new FsShip(['NAME' => 'Hood42', 'SHORTNAME' => 'Hood42', 'TYPE' => 'BC', 'CLASS' => 'Hood']),
                'Hindenburg' => new FsShip(['NAME' => 'Hindenburg', 'SHORTNAME' => 'Hindenburg', 'TYPE' => 'BB', 'CLASS' => 'Bismarck']),
                'Dido' => new FsShip(['NAME' => 'Dido', 'SHORTNAME' => 'Dido', 'TYPE' => 'CL', 'CLASS' => 'Dido']),
-           ]
-        ));
+        ];
 
         $dico = $this->getMockBuilder(Dictionary::class)->disableOriginalConstructor()->getMock();
         $dico->method('getShipsList')->will($this->returnValue(
@@ -42,13 +38,13 @@ class BasicSwitcherTest extends TestCase
                     'FsShortName' => 'Hindenburg',
                     'SimilarTo' => null,
                 ]),
-                'Hood' => new DictionaryShip([
+                'Hood42' => new DictionaryShip([
                     'Type' => 'BC',
-                    'Class' => '',
-                    'TasName' => '',
-                    'FsClass' => '',
+                    'Class' => 'Hood',
+                    'TasName' => 'Hood42',
+                    'FsClass' => 'Hood',
                     'FsName' => 'Hood',
-                    'FsShortName' => 'Hood',
+                    'FsShortName' => 'Hood42',
                     'SimilarTo' => null,
                 ]),
                 'Dido' => new DictionaryShip([
@@ -64,13 +60,14 @@ class BasicSwitcherTest extends TestCase
         ));
 
         $expected = [
-            new Ship('Hood', 'Hood', 'Hood'),
-            new Ship('Hindenburg', 'Bismarck', 'Hindenburg'),
-            new Ship('Dido', 'Dido', 'Dido'),
+            'Hood42' => new Ship('Hood42', 'Hood', 'Hood42'),
+            'Hindenburg' => new Ship('Hindenburg', 'Bismarck', 'Hindenburg'),
+            'Dido' => new Ship('Dido', 'Dido', 'Dido'),
         ];
 
         $switcher = new BasicSwitcher();
-        $correspondence = $switcher->switch($dico, $scenario, 'red');
+        // The side is here for testing. It is supposed to be ignored in the basic Switcher.
+        $correspondence = $switcher->switch($dico, $ships, 'Red');
 
         static::assertEquals($expected, $correspondence);
     }

@@ -9,15 +9,14 @@ declare(strict_types=1);
 
 namespace App\Core\Fs\Scenario;
 
-use App\Core\Tas\Scenario\Scenario;
-
 class FleetLevelExperienceDetector
 {
     public const GREEN_COEF = 6;
     public const AVERAGE_COEF = 4;
     public const VETERAN_COEF = 2;
 
-    public function getFleetLevel(Scenario $scenario, string $side): string
+    /** @param \App\Core\Fs\Scenario\Ship\Ship[] $fsShips */
+    public function getFleetLevel(array $fsShips, string $side): string
     {
         $experience = [
             'Green' => 0,
@@ -28,7 +27,7 @@ class FleetLevelExperienceDetector
 
         $shipCount = 0;
 
-        foreach ($scenario->getFsShips() as $ship) {
+        foreach ($fsShips as $ship) {
             if ($side === $ship->getSide()) {
                 $experience[$ship->getCrewQuality()]++;
                 $shipCount++;
