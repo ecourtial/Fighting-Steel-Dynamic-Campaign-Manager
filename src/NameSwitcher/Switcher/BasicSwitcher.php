@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace App\NameSwitcher\Switcher;
 
+use App\Core\Fs\FsShipInterface;
 use App\NameSwitcher\Dictionary\Dictionary;
 use App\NameSwitcher\Transformer\Ship;
 
@@ -28,13 +29,22 @@ class BasicSwitcher implements SwitcherInterface
         $correspondence = [];
         foreach ($fsShips as $fsShip) {
             // Reminder. At this point, the Name in the FS file is the same as in TAS.
-            $correspondence[$fsShip->getName()] = new Ship(
-                $fsShip->getName(),
-                $dictionary->getShipsList()[$fsShip->getName()]->getFsName(),
-                $dictionary->getShipsList()[$fsShip->getName()]->getFsShortName()
-            );
+            $correspondence[$fsShip->getName()] = $this->createBasicSwitch($dictionary, $fsShip);
         }
 
         return $correspondence;
+    }
+
+    /**
+     * Is actually \App\Core\Fs\Scenario\Ship\Ship
+     * but PHPStan has issue with interpreting interfaces
+     */
+    protected function createBasicSwitch(Dictionary $dictionary, FsShipInterface $fsShip): Ship
+    {
+        return new Ship(
+            $fsShip->getName(),
+            $dictionary->getShipsList()[$fsShip->getName()]->getFsName(),
+            $dictionary->getShipsList()[$fsShip->getName()]->getFsShortName()
+        );
     }
 }

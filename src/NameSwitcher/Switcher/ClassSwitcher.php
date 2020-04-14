@@ -13,13 +13,13 @@ use App\Core\Fs\FsShipInterface;
 use App\NameSwitcher\Dictionary\Dictionary;
 use App\NameSwitcher\Transformer\Ship;
 
-class ClassSwitcher implements SwitcherInterface
+class ClassSwitcher extends BasicSwitcher
 {
     /** @var int[] */
-    private array $classesQty;
+    protected array $classesQty;
 
     /** @var \App\NameSwitcher\Transformer\Ship[] */
-    private array $correspondence;
+    protected array $correspondence;
 
     /**
      * Is actually \App\Core\Fs\Scenario\Ship\Ship[] $fsShips
@@ -31,8 +31,7 @@ class ClassSwitcher implements SwitcherInterface
      */
     public function switch(Dictionary $dictionary, array $fsShips, string $playerSide): array
     {
-        $this->classesQty = [];
-        $this->correspondence = [];
+        $this->initialize();
 
         // Reminder. At this point, the Name in the FS file is the same as in TAS.
         foreach ($fsShips as $fsShip) {
@@ -41,46 +40,48 @@ class ClassSwitcher implements SwitcherInterface
                 $this->correspondence[$fsShip->getName()] = $this->createBasicSwitch($dictionary, $fsShip);
             } else {
                 // Ship is enemy: we obfuscate
-                $currentName = $fsShip->getName();
-                $this->correspondence[$currentName] = $this->addNewCorrespondence(
-                    $fsShip->getClass(),
-                    $currentName,
-                    $dictionary->getShipsList()[$currentName]->getFsName()
-                );
+                $this->correspondence[$fsShip->getName()] = $this->addNewCorrespondence($fsShip, $dictionary);
             }
         }
 
         return $this->correspondence;
     }
 
-    private function addNewCorrespondence(string $class, string $currentName, string $fsName): Ship
+    protected function initialize(): void
     {
+        $this->classesQty = [];
+        $this->correspondence = [];
+    }
+
+    /**
+     * Is actually \App\Core\Fs\Scenario\Ship\Ship[] $fsShips
+     * but PHPStan has issue with interpreting interfaces
+     *
+     * @param \App\Core\Fs\FsShipInterface $fsShip
+     */
+    protected function addNewCorrespondence(FsShipInterface $fsShip, Dictionary $dictionary): Ship
+    {
+        $class = $fsShip->getClass();
+        $currentName = $fsShip->getName();
+
         if (true === array_key_exists($class, $this->classesQty)) {
             $this->classesQty[$class]++;
         } else {
             $this->classesQty[$class] = 1;
         }
 
-        $newClassName = substr($class, 0, 7);
+        $newClassName = $this->truncate($class);
         $newClassName = $newClassName . '#' . $this->classesQty[$class];
 
         return new Ship(
             $currentName,
-            $fsName,
+            $dictionary->getShipsList()[$currentName]->getFsName(),
             $newClassName
         );
     }
 
-    /**
-     * Is actually \App\Core\Fs\Scenario\Ship\Ship
-     * but PHPStan has issue with interpreting interfaces
-     */
-    private function createBasicSwitch(Dictionary $dictionary, FsShipInterface $fsShip): Ship
+    protected function truncate(string $value): string
     {
-        return new Ship(
-            $fsShip->getName(),
-            $dictionary->getShipsList()[$fsShip->getName()]->getFsName(),
-            $dictionary->getShipsList()[$fsShip->getName()]->getFsShortName()
-        );
+        return substr($value, 0, 7);
     }
 }
