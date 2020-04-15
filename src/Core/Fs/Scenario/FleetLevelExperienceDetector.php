@@ -15,14 +15,19 @@ class FleetLevelExperienceDetector
     public const AVERAGE_COEF = 4;
     public const VETERAN_COEF = 2;
 
+    public const LEVEL_GREEN = 'Green';
+    public const LEVEL_AVERAGE = 'Average';
+    public const LEVEL_VETERAN = 'Veteran';
+    public const LEVEL_ELITE = 'Elite';
+
     /** @param \App\Core\Fs\Scenario\Ship\Ship[] $fsShips */
     public function getFleetLevel(array $fsShips, string $side): string
     {
         $experience = [
-            'Green' => 0,
-            'Average' => 0,
-            'Veteran' => 0,
-            'Elite' => 0,
+            static::LEVEL_GREEN => 0,
+            static::LEVEL_AVERAGE => 0,
+            static::LEVEL_VETERAN => 0,
+            static::LEVEL_ELITE => 0,
         ];
 
         $shipCount = 0;
@@ -40,9 +45,9 @@ class FleetLevelExperienceDetector
     /** @param int[] $experiences */
     private function evaluateLevel(array $experiences, int $shipCount): string
     {
-        $experiences['Green'] = $experiences['Green'] * static::GREEN_COEF;
-        $experiences['Average'] = $experiences['Average'] * static::AVERAGE_COEF;
-        $experiences['Veteran'] = $experiences['Veteran'] * static::VETERAN_COEF;
+        $experiences[static::LEVEL_GREEN] = $experiences[static::LEVEL_GREEN] * static::GREEN_COEF;
+        $experiences[static::LEVEL_AVERAGE] = $experiences[static::LEVEL_AVERAGE] * static::AVERAGE_COEF;
+        $experiences[static::LEVEL_VETERAN] = $experiences[static::LEVEL_VETERAN] * static::VETERAN_COEF;
 
         $sum = 0;
         foreach ($experiences as $experience) {
@@ -51,13 +56,15 @@ class FleetLevelExperienceDetector
         $moy = $sum / $shipCount;
 
         if ($moy < 2) {
-            return 'Elite';
+            $level = static::LEVEL_ELITE;
         } elseif ($moy <= 3) {
-            return 'Veteran';
+            $level = static::LEVEL_VETERAN;
         } elseif ($moy < 5) {
-            return 'Average';
+            $level = static::LEVEL_AVERAGE;
         } else {
-            return 'Green';
+            $level = static::LEVEL_GREEN;
         }
+
+        return $level;
     }
 }
