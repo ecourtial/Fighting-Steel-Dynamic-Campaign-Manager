@@ -56,8 +56,6 @@ class ClassSwitcher extends BasicSwitcher
     /**
      * Is actually \App\Core\Fs\Scenario\Ship\Ship[] $fsShips
      * but PHPStan has issue with interpreting interfaces
-     *
-     * @param \App\Core\Fs\FsShipInterface $fsShip
      */
     protected function addNewCorrespondence(FsShipInterface $fsShip, Dictionary $dictionary): Ship
     {

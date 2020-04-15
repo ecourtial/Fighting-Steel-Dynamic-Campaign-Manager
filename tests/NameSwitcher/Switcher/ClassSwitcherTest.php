@@ -117,18 +117,18 @@ class ClassSwitcherTest extends TestCase
         static::assertEquals($expected, $correspondence);
 
         // This small one is a workaround (proposed by the infection dev team) to circumvent an infection limit.
-        $classTest = new class extends ClassSwitcher
-        {
-          protected function addNewCorrespondence(FsShipInterface $fsShip, Dictionary $dictionary): Ship
-          {
-              parent::initialize();
-              return parent::addNewCorrespondence($fsShip, $dictionary);
-          }
+        $classTest = new class() extends ClassSwitcher {
+            protected function addNewCorrespondence(FsShipInterface $fsShip, Dictionary $dictionary): Ship
+            {
+                parent::initialize();
 
-          public function workaround(FsShipInterface $fsShip, Dictionary $dictionary): void
-          {
-              $this->addNewCorrespondence($fsShip, $dictionary);
-          }
+                return parent::addNewCorrespondence($fsShip, $dictionary);
+            }
+
+            public function workaround(FsShipInterface $fsShip, Dictionary $dictionary): void
+            {
+                $this->addNewCorrespondence($fsShip, $dictionary);
+            }
         };
 
         $classTest->workaround(
