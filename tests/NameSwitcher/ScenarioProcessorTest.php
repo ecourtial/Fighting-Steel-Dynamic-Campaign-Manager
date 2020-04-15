@@ -13,12 +13,15 @@ use App\Core\Exception\CoreException;
 use App\Core\File\IniReader;
 use App\Core\Fs\Scenario\FleetLevelExperienceDetector;
 use App\Core\Fs\Scenario\ScenarioUpdater;
+use App\Core\Fs\Scenario\Ship\Ship;
 use App\Core\Fs\Scenario\Ship\ShipExtractor;
 use App\Core\Fs\Scenario\SideDetector;
 use App\NameSwitcher\Dictionary\Dictionary;
 use App\NameSwitcher\Dictionary\DictionaryFactory;
 use App\NameSwitcher\ScenarioProcessor;
 use App\NameSwitcher\Switcher\BasicSwitcher;
+use App\NameSwitcher\Switcher\ClassSwitcher;
+use App\NameSwitcher\Switcher\ErrorSwitcher;
 use App\NameSwitcher\Switcher\SwitcherFactory;
 use App\NameSwitcher\Switcher\SwitcherInterface;
 use App\NameSwitcher\Transformer\CorrespondenceWriter;
@@ -29,8 +32,13 @@ class ScenarioProcessorTest extends TestCase
 {
     use GeneratorTrait;
 
-    public function testConvertFromTasToFs(): void
-    {
+    /** @dataProvider normalProvider */
+    public function testConvertFromTasToFs(
+        string $switcherClass,
+        ?string $level = null,
+        ?string $fleetLevel = null,
+        ?string $expectedLevel = null
+    ): void {
         [
             $switchFacto,
             $correspWriter,
@@ -56,13 +64,19 @@ class ScenarioProcessorTest extends TestCase
         $dicoFactory->expects($this->once())->method('getDictionary')->with('Eric/dico.csv')
             ->willReturn($dico);
 
-        $basicSwitch = $this->getMockBuilder(BasicSwitcher::class)->getMock();
+        $basicSwitch = $this->getMockBuilder($switcherClass)->getMock();
         $basicSwitch->expects($this->once())->method('switch')->with(
             $dico,
             [],
             'Blue'
         )->willReturn(['AH', 'HO']);
-        $switchFacto->expects($this->once())->method('getSwitcher')->with(SwitcherInterface::SWITCH_BASIC)->will($this->returnValue($basicSwitch));
+
+        if ($level) {
+            $switchFacto->expects($this->once())->method('getSwitcher')->with($level)->will($this->returnValue($basicSwitch));
+        } else {
+            $fleetLevelDetector->expects($this->once())->method('getFleetLevel')->with([], 'Blue')->will($this->returnValue($fleetLevel));
+            $switchFacto->expects($this->once())->method('getSwitcher')->with($expectedLevel)->will($this->returnValue($basicSwitch));
+        }
 
         $correspWriter->expects($this->once())->method('output')->with(['AH', 'HO']);
         $scenarioUpdater->expects($this->once())->method('updateBeforeFs')->with(['AH', 'HO'], $dest);
@@ -83,8 +97,19 @@ class ScenarioProcessorTest extends TestCase
             $scenarioPath . 'Sample' . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn',
             $dest
         );
-        $scenarioProcessor->convertFromTasToFs('Eric/dico.csv', 'Andrea Doria', SwitcherInterface::SWITCH_BASIC);
+        $scenarioProcessor->convertFromTasToFs('Eric/dico.csv', 'Andrea Doria', $level);
         unlink($dest);
+    }
+
+    public function normalProvider(): array
+    {
+        return [
+            [BasicSwitcher::class, SwitcherInterface::SWITCH_BASIC],
+            [ErrorSwitcher::class, null, Ship::LEVEL_GREEN, SwitcherInterface::SWITCH_WITH_ERROR],
+            [ErrorSwitcher::class, null, Ship::LEVEL_AVERAGE, SwitcherInterface::SWITCH_WITH_ERROR],
+            [ClassSwitcher::class, null, Ship::LEVEL_VETERAN, SwitcherInterface::SWITCH_CLASS],
+            [ClassSwitcher::class, null, Ship::LEVEL_ELITE, SwitcherInterface::SWITCH_CLASS],
+        ];
     }
 
     public function testBackupError(): void
