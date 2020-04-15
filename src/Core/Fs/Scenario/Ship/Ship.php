@@ -54,8 +54,13 @@ class Ship implements FsShipInterface
         'CVE',
     ];
 
+    public const LEVEL_GREEN = 'Green';
+    public const LEVEL_AVERAGE = 'Average';
+    public const LEVEL_VETERAN = 'Veteran';
+    public const LEVEL_ELITE = 'Elite';
+
     public const CREW_FATIGUE_LEVEL = ['Fresh', 'Normal', 'Tired'];
-    public const CREW_QUALITY = ['Green', 'Average', 'Veteran', 'Elite'];
+    public const CREW_QUALITY = [self::LEVEL_GREEN, self::LEVEL_AVERAGE, self::LEVEL_VETERAN, self::LEVEL_ELITE];
 
     /** @param string[] $data */
     public function __construct(array $data)

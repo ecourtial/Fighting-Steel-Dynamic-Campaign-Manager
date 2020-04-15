@@ -14,6 +14,7 @@ use App\NameSwitcher\Dictionary\DictionaryFactory;
 use App\NameSwitcher\Switcher\SwitcherFactory;
 use App\NameSwitcher\Switcher\SwitcherInterface;
 use App\NameSwitcher\Transformer\CorrespondenceWriter;
+use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
@@ -94,17 +95,15 @@ class ScenarioProcessor
      */
     private function detectSwitchType(array $scenarioShips, string $side): string
     {
-        return SwitcherInterface::SWITCH_CLASS;
+        $fleetCrewLevel = $this->levelExperienceDetector->getFleetLevel($scenarioShips, $side);
 
-//        $fleetCrewLevel = $this->levelExperienceDetector->getFleetLevel($scenarioShips, $side);
-//
-//        switch ($fleetCrewLevel) {
-//            case 'Elite':
-//            case 'Veteran':
-//                return SwitcherInterface::SWITCH_CLASS;
-//            default:
-//                return SwitcherInterface::SWITCH_WITH_ERROR;
-//        }
+        switch ($fleetCrewLevel) {
+            case FsShip::LEVEL_ELITE:
+            case FsShip::LEVEL_VETERAN:
+                return SwitcherInterface::SWITCH_CLASS;
+            default:
+                return SwitcherInterface::SWITCH_WITH_ERROR;
+        }
     }
 
     private function backupFsScenario(): void
