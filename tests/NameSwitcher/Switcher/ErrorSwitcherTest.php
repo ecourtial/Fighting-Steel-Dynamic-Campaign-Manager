@@ -11,7 +11,6 @@ namespace App\Tests\NameSwitcher\Switcher;
 
 use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 use App\NameSwitcher\Dictionary\Dictionary;
-use App\NameSwitcher\Dictionary\Ship as DictionaryShip;
 use App\NameSwitcher\Switcher\ErrorSwitcher;
 use App\NameSwitcher\Transformer\Ship;
 use PHPUnit\Framework\TestCase;

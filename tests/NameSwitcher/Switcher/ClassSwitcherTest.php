@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace App\Tests\NameSwitcher\Switcher;
 
+use App\Core\Fs\FsShipInterface;
 use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 use App\NameSwitcher\Dictionary\Dictionary;
 use App\NameSwitcher\Dictionary\Ship as DictionaryShip;
@@ -114,5 +115,25 @@ class ClassSwitcherTest extends TestCase
         $correspondence = $switcher->switch($dico, $ships, 'Blue');
 
         static::assertEquals($expected, $correspondence);
+
+        // This small one is a workaround (proposed by the infection dev team) to circumvent an infection limit.
+        $classTest = new class extends ClassSwitcher
+        {
+          protected function addNewCorrespondence(FsShipInterface $fsShip, Dictionary $dictionary): Ship
+          {
+              parent::initialize();
+              return parent::addNewCorrespondence($fsShip, $dictionary);
+          }
+
+          public function workaround(FsShipInterface $fsShip, Dictionary $dictionary): void
+          {
+              $this->addNewCorrespondence($fsShip, $dictionary);
+          }
+        };
+
+        $classTest->workaround(
+            new FsShip(['NAME' => 'Richelieu', 'SHORTNAME' => 'Richelieu', 'TYPE' => 'BB', 'CLASS' => 'Richelieu']),
+            $dico
+        );
     }
 }
