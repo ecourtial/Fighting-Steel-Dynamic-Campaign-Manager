@@ -14,7 +14,7 @@ interface SwitcherInterface
 {
     public const SWITCH_BASIC = 'switch_basic';
     public const SWITCH_CLASS = 'switch_class';
-    public const SWITCH_WITH_ERROR = 'switch_basic';
+    public const SWITCH_WITH_ERROR = 'switch_error';
 
     /**
      * Is actually \App\Core\Fs\Scenario\Ship\Ship[] $fsShips

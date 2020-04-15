@@ -8,13 +8,13 @@ use App\Core\Exception\CoreException;
 use App\Core\File\IniReader;
 use App\Core\Fs\Scenario\FleetLevelExperienceDetector;
 use App\Core\Fs\Scenario\ScenarioUpdater;
+use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 use App\Core\Fs\Scenario\Ship\ShipExtractor;
 use App\Core\Fs\Scenario\SideDetector;
 use App\NameSwitcher\Dictionary\DictionaryFactory;
 use App\NameSwitcher\Switcher\SwitcherFactory;
 use App\NameSwitcher\Switcher\SwitcherInterface;
 use App\NameSwitcher\Transformer\CorrespondenceWriter;
-use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
