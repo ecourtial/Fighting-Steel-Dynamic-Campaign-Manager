@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace App\Core\Fs\Scenario;
 
-use App\Core\Tas\Scenario\Scenario;
+use App\Core\Fs\Scenario\Ship\Ship;
 
 class FleetLevelExperienceDetector
 {
@@ -17,18 +17,25 @@ class FleetLevelExperienceDetector
     public const AVERAGE_COEF = 4;
     public const VETERAN_COEF = 2;
 
-    public function getFleetLevel(Scenario $scenario, string $side): string
+    /**
+     * Is actually \App\Core\Fs\Scenario\Ship\Ship[] $scenarioShips
+     * but PHPStan has issue with interpreting interfaces
+     *
+     * @param \App\Core\Fs\FsShipInterface[] $fsShips
+     */
+    public function getFleetLevel(array $fsShips, string $side): string
     {
         $experience = [
-            'Green' => 0,
-            'Average' => 0,
-            'Veteran' => 0,
-            'Elite' => 0,
+            Ship::LEVEL_GREEN => 0,
+            Ship::LEVEL_AVERAGE => 0,
+            Ship::LEVEL_VETERAN => 0,
+            Ship::LEVEL_ELITE => 0,
         ];
 
         $shipCount = 0;
 
-        foreach ($scenario->getFsShips() as $ship) {
+        foreach ($fsShips as $ship) {
+            /** @var \App\Core\Fs\Scenario\Ship\Ship $ship */
             if ($side === $ship->getSide()) {
                 $experience[$ship->getCrewQuality()]++;
                 $shipCount++;
@@ -41,9 +48,9 @@ class FleetLevelExperienceDetector
     /** @param int[] $experiences */
     private function evaluateLevel(array $experiences, int $shipCount): string
     {
-        $experiences['Green'] = $experiences['Green'] * static::GREEN_COEF;
-        $experiences['Average'] = $experiences['Average'] * static::AVERAGE_COEF;
-        $experiences['Veteran'] = $experiences['Veteran'] * static::VETERAN_COEF;
+        $experiences[Ship::LEVEL_GREEN] = $experiences[Ship::LEVEL_GREEN] * static::GREEN_COEF;
+        $experiences[Ship::LEVEL_AVERAGE] = $experiences[Ship::LEVEL_AVERAGE] * static::AVERAGE_COEF;
+        $experiences[Ship::LEVEL_VETERAN] = $experiences[Ship::LEVEL_VETERAN] * static::VETERAN_COEF;
 
         $sum = 0;
         foreach ($experiences as $experience) {
@@ -52,13 +59,15 @@ class FleetLevelExperienceDetector
         $moy = $sum / $shipCount;
 
         if ($moy < 2) {
-            return 'Elite';
+            $level = Ship::LEVEL_ELITE;
         } elseif ($moy <= 3) {
-            return 'Veteran';
+            $level = Ship::LEVEL_VETERAN;
         } elseif ($moy < 5) {
-            return 'Average';
+            $level = Ship::LEVEL_AVERAGE;
         } else {
-            return 'Green';
+            $level = Ship::LEVEL_GREEN;
         }
+
+        return $level;
     }
 }

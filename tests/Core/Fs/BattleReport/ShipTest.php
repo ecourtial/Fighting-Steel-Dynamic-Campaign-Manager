@@ -34,6 +34,9 @@ class ShipTest extends TestCase
             $methodName = 'get' . ucfirst($key);
             static::assertEquals($value, $ship->$methodName());
         }
+
+        $ship->setSide('Blue');
+        static::assertEquals('Blue', $ship->getSide());
     }
 
     public function testInvalidInputField(): void

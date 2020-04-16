@@ -17,6 +17,10 @@ class SwitcherFactory
         switch ($type) {
             case SwitcherInterface::SWITCH_BASIC:
                 return new BasicSwitcher();
+            case SwitcherInterface::SWITCH_CLASS:
+                return new ClassSwitcher();
+            case SwitcherInterface::SWITCH_WITH_ERROR:
+                return new ErrorSwitcher();
             default:
                 throw new InvalidInputException("Unknown switcher type: '{$type}'");
         }

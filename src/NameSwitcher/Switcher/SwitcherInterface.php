@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\NameSwitcher\Switcher;
 
-use App\Core\Tas\Scenario\Scenario;
 use App\NameSwitcher\Dictionary\Dictionary;
 
 /**
@@ -15,8 +14,15 @@ interface SwitcherInterface
 {
     public const SWITCH_BASIC = 'switch_basic';
     public const SWITCH_CLASS = 'switch_class';
-    public const SWITCH_WITH_ERROR = 'switch_basic';
+    public const SWITCH_WITH_ERROR = 'switch_error';
 
-    /** @return \App\NameSwitcher\Transformer\Ship[] */
-    public function switch(Dictionary $dictionary, Scenario $scenario, string $playerSide): array;
+    /**
+     * Is actually \App\Core\Fs\Scenario\Ship\Ship[] $fsShips
+     * but PHPStan has issue with interpreting interfaces
+     *
+     * @param \App\Core\Fs\FsShipInterface[] $fsShips
+     *
+     * @return \App\NameSwitcher\Transformer\Ship[]
+     */
+    public function switch(Dictionary $dictionary, array $fsShips, string $playerSide): array;
 }

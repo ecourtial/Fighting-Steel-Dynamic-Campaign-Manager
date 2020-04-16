@@ -10,16 +10,15 @@ namespace App\Tests\Core\Fs\Scenario;
 
 use App\Core\Fs\Scenario\FleetLevelExperienceDetector;
 use App\Core\Fs\Scenario\Ship\Ship;
-use App\Core\Tas\Scenario\Scenario;
 use PHPUnit\Framework\TestCase;
 
 class FleetLevelExperienceDetectorTest extends TestCase
 {
     /** @dataProvider detectorProvider */
-    public function testNormalDetection(Scenario $scenario, string $expected): void
+    public function testNormalDetection($ships, string $expected): void
     {
         $detector = new FleetLevelExperienceDetector();
-        static::assertEquals($expected, $detector->getFleetLevel($scenario, 'Blue'));
+        static::assertEquals($expected, $detector->getFleetLevel($ships, 'Blue'));
     }
 
     public function detectorProvider(): array
@@ -42,7 +41,7 @@ class FleetLevelExperienceDetectorTest extends TestCase
         ];
     }
 
-    private function getScenario(array $data): Scenario
+    private function getScenario(array $data): array
     {
         $ships = [];
         $dummyData = ['NAME' => 'Foo', 'SHORTNAME' => 'Fo', 'TYPE' => 'BC', 'CLASS' => 'Bar'];
@@ -65,9 +64,6 @@ class FleetLevelExperienceDetectorTest extends TestCase
             ->setCrewFatigue('Normal')
             ->setCrewQuality($levels[array_rand($levels)]);
 
-        $scenario = $this->getMockBuilder(Scenario::class)->disableOriginalConstructor()->getMock();
-        $scenario->method('getFsShips')->will($this->returnValue($ships));
-
-        return $scenario;
+        return $ships;
     }
 }

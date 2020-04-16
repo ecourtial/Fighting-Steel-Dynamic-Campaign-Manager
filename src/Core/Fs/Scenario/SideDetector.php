@@ -10,21 +10,18 @@ declare(strict_types=1);
 namespace App\Core\Fs\Scenario;
 
 use App\Core\Exception\InvalidInputException;
-use App\Core\Fs\Scenario\Ship\ShipExtractor;
 
 class SideDetector
 {
-    private ShipExtractor $shipExtractor;
-
-    public function __construct(ShipExtractor $shipExtractor)
+    /**
+     * Is actually \App\Core\Fs\Scenario\Ship\Ship[] $fsShips
+     * but PHPStan has issue with interpreting interfaces
+     *
+     * @param \App\Core\Fs\FsShipInterface[] $fsShips
+     */
+    public function detectSide(array $fsShips, string $oneShip): string
     {
-        $this->shipExtractor = $shipExtractor;
-    }
-
-    public function detectSide(string $path, string $oneShip): string
-    {
-        $ships = $this->shipExtractor->extract($path, 'NIGHTTRAINING');
-        foreach ($ships as $fsShip) {
+        foreach ($fsShips as $fsShip) {
             /** @var \App\Core\Fs\Scenario\Ship\Ship $fsShip */
             if ($fsShip->getName() === $oneShip) {
                 return $fsShip->getSide();

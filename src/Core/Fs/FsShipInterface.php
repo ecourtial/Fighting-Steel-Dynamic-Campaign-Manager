@@ -11,4 +11,9 @@ namespace App\Core\Fs;
 
 interface FsShipInterface
 {
+    public function getName(): string;
+
+    public function getClass(): string;
+
+    public function getSide(): ?string;
 }

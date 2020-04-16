@@ -28,7 +28,7 @@
         "symfony/validator": "5.0.*",
         "symfony/web-link": "5.0.*",
         "symfony/yaml": "5.0.*",
-        "wizaplace/php-etl": "dev-bugfix-docblock"
+        "wizaplace/php-etl": "dev-master"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
