@@ -14,10 +14,8 @@ use App\Core\File\IniReader;
 use App\Core\Fs\Scenario\FleetLevelExperienceDetector;
 use App\Core\Fs\Scenario\ScenarioUpdater;
 use App\Core\Fs\Scenario\Ship\Ship;
-use App\Core\Fs\Scenario\Ship\ShipExtractor;
 use App\Core\Fs\Scenario\SideDetector;
 use App\NameSwitcher\Dictionary\Dictionary;
-use App\NameSwitcher\Dictionary\DictionaryFactory;
 use App\NameSwitcher\ScenarioProcessor;
 use App\NameSwitcher\Switcher\BasicSwitcher;
 use App\NameSwitcher\Switcher\ClassSwitcher;
@@ -32,6 +30,15 @@ class ScenarioProcessorTest extends TestCase
 {
     use GeneratorTrait;
 
+    private $dico;
+    private array $ships;
+
+    public function setUp(): void
+    {
+        $this->dico = $this->getMockBuilder(Dictionary::class)->disableOriginalConstructor()->getMock();
+        $this->ships = [];
+    }
+
     /** @dataProvider normalProvider */
     public function testConvertFromTasToFs(
         string $switcherClass,
@@ -42,31 +49,23 @@ class ScenarioProcessorTest extends TestCase
         [
             $switchFacto,
             $correspWriter,
-            $dicoFactory,
             $scenarioUpdater,
             $fleetLevelDetector,
             $sideDetector,
             $iniReader,
-            $shipExtractorMock
         ] = $this->getMocks();
 
         $scenarioPath = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
         $dest = $scenarioPath . 'A_TAS_Scenario.scn';
-
-        $shipExtractorMock->expects($this->once())->method('extract')->with($dest, 'NIGHTTRAINING')->will($this->returnValue([]));
 
         $sideDetector->expects($this->once())->method('detectSide')->with(
             [],
             'Andrea Doria'
         )->willReturn('Blue');
 
-        $dico = $this->getMockBuilder(Dictionary::class)->disableOriginalConstructor()->getMock();
-        $dicoFactory->expects($this->once())->method('getDictionary')->with('Eric/dico.csv')
-            ->willReturn($dico);
-
         $basicSwitch = $this->getMockBuilder($switcherClass)->getMock();
         $basicSwitch->expects($this->once())->method('switch')->with(
-            $dico,
+            $this->dico,
             [],
             'Blue'
         )->willReturn(['AH', 'HO']);
@@ -84,12 +83,10 @@ class ScenarioProcessorTest extends TestCase
         $scenarioProcessor = new ScenarioProcessor(
             $switchFacto,
             $correspWriter,
-            $dicoFactory,
             $scenarioUpdater,
             $fleetLevelDetector,
             $sideDetector,
             $iniReader,
-            $shipExtractorMock,
             $_ENV['FS_LOCATION']
         );
 
@@ -97,7 +94,7 @@ class ScenarioProcessorTest extends TestCase
             $scenarioPath . 'Sample' . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn',
             $dest
         );
-        $scenarioProcessor->convertFromTasToFs('Eric/dico.csv', 'Andrea Doria', $level);
+        $scenarioProcessor->convertFromTasToFs('Andrea Doria', $this->dico, $this->ships, $level);
         unlink($dest);
     }
 
@@ -117,28 +114,24 @@ class ScenarioProcessorTest extends TestCase
         [
             $switchFacto,
             $correspWriter,
-            $dicoFactory,
             $scenarioUpdater,
             $fleetLevelDetector,
             $sideDetector,
             $iniReader,
-            $shipExtractorMock
         ] = $this->getMocks();
 
         $scenarioProcessor = new ScenarioProcessor(
             $switchFacto,
             $correspWriter,
-            $dicoFactory,
             $scenarioUpdater,
             $fleetLevelDetector,
             $sideDetector,
             $iniReader,
-            $shipExtractorMock,
             $_ENV['FS_LOCATION']
         );
 
         try {
-            $scenarioProcessor->convertFromTasToFs('ah', 'oh');
+            $scenarioProcessor->convertFromTasToFs('ah', $this->dico, $this->ships);
             static::fail('Since the FS folder is a dummy one, an error was expected');
         } catch (CoreException $exception) {
             static::assertEquals(
@@ -153,12 +146,10 @@ class ScenarioProcessorTest extends TestCase
         [
             $switchFacto,
             $correspWriter,
-            $dicoFactory,
             $scenarioUpdater,
             $fleetLevelDetector,
             $sideDetector,
-            $iniReader,
-            $shipExtractorMock
+            $iniReader
         ] = $this->getMocks();
 
         $fsScenarioFolder = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
@@ -171,12 +162,10 @@ class ScenarioProcessorTest extends TestCase
         $scenarioProcessor = new ScenarioProcessor(
             $switchFacto,
             $correspWriter,
-            $dicoFactory,
             $scenarioUpdater,
             $fleetLevelDetector,
             $sideDetector,
             $iniReader,
-            $shipExtractorMock,
             $_ENV['FS_LOCATION']
         );
         $scenarioProcessor->convertFromFsToTas();
@@ -187,12 +176,10 @@ class ScenarioProcessorTest extends TestCase
         return [
             $this->getMockBuilder(SwitcherFactory::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(CorrespondenceWriter::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(DictionaryFactory::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ScenarioUpdater::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(FleetLevelExperienceDetector::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(SideDetector::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(IniReader::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(ShipExtractor::class)->disableOriginalConstructor()->getMock(),
         ];
     }
 }

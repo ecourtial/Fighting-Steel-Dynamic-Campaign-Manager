@@ -9,9 +9,8 @@ use App\Core\File\IniReader;
 use App\Core\Fs\Scenario\FleetLevelExperienceDetector;
 use App\Core\Fs\Scenario\ScenarioUpdater;
 use App\Core\Fs\Scenario\Ship\Ship as FsShip;
-use App\Core\Fs\Scenario\Ship\ShipExtractor;
 use App\Core\Fs\Scenario\SideDetector;
-use App\NameSwitcher\Dictionary\DictionaryFactory;
+use App\NameSwitcher\Dictionary\Dictionary;
 use App\NameSwitcher\Switcher\SwitcherFactory;
 use App\NameSwitcher\Switcher\SwitcherInterface;
 use App\NameSwitcher\Transformer\CorrespondenceWriter;
@@ -23,43 +22,46 @@ class ScenarioProcessor
 {
     private SwitcherFactory $switcherFactory;
     private CorrespondenceWriter $correspondenceWriter;
-    private DictionaryFactory $dictionaryFactory;
     private ScenarioUpdater $scenarioUpdater;
     private FleetLevelExperienceDetector $levelExperienceDetector;
     private SideDetector $sideDetector;
     private IniReader $iniReader;
-    private ShipExtractor $shipExtractor;
     private string $fsScenarioPath;
     private string $fsScenarioFolder;
 
     public function __construct(
         SwitcherFactory $switcherFactory,
         CorrespondenceWriter $correspondenceWriter,
-        DictionaryFactory $dictionaryFactory,
         ScenarioUpdater $scenarioUpdater,
         FleetLevelExperienceDetector $levelExperienceDetector,
         SideDetector $sideDetector,
         IniReader $iniReader,
-        ShipExtractor $shipExtractor,
         string $fsPath
     ) {
         $this->switcherFactory = $switcherFactory;
         $this->correspondenceWriter = $correspondenceWriter;
-        $this->dictionaryFactory = $dictionaryFactory;
         $this->scenarioUpdater = $scenarioUpdater;
         $this->levelExperienceDetector = $levelExperienceDetector;
         $this->iniReader = $iniReader;
-        $this->shipExtractor = $shipExtractor;
 
         $this->sideDetector = $sideDetector;
         $this->fsScenarioFolder = $fsPath . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
         $this->fsScenarioPath = $this->fsScenarioFolder . 'A_TAS_Scenario.scn';
     }
 
-    public function convertFromTasToFs(string $dictionaryPath, string $oneShip, ?string $switchLevel = null): void
-    {
+    /**
+     * Is actually \App\Core\Fs\Scenario\Ship\Ship[] $fsShips
+     * but PHPStan has issue with interpreting interfaces
+     *
+     * @param \App\Core\Fs\FsShipInterface[] $scenarioShips
+     */
+    public function convertFromTasToFs(
+        string $oneShip,
+        Dictionary $dictionary,
+        array $scenarioShips,
+        ?string $switchLevel = null
+    ): void {
         $this->backupFsScenario();
-        $scenarioShips = $this->shipExtractor->extract($this->fsScenarioPath, 'NIGHTTRAINING');
         $side = $this->sideDetector->detectSide($scenarioShips, $oneShip); // Important to run before the switch
 
         if (null === $switchLevel) {
@@ -69,7 +71,7 @@ class ScenarioProcessor
         $switcher = $this->switcherFactory->getSwitcher($switchLevel);
 
         $correspondence = $switcher->switch(
-            $this->dictionaryFactory->getDictionary($dictionaryPath),
+            $dictionary,
             $scenarioShips,
             $side
         );

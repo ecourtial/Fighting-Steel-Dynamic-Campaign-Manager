@@ -116,7 +116,7 @@ class Ship implements FsShipInterface
         return $this->side;
     }
 
-    private function setSide(string $side): void
+    public function setSide(string $side): void
     {
         $this->side = $side;
     }
