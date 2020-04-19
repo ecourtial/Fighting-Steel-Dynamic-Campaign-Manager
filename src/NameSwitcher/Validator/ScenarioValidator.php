@@ -20,45 +20,40 @@ namespace App\NameSwitcher\Validator;
 use App\Core\Tas\Scenario\Scenario;
 use App\Core\Tas\Scenario\ScenarioRepository;
 use App\NameSwitcher\Dictionary\Dictionary;
-use App\NameSwitcher\Dictionary\DictionaryReader;
+use App\NameSwitcher\Dictionary\DictionaryFactory;
 
 class ScenarioValidator
 {
     protected DictionaryValidator $dictionaryValidator;
     protected ScenarioRepository $scenarioRepository;
-    protected DictionaryReader $dictionaryReader;
+    protected DictionaryFactory $dictionaryFactory;
 
     public function __construct(
         DictionaryValidator $dictionaryValidator,
         ScenarioRepository $scenarioRepository,
-        DictionaryReader $dictionaryReader
+        DictionaryFactory $dictionaryFactory
     ) {
         $this->dictionaryValidator = $dictionaryValidator;
         $this->scenarioRepository = $scenarioRepository;
-        $this->dictionaryReader = $dictionaryReader;
+        $this->dictionaryFactory = $dictionaryFactory;
     }
 
     /** @return string[] */
-    public function validate(string $scenarioName, string $dictionaryFullPath): array
+    public function validate(string $scenarioName): array
     {
-        // First validate the dictionary format and content
-        $errors = $this->dictionaryValidator->validate($dictionaryFullPath);
-        if ([] !== $errors) {
-            return $errors;
-        }
-
-        // Store the dictionary content and initialize it
-        $dictionaryContent = [];
-        foreach ($this->dictionaryReader->extractData($dictionaryFullPath) as $entry) {
-            $dictionaryContent[] = $entry;
-        }
-        $dictionary = new Dictionary($dictionaryContent);
-
         // Load the scenario data (performs a lot of controls...)
         try {
             $scenario = $this->scenarioRepository->getOneWillAllData($scenarioName);
         } catch (\Throwable $exception) {
             return [$exception->getMessage()];
+        }
+
+        // Validate the dictionary format and content
+        $dictionaryFullPath = $scenario->getFullPath() . DIRECTORY_SEPARATOR . 'dictionary.csv';
+        $errors = $this->dictionaryValidator->validate($dictionaryFullPath);
+
+        if ([] !== $errors) {
+            return $errors;
         }
 
         // Check that all the tas ships in TAS are present in the .scn file
@@ -70,7 +65,10 @@ class ScenarioValidator
             }
         }
 
-        $this->checkTasShipInDictionary($errors, $scenario, $dictionary);
+        // Finally check that all the ships are present in the dictionary
+        $dictionary = $this->dictionaryFactory->getDictionary($dictionaryFullPath);
+        $result = $this->checkTasShipInDictionary($scenario, $dictionary);
+        $errors = array_merge($errors, $result);
 
         return $errors;
     }
@@ -78,13 +76,14 @@ class ScenarioValidator
     /**
      * Check that all the ships in TAS are present in the dictionary file
      *
-     * @param string[] $errors
+     * @return string[]
      */
     private function checkTasShipInDictionary(
-        array &$errors,
         Scenario $scenario,
         Dictionary $dictionary
-    ): void {
+    ): array {
+        $errors = [];
+
         foreach (Scenario::SIDES as $side) {
             foreach ($scenario->getTasShips($side) as $ship) {
                 if (
@@ -97,5 +96,7 @@ class ScenarioValidator
                 }
             }
         }
+
+        return $errors;
     }
 }
