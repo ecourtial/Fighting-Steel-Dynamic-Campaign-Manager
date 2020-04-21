@@ -72,14 +72,15 @@ class TasToFsTest extends TestCase
         $this->checkResponse($response);
     }
 
-    public function testInvalidRequest(): void
+    /** @dataProvider invalidRequestProvider */
+    public function testInvalidRequest(?string $scenario, ?string $ship, ?string $level): void
     {
         [$requestStack, $request, $scenarioProcessor, $dicoFactory, $scenarioRepo] = $this->getMocks();
 
         $requestStack->expects(static::exactly(3))->method('getCurrentRequest')->willReturn($request);
-        $request->expects(static::at(0))->method('get')->with('scenario', null)->willReturn('UnScenario');
-        $request->expects(static::at(1))->method('get')->with('oneShip', null)->willReturn('Hood');
-        $request->expects(static::at(2))->method('get')->with('switchLevel', null)->willReturn(null);
+        $request->expects(static::at(0))->method('get')->with('scenario', null)->willReturn($scenario);
+        $request->expects(static::at(1))->method('get')->with('oneShip', null)->willReturn($ship);
+        $request->expects(static::at(2))->method('get')->with('switchLevel', null)->willReturn($level);
 
         $controller = new TasToFs($requestStack, $scenarioProcessor, $dicoFactory, $scenarioRepo);
         $response = $controller();
@@ -88,6 +89,15 @@ class TasToFsTest extends TestCase
         static::assertInstanceOf(JsonResponse::class, $response);
         static::assertEquals(['Invalid request data!'], $content);
         $this->checkResponse($response);
+    }
+
+    public function invalidRequestProvider(): array
+    {
+        return [
+          [null, 'Hood', 'Basic'],
+          ['UnScenario', null, 'Basic'],
+          ['UnScenario', 'Hood', null],
+        ];
     }
 
     private function getMocks(): array
