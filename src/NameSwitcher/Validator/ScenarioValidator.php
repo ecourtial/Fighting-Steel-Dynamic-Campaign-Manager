@@ -49,8 +49,7 @@ class ScenarioValidator
         }
 
         // Validate the dictionary format and content
-        $dictionaryFullPath = $scenario->getFullPath() . DIRECTORY_SEPARATOR . 'dictionary.csv';
-        $errors = $this->dictionaryValidator->validate($dictionaryFullPath);
+        $errors = $this->dictionaryValidator->validate($scenario->getDictionaryPath());
 
         if ([] !== $errors) {
             return $errors;
@@ -66,7 +65,7 @@ class ScenarioValidator
         }
 
         // Finally check that all the ships are present in the dictionary
-        $dictionary = $this->dictionaryFactory->getDictionary($dictionaryFullPath);
+        $dictionary = $this->dictionaryFactory->getDictionary($scenario->getDictionaryPath());
         $result = $this->checkTasShipInDictionary($scenario, $dictionary);
         $errors = array_merge($errors, $result);
 

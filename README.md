@@ -12,6 +12,9 @@
 
 ## Description :notebook:
 
+An application to dynamically manage scenarios for the game _Fighting Steel_ with the _Thunder At Sea_ campaign simulator.
+Development still in progress.
+
 ## Stack :light_rail:
 
 * Symfony 5
@@ -21,4 +24,11 @@
 * Infection
 * PHPStan with strict rules
 
+## Changelog
 
+### 0.5.0
+* Changes on the Scenario processor
+* Basic web interface
+
+### 0.4.0
+* NameSwitcher is completed

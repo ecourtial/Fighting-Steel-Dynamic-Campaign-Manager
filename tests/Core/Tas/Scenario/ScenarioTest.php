@@ -28,6 +28,7 @@ class ScenarioTest extends TestCase
         $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
         static::assertEquals($scenarioName, $scenario->getName());
         static::assertEquals($scenarioFullPath, $scenario->getFullPath());
+        static::assertEquals($scenarioFullPath . DIRECTORY_SEPARATOR . 'dictionary.csv', $scenario->getDictionaryPath());
     }
 
     public function testSetShipsWrongSide(): void

@@ -16,6 +16,12 @@ interface SwitcherInterface
     public const SWITCH_CLASS = 'switch_class';
     public const SWITCH_WITH_ERROR = 'switch_error';
 
+    public const SWITCH_LEVELS = [
+        self::SWITCH_BASIC => 'Basic',
+        self::SWITCH_CLASS => 'Class',
+        self::SWITCH_WITH_ERROR => 'Dynamic',
+    ];
+
     /**
      * Is actually \App\Core\Fs\Scenario\Ship\Ship[] $fsShips
      * but PHPStan has issue with interpreting interfaces

@@ -14,12 +14,12 @@ use App\Core\File\TextFileReader;
 use App\Core\Fs\Scenario\Ship\ShipExtractor as FsShipExtractor;
 use App\Core\Tas\Scenario\ScenarioRepository;
 use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
+use App\NameSwitcher\Dictionary\DictionaryFactory;
 use App\NameSwitcher\Dictionary\DictionaryReader;
 use App\NameSwitcher\Validator\DictionaryValidator;
 use App\NameSwitcher\Validator\ScenarioValidator;
 use PHPUnit\Framework\TestCase;
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
-use App\NameSwitcher\Dictionary\DictionaryFactory;
 
 class ScenarioValidatorTest extends TestCase
 {
