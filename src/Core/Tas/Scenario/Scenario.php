@@ -60,6 +60,11 @@ class Scenario
         return $this->shipDataFile;
     }
 
+    public function getDictionaryPath(): string
+    {
+        return $this->getFullPath() . DIRECTORY_SEPARATOR . 'dictionary.csv';
+    }
+
     /**
      * In fact $ships is an array of TasShip.
      * But PHPStan is complaining because of my double check (instance of).

@@ -14,6 +14,7 @@ use App\Core\File\TextFileReader;
 use App\Core\Fs\Scenario\Ship\ShipExtractor as FsShipExtractor;
 use App\Core\Tas\Scenario\ScenarioRepository;
 use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
+use App\NameSwitcher\Dictionary\DictionaryFactory;
 use App\NameSwitcher\Dictionary\DictionaryReader;
 use App\NameSwitcher\Validator\DictionaryValidator;
 use App\NameSwitcher\Validator\ScenarioValidator;
@@ -39,10 +40,11 @@ class ScenarioValidatorTest extends TestCase
         );
 
         $dictionaryReader = new DictionaryReader(new CsvExtractor());
+        $dictionaryFactory = new DictionaryFactory($dictionaryReader);
         static::$scenarioValidator = new ScenarioValidator(
             new DictionaryValidator($dictionaryReader),
             $repo,
-            $dictionaryReader
+            $dictionaryFactory
         );
     }
 
@@ -50,19 +52,13 @@ class ScenarioValidatorTest extends TestCase
     {
         static::assertEquals(
             [],
-            static::$scenarioValidator->validate(
-                'Good Scenario',
-                'tests/Assets/TAS/Scenarios/Good Scenario/dictionary.csv'
-            )
+            static::$scenarioValidator->validate('Good Scenario')
         );
     }
 
-    public function testValidationWithDictionaryError(): void
+    public function testValidationWithDictionaryStructureError(): void
     {
-        $errors = static::$scenarioValidator->validate(
-            'Bad GoebenReminiscence',
-            'tests/Assets/dictionary-bad.csv'
-        );
+        $errors = static::$scenarioValidator->validate('BadDictionary');
 
         $expected = [
             0 => "Error at line #4. The name 'Richelieu' is already used at line #2",
@@ -77,20 +73,14 @@ class ScenarioValidatorTest extends TestCase
 
     public function testValidationErrorWhenLoadingTheScenario(): void
     {
-        $errors = static::$scenarioValidator->validate(
-            'Bad GoebenReminiscence',
-            'tests/Assets/dictionary.csv'
-        );
+        $errors = static::$scenarioValidator->validate('Bad GoebenReminiscence');
 
         static::assertEquals(["FS Short name is too long: 'La Bombarde'"], $errors);
     }
 
     public function testTasShipMissingInFsFile(): void
     {
-        $errors = static::$scenarioValidator->validate(
-            'ScenarioWithMissingFsShips',
-            'tests/Assets/dictionary.csv'
-        );
+        $errors = static::$scenarioValidator->validate('ScenarioWithMissingFsShips');
 
         $expected = [
             0 => "Tas Ship 'Algerie' is not present in the FS file",

@@ -60,16 +60,16 @@ class ScenarioRepositoryTest extends TestCase
         $iniReader = new IniReader($textReader);
         $repo = new ExtendedRepository($_ENV['TAS_LOCATION'], $iniReader, new TasShipExtractor($iniReader), new FsShipExtractor($iniReader));
         $scenarios = $repo->getAll();
-        static::assertEquals(5, count($scenarios));
+        static::assertEquals(6, count($scenarios));
 
         $scenarios = $repo->getAll();
-        static::assertEquals(5, count($scenarios));
+        static::assertEquals(6, count($scenarios));
 
         $repo->clearScenarios();
         static::assertEquals([], $repo->getAll());
 
         $scenarios = $repo->getAll(false);
-        static::assertEquals(5, count($scenarios));
+        static::assertEquals(6, count($scenarios));
     }
 
     public function testGetOneExists(): void

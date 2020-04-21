@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fighting Steel Dynamic Campaign Manager</title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
+    {% endblock %}
+    <script src="{{ asset('js/vendor/require/require-2.3.5.js') }}"></script>
+    <script src="{{ asset('js/app/main.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var scenarioValidationURL = "{{ url('validateScenario') }}";
+        var fsToTasURL = "{{ url('fsToTas') }}";
+        var tasToFsURL = "{{ url('tasToFs') }}";
+    </script>
+</head>
+<body>
+    <div id="actionBox">
+        <div id="actionBoxTitle">Dynamic Campaign Manager</div>
+        <div class="actionList">
+            <p><button id="newGame" class="myButton">New Game</button></p>
+            <p><button id="restoreGame" class="myButton myButtonNotFirst">Restore Game</button></p>
+        </div>
+        <div id="actionBoxTitle">NameSwitcher</div>
+        <div class="actionList">
+            <p><button id="validateScenario" class="myButton">Validate scenario</button></p>
+            <div class="scenariosList subMenu" id="scenarioValidationListContainer">
+                <label for="scenarioValidationList">Scenario</label>
+                <select id="scenarioValidationList" name="scenarioValidationList">
+                    <option>Select a scenario</option>
+                    {% for key, scenario in scenarios %}
+                        <option value="{{ key }}">{{ key }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <p><button id="tasToFs" class="myButton myButtonNotFirst">TAS to FS</button></p>
+            <div id="tasToFsElements" class="subMenu">
+                <label for="oneShipName">One of your ship</label>
+                <input type="text" id="oneShipName"/>
+                <div class="scenariosList">
+                    <label for="tasToFsscenarioList">Scenario</label>
+                    <select id="tasToFsscenarioList">
+                        <option>Select a scenario</option>
+                        {% for key, scenario in scenarios %}
+                            <option value="{{ key }}">{{ key }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="scenariosList">
+                        <label for="switchLevelList">Switching level</label>
+                        <select id="switchLevelList">
+                            <option>Select a level</option>
+                            {% for key, level in constant('App\\NameSwitcher\\Switcher\\SwitcherInterface::SWITCH_LEVELS') %}
+                                <option value="{{ key }}">{{ level }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" id="goTasToFs" value="Go"/>
+                    </div>
+                </div>
+            </div>
+            <p><button id="fsToTas" class="myButton myButtonNotFirst">FS to TAS</button></p>
+        </div>
+        <div class="actionList" id="messages">
+            <div id="actionBoxTitle">Messages</div>
+            <p id="messageContent"></p>
+        </div>
+    </div>
+</body>
+</html>

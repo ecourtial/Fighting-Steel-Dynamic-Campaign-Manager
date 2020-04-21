@@ -36,7 +36,7 @@ class ScenarioProcessor
         FleetLevelExperienceDetector $levelExperienceDetector,
         SideDetector $sideDetector,
         IniReader $iniReader,
-        string $fsPath
+        string $fsDirectory
     ) {
         $this->switcherFactory = $switcherFactory;
         $this->correspondenceWriter = $correspondenceWriter;
@@ -45,7 +45,7 @@ class ScenarioProcessor
         $this->iniReader = $iniReader;
 
         $this->sideDetector = $sideDetector;
-        $this->fsScenarioFolder = $fsPath . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
+        $this->fsScenarioFolder = $fsDirectory . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
         $this->fsScenarioPath = $this->fsScenarioFolder . 'A_TAS_Scenario.scn';
     }
 
