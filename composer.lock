@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d53aa14666e9ec242c281ea070a4acc",
+    "content-hash": "597e4a9eb42fbffbbeb6ec199f892096",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -530,6 +530,38 @@
             ],
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "time": "2020-02-18T18:59:58+00:00"
+        },
+        {
+            "name": "prairiewest/PHPconvertDMSToDecimal",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/prairiewest/PHPconvertDMSToDecimal.git",
+                "reference": "fdbfbe28b85b24edb01c9912aa5303e212f7173a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/prairiewest/PHPconvertDMSToDecimal/zipball/fdbfbe28b85b24edb01c9912aa5303e212f7173a",
+                "reference": "fdbfbe28b85b24edb01c9912aa5303e212f7173a",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "convert.php"
+                ]
+            },
+            "authors": [
+                {
+                    "name": "Todd Trann"
+                }
+            ],
+            "description": " Convert degrees / minutes / seconds to decimal degrees in PHP ",
+            "support": {
+                "source": "https://github.com/prairiewest/PHPconvertDMSToDecimal/tree/master",
+                "issues": "https://github.com/prairiewest/PHPconvertDMSToDecimal/issues"
+            },
+            "time": "2019-09-24T04:22:07+00:00"
         },
         {
             "name": "psr/cache",
@@ -8045,6 +8077,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "prairiewest/phpconvertdmstodecimal": 20,
         "wizaplace/php-etl": 20
     },
     "prefer-stable": false,
