@@ -66,7 +66,7 @@ class ShipExtractorTest extends TestCase
             (new TasShipExtractor($iniReader))->extract($scenario, 'Axis');
         } catch (FileNotFoundException $exception) {
             static::assertEquals(
-                "Impossible to read the content of the file 'tests/Assets/TAS/Scenarios/IncompleteScenarioWithNotTasShipFile/AxisShips.cfg'.",
+                "Impossible to read the content of the file 'tests/Assets/TAS/IncompleteScenarioWithNotTasShipFile/AxisShips.cfg'.",
                 $exception->getMessage()
             );
         }

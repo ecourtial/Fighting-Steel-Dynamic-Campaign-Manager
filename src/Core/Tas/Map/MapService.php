@@ -18,7 +18,7 @@ class MapService
     public const EARTH_RADIUS = 6371000;
 
     /**
-     * Return the disance between two points, in meters.
+     * Return the distance between two points, in kilometers.
      *
      * @see https://stackoverflow.com/questions/10053358/measuring-the-distance-between-two-coordinates-in-php
      */

@@ -33,7 +33,7 @@ class ScenarioRepository
         TasShipExtractor $tasShipExtractor,
         FsShipExtractor $fsShipExtractor
     ) {
-        $this->scenarioDirectory = $tasDirectory . DIRECTORY_SEPARATOR . 'Scenarios';
+        $this->scenarioDirectory = $tasDirectory;
         $this->iniReader = $iniReader;
         $this->tasShipExtractor = $tasShipExtractor;
         $this->fsShipExtractor = $fsShipExtractor;
@@ -54,6 +54,7 @@ class ScenarioRepository
             if (
                 is_dir($scenarioFullPath)
                 && preg_match('/^[a-zA-Z0-9 ]*$/', $element)
+                && 0 === preg_match('/^Save[1-6 ]*$/', $element)
             ) {
                 $exploded = explode(DIRECTORY_SEPARATOR, $element);
                 $scenarioKey = array_pop($exploded);

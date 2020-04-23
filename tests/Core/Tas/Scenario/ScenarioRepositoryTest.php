@@ -77,7 +77,7 @@ class ScenarioRepositoryTest extends TestCase
         $scenario = static::$scenarioRepository->getOne('IncompleteScenarioWithNotTasShipFile');
         static::assertEquals('IncompleteScenarioWithNotTasShipFile', $scenario->getName());
 
-        $expectedFullPath = $_ENV['TAS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR . 'IncompleteScenarioWithNotTasShipFile';
+        $expectedFullPath = $_ENV['TAS_LOCATION'] . DIRECTORY_SEPARATOR . 'IncompleteScenarioWithNotTasShipFile';
         static::assertEquals($expectedFullPath, $scenario->getFullPath());
     }
 
@@ -98,7 +98,7 @@ class ScenarioRepositoryTest extends TestCase
             static::$scenarioRepository->getAll(false, false)['EmptyScenario'];
             static::fail("The 'EmptyScenario' scenario has no config file so an exception was expected");
         } catch (FileNotFoundException $exception) {
-            static::assertEquals("Impossible to read the content of the file 'tests/Assets/TAS/Scenarios/EmptyScenario/ScenarioInfo.cfg'.", $exception->getMessage());
+            static::assertEquals("Impossible to read the content of the file 'tests/Assets/TAS/EmptyScenario/ScenarioInfo.cfg'.", $exception->getMessage());
         }
     }
 
@@ -108,7 +108,7 @@ class ScenarioRepositoryTest extends TestCase
             static::$scenarioRepository->getOne('ScenarioInvalidConfig');
             static::fail("The 'ScenarioInvalidConfig' scenario has an incomplete config file so an exception was expected");
         } catch (InvalidInputException $exception) {
-            static::assertEquals("Scenario info not found : 'Shipdatafile' in 'tests/Assets/TAS/Scenarios/ScenarioInvalidConfig/ScenarioInfo.cfg'", $exception->getMessage());
+            static::assertEquals("Scenario info not found : 'Shipdatafile' in 'tests/Assets/TAS/ScenarioInvalidConfig/ScenarioInfo.cfg'", $exception->getMessage());
         }
     }
 
