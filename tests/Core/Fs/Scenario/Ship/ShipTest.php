@@ -44,8 +44,11 @@ class ShipTest extends TestCase
         try {
             new Ship($data);
             static::fail('Since the input data is invalid, an exception was expected.');
-        } catch (InvalidShipDataException $exception) {
-            static::assertEquals("The attribute 'Foo' is unknown", $exception->getMessage());
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                "The attribute 'Foo' is unknown in App\Core\Fs\Scenario\Ship\Ship",
+                $exception->getMessage()
+            );
         }
     }
 
@@ -57,8 +60,11 @@ class ShipTest extends TestCase
         try {
             new Ship($data);
             static::fail('An exception was expected since the field qty is not the correct one');
-        } catch (InvalidShipDataException $exception) {
-            static::assertEquals('Invalid ship attribute quantity', $exception->getMessage());
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                'Invalid attribute quantity in App\Core\Fs\Scenario\Ship\Ship',
+                $exception->getMessage()
+            );
         }
     }
 

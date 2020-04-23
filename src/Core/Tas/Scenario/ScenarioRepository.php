@@ -13,6 +13,7 @@ use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
 use App\Core\Fs\Scenario\Ship\ShipExtractor as FsShipExtractor;
 use App\Core\Tas\Exception\MissingTasScenarioException;
+use App\Core\Tas\Savegame\Savegame;
 use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
 
 class ScenarioRepository
@@ -54,7 +55,7 @@ class ScenarioRepository
             if (
                 is_dir($scenarioFullPath)
                 && preg_match('/^[a-zA-Z0-9 ]*$/', $element)
-                && 0 === preg_match('/^Save[1-6 ]*$/', $element)
+                && 0 === preg_match(Savegame::PATH_REGEX, $element)
             ) {
                 $exploded = explode(DIRECTORY_SEPARATOR, $element);
                 $scenarioKey = array_pop($exploded);

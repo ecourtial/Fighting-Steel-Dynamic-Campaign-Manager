@@ -15,13 +15,19 @@ use PHPUnit\Framework\TestCase;
 
 class IniFileReaderTest extends TestCase
 {
-    public function testGetDataSuccess(): void
+    /** @var IniReader */
+    private static $iniReader;
+
+    public static function setUpBeforeClass(): void
     {
         $textFileReader = new TextFileReader();
-        $iniReader = new IniReader($textFileReader);
+        static::$iniReader = new IniReader($textFileReader);
+    }
 
+    public function testGetDataSuccess(): void
+    {
         $data = [];
-        foreach ($iniReader->getData('tests/Assets/dcm-config.ini') as $line) {
+        foreach (static::$iniReader->getData('tests/Assets/dcm-config.ini') as $line) {
             $data[] = $line;
         }
 
@@ -36,17 +42,32 @@ class IniFileReaderTest extends TestCase
 
     public function testGetDataMalformedLine(): void
     {
-        $textFileReader = new TextFileReader();
-        $iniReader = new IniReader($textFileReader);
         $fileName = 'tests/Assets/dcm-config-bad.ini';
         $data = [];
 
-        foreach ($iniReader->getData($fileName) as $line) {
+        foreach (static::$iniReader->getData($fileName) as $line) {
             $data[] = $line;
         }
 
         static::assertEquals(
             [['key' => 'TAS_PATH', 'value' => 'C:\Program Files\Thunder At Sea']],
+            $data
+        );
+    }
+
+    public function testWithHeaders(): void
+    {
+        $data = [];
+        foreach (static::$iniReader->getData('tests/Assets/dcm-config.ini', false) as $line) {
+            $data[] = $line;
+        }
+
+        static::assertEquals(
+            [
+                ['key' => 'header_1', 'value' => 'GENERAL CONFIG - NOTE FILE HAS SPACES FOR TESTING PURPOSE'],
+                ['key' => 'TAS_PATH', 'value' => 'C:\Program Files\Thunder At Sea'],
+                ['key' => 'FS_PATH', 'value' => 'C:\Program Files\Fighting Steel'],
+            ],
             $data
         );
     }

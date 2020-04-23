@@ -26,6 +26,8 @@ class Savegame
         'WeatherState',
     ];
 
+    public const PATH_REGEX = '/^Save[1-6 ]*$/';
+
     private bool $fog;
     private string $scenarioName;
     private int $saveDate;
@@ -33,6 +35,7 @@ class Savegame
     private bool $cloudCover;
     private bool $weatherState;
 
+    /** @param string[] $data */
     public function __construct(array $data)
     {
         $this->hydrate($data);
@@ -45,9 +48,9 @@ class Savegame
 
     public function setFog(string $fog): void
     {
-        if ($fog === 'Yes') {
+        if ('Yes' === $fog) {
             $fog = true;
-        } elseif ($fog === 'No') {
+        } elseif ('No' === $fog) {
             $fog = false;
         } else {
             throw new InvalidInputException("Invalid fog entry: '{$fog}'");
@@ -71,9 +74,9 @@ class Savegame
         return $this->saveDate;
     }
 
-    public function setSaveDate(int $saveDate): void
+    public function setSaveDate(string $saveDate): void
     {
-        $this->saveDate = $saveDate;
+        $this->saveDate = (int) $saveDate;
     }
 
     public function getSaveTime(): int
@@ -81,9 +84,9 @@ class Savegame
         return $this->saveTime;
     }
 
-    public function setSaveTime(int $saveTime): void
+    public function setSaveTime(string $saveTime): void
     {
-        $this->saveTime = $saveTime;
+        $this->saveTime = (int) $saveTime;
     }
 
     public function getCloudCover(): bool
@@ -91,7 +94,7 @@ class Savegame
         return $this->cloudCover;
     }
 
-    public function setCloudCover(int $cloudCover): void
+    public function setCloudCover(string $cloudCover): void
     {
         $this->cloudCover = (bool) $cloudCover;
     }
@@ -101,8 +104,12 @@ class Savegame
         return $this->weatherState;
     }
 
-    public function setWeatherState(int $weatherState): void
+    public function setWeatherState(string $weatherState): void
     {
         $this->weatherState = (bool) $weatherState;
+    }
+
+    public function getShipLocation(string $ship): string
+    {
     }
 }
