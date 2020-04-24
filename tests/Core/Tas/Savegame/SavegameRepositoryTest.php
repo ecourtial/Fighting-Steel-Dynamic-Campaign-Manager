@@ -13,6 +13,7 @@ namespace Tests\Core\Tas\Savegame;
 use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
+use App\Core\Tas\Savegame\Fleet\FleetExtractor;
 use App\Core\Tas\Savegame\SavegameReader;
 use App\Core\Tas\Savegame\SavegameRepository;
 use PHPUnit\Framework\TestCase;
@@ -24,8 +25,11 @@ class SavegameRepositoryTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
+        $iniReader = new IniReader(new TextFileReader());
+
         static::$repo = new SavegameRepository(
-            new SavegameReader(new IniReader(new TextFileReader())),
+            new SavegameReader($iniReader),
+            new FleetExtractor($iniReader),
             $_ENV['TAS_LOCATION']
         );
     }
@@ -45,11 +49,26 @@ class SavegameRepositoryTest extends TestCase
     {
         $saveGame = static::$repo->getOne('Save1');
         static::assertEquals('Goeben reminiscence', $saveGame->getScenarioName());
+        static::assertEquals('tests/Assets/TAS/Save1', $saveGame->getPath());
+
+        static::assertEquals(0, count($saveGame->getAxisShipsInPort()));
+        static::assertEquals(0, count($saveGame->getAlliedShipsInPort()));
+        static::assertEquals(0, count($saveGame->getAxisFleets()));
+        static::assertEquals(0, count($saveGame->getAlliedFleets()));
     }
 
     public function testGetOneWithAllData(): void
     {
-        
+        $saveGame = static::$repo->getOne('Save1', true);
+
+        static::assertEquals(4, count($saveGame->getAxisShipsInPort()));
+        static::assertEquals(12, count($saveGame->getAlliedShipsInPort()));
+        static::assertEquals(2, count($saveGame->getAxisFleets()));
+        static::assertEquals(2, count($saveGame->getAlliedFleets()));
+        static::assertEquals('Tarento', $saveGame->getShipData('Provence')['location']);
+        static::assertEquals('Napoli', $saveGame->getShipData('Mogador')['location']);
+        static::assertEquals('Toulon', $saveGame->getShipData('Emile Bertin')['location']);
+        static::assertEquals('425652N 0032723E', $saveGame->getShipData('Littorio')['location']);
     }
 
     public function testGetOneBadFormat(): void

@@ -11,7 +11,9 @@ declare(strict_types=1);
 namespace App\Core\Tas\Savegame;
 
 use App\Core\Exception\InvalidInputException;
+use App\Core\Tas\Savegame\Fleet\Fleet;
 use App\Core\Traits\HydrateTrait;
+use App\NameSwitcher\Exception\NoShipException;
 
 class Savegame
 {
@@ -34,6 +36,19 @@ class Savegame
     private int $saveTime;
     private bool $cloudCover;
     private bool $weatherState;
+
+    private string $path;
+
+    /** @var string[] */
+    private array $axisShipsInPort = [];
+    /** @var string[] */
+    private array $alliedShipsInPort = [];
+    /** @var Fleet[] */
+    private array $axisFleets = [];
+    /** @var Fleet[] */
+    private array $alliedFleets = [];
+    /** @var string[] */
+    private array $shipsData = [];
 
     /** @param string[] $data */
     public function __construct(array $data)
@@ -109,7 +124,76 @@ class Savegame
         $this->weatherState = (bool) $weatherState;
     }
 
-    public function getShipLocation(string $ship): string
+    /** @param string[] $ships */
+    public function setAxisShipsInPort(array $ships): void
     {
+        $this->axisShipsInPort = $ships;
+    }
+
+    /** @param Fleet[] $fleets */
+    public function setAxisShipsAtSea(array $fleets): void
+    {
+        $this->axisFleets = $fleets;
+    }
+
+    /** @param string[] $ships */
+    public function setAlliedShipsInPort(array $ships): void
+    {
+        $this->alliedShipsInPort = $ships;
+    }
+
+    /** @param Fleet[] $fleets */
+    public function setAlliedShipsAtSea(array $fleets): void
+    {
+        $this->alliedFleets = $fleets;
+    }
+
+    /** @return  string[] */
+    public function getAxisShipsInPort(): array
+    {
+        return $this->axisShipsInPort;
+    }
+
+    /** @return  Fleet[] */
+    public function getAxisFleets(): array
+    {
+        return $this->axisFleets;
+    }
+
+    /** @return  string[] */
+    public function getAlliedShipsInPort(): array
+    {
+        return $this->alliedShipsInPort;
+    }
+
+    /** @return  Fleet[] */
+    public function getAlliedFleets(): array
+    {
+        return $this->alliedFleets;
+    }
+
+    /** @param string[] $shipsData */
+    public function setShipsData(array $shipsData): void
+    {
+        $this->shipsData = $shipsData;
+    }
+
+    public function getShipData(string $ship): array
+    {
+        if (false === array_key_exists($ship, $this->shipsData)) {
+            throw new NoShipException("Ship '$ship' not found in the savegame");
+        }
+
+        return $this->shipsData[$ship];
+    }
+
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): void
+    {
+        $this->path = $path;
     }
 }

@@ -163,7 +163,6 @@ class FleetExtractor
                 && 'SHIPS IN PORT' === $line['value']
             ) {
                 $fleets[$fleet->getId()] = $fleet;
-                $currentDivision = '';
 
                 break;
             }

@@ -36,8 +36,10 @@ class SavegameReader
 
             if ($line['key'] === $lastKey) {
                 $this->validateData($data, $path);
+                $save = new Savegame($data);
+                $save->setPath($scenarioDirectory);
 
-                return new Savegame($data);
+                return $save;
             }
         }
 

@@ -11,15 +11,23 @@ declare(strict_types=1);
 namespace App\Core\Tas\Savegame;
 
 use App\Core\Exception\InvalidInputException;
+use App\Core\Tas\Savegame\Fleet\Fleet;
+use App\Core\Tas\Savegame\Fleet\FleetExtractor;
+use App\Core\Tas\Scenario\Scenario;
 
 class SavegameRepository
 {
     private SavegameReader $savegameReader;
+    private FleetExtractor $fleetExtractor;
     private string $tasDirectory;
 
-    public function __construct(SavegameReader $savegameReader, string $tasDirectory)
-    {
+    public function __construct(
+        SavegameReader $savegameReader,
+        FleetExtractor $fleetExtractor,
+        string $tasDirectory
+    ) {
         $this->savegameReader = $savegameReader;
+        $this->fleetExtractor = $fleetExtractor;
         $this->tasDirectory = $tasDirectory;
     }
 
@@ -58,11 +66,66 @@ class SavegameRepository
             throw new InvalidInputException("Savegame key '$key' is not a valid format");
         }
 
-        $save = $this->savegameReader->extract($this->tasDirectory . DIRECTORY_SEPARATOR . $key);
+        $path = $this->tasDirectory . DIRECTORY_SEPARATOR . $key;
+        $save = $this->savegameReader->extract($path);
 
         if ($fullData) {
-        } else {
-            return $save;
+            $axisShipsInPort = $this->fleetExtractor->getShipsInPort($path, Scenario::AXIS_SIDE);
+            $alliedShipsInPort = $this->fleetExtractor->getShipsInPort($path, Scenario::ALLIED_SIDE);
+            $axisFleets = $this->fleetExtractor->extractFleets($path, Scenario::AXIS_SIDE);
+            $alliedFleets = $this->fleetExtractor->extractFleets($path, Scenario::ALLIED_SIDE);
+
+            $save->setAxisShipsInPort($axisShipsInPort);
+            $save->setAxisShipsAtSea($axisFleets);
+            $save->setAlliedShipsInPort($alliedShipsInPort);
+            $save->setAlliedShipsAtSea($alliedFleets);
+
+            // Location and other data
+            $data = [];
+            $this->getLocationsFromShipsInport(Scenario::AXIS_SIDE, $axisShipsInPort, $data);
+            $this->getLocationsFromShipsInport(Scenario::ALLIED_SIDE, $alliedShipsInPort, $data);
+
+            $this->getLocationsFromFleets(Scenario::AXIS_SIDE, $axisFleets, $data);
+            $this->getLocationsFromFleets(Scenario::ALLIED_SIDE, $alliedFleets, $data);
+
+            $save->setShipsData($data);
+        }
+
+        return $save;
+    }
+
+    /**
+     * @param Fleet[]    $fleets
+     * @param string[][] $data
+     */
+    private function getLocationsFromShipsInport(string $side, array $ships, array &$data)
+    {
+        foreach ($ships as $ship => $location) {
+            $data[$ship] = [
+                'location' => $location,
+                'side' => $side,
+            ];
+        }
+    }
+
+    /**
+     * @param Fleet[]    $fleets
+     * @param string[][] $data
+     */
+    private function getLocationsFromFleets(string $side, array $fleets, array &$data)
+    {
+        foreach ($fleets as $fleet) {
+            $currentLocation = $fleet->getLl();
+            foreach ($fleet->getDivisions() as $divisionName => $division) {
+                foreach ($division as $ship) {
+                    $data[$ship] = [
+                        'location' => $currentLocation,
+                        'fleet' => $fleet->getId(),
+                        'division' => $divisionName,
+                        'side' => $side,
+                    ];
+                }
+            }
         }
     }
 }

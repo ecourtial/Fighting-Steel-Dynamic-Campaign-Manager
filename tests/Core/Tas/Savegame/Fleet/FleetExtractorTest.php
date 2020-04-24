@@ -47,6 +47,9 @@ class FleetExtractorTest extends TestCase
 
         $expected = [
             'Provence' => 'Tarento',
+            'Ocean' => 'Napoli',
+            'Condorcet' => 'Napoli',
+            'Mogador' => 'Napoli',
         ];
         static::assertEquals($expected, static::$fleetExtractor->getShipsInPort($path, 'Axis'));
     }
@@ -77,7 +80,18 @@ class FleetExtractorTest extends TestCase
                 'TF0DIVISION1' => [
                     0 => 'Roma',
                 ],
-            ], $fleet->getDivisions());
+            ],
+            $fleet->getDivisions()
+        );
+
+        static::assertEquals(
+            [
+                'Gneisenau' => 'TF0DIVISION0',
+                'Scharnhorst' => 'TF0DIVISION0',
+                'Roma' => 'TF0DIVISION1',
+            ],
+            $fleet->getShips()
+        );
 
         $fleet = $fleets['TF1'];
         static::assertEquals('TF1', $fleet->getId());
@@ -91,5 +105,12 @@ class FleetExtractorTest extends TestCase
         static::assertEquals(['TF1DIVISION0' => [
             0 => 'Littorio',
         ]], $fleet->getDivisions());
+
+        static::assertEquals(
+            [
+                'Littorio' => 'TF1DIVISION0',
+            ],
+            $fleet->getShips()
+        );
     }
 }

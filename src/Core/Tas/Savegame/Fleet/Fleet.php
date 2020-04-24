@@ -21,8 +21,10 @@ class Fleet
     private string $ll;
     /** @var string[] */
     private array $waypoints = [];
-    /** string[][] */
+    /** @var string[][] */
     private array $divisions = [];
+    /** @var string[] */
+    private $ships = [];
 
     public function setId(string $id): void
     {
@@ -107,5 +109,19 @@ class Fleet
     public function getDivisions(): array
     {
         return $this->divisions;
+    }
+
+    /** @return string[]  */
+    public function getShips(): array
+    {
+        if ([] === $this->ships) {
+            foreach ($this->divisions as $divisionName => $ships) {
+                foreach ($ships as $ship) {
+                    $this->ships[$ship] = $divisionName;
+                }
+            }
+        }
+
+        return $this->ships;
     }
 }

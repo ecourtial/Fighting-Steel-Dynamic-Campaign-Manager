@@ -54,10 +54,19 @@ class MapService
     private function convertTasLocationElement(string $entry): string
     {
         $entryLength = strlen($entry);
+        // 5 and 6 => cases for the waypoints. 7 and 8 are for LL.
         if (5 === $entryLength) {
             return substr($entry, 0, 2) . '.' . substr($entry, 2);
         } elseif (6 === $entryLength) {
             return substr($entry, 0, 3) . '.' . substr($entry, 3);
+        } elseif (7 === $entryLength) {
+            $element = substr($entry, 0, 4) . substr($entry, 6);
+
+            return substr($element, 0, 2) . '.' . substr($element, 2);
+        } elseif (8 === $entryLength) {
+            $element = substr($entry, 0, 5) . substr($entry, 7);
+
+            return substr($element, 0, 3) . '.' . substr($element, 3);
         } else {
             throw new InvalidInputException("Unknown TAS location part: '{$entry}'");
         }

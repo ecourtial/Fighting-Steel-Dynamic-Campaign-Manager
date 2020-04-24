@@ -57,7 +57,7 @@ class SavegameTest extends TestCase
         unset($input['Fog']);
 
         try {
-            $save = new Savegame($input);
+            new Savegame($input);
             static::fail('Since the input data is incomplete, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -65,9 +65,5 @@ class SavegameTest extends TestCase
                 $exception->getMessage()
             );
         }
-    }
-
-    public function testGetShipLocation(): void
-    {
     }
 }
