@@ -82,8 +82,8 @@ class SavegameRepository
 
             // Location and other data
             $data = [];
-            $this->getLocationsFromShipsInport(Scenario::AXIS_SIDE, $axisShipsInPort, $data);
-            $this->getLocationsFromShipsInport(Scenario::ALLIED_SIDE, $alliedShipsInPort, $data);
+            $this->getLocationsFromShipsInPort(Scenario::AXIS_SIDE, $axisShipsInPort, $data);
+            $this->getLocationsFromShipsInPort(Scenario::ALLIED_SIDE, $alliedShipsInPort, $data);
 
             $this->getLocationsFromFleets(Scenario::AXIS_SIDE, $axisFleets, $data);
             $this->getLocationsFromFleets(Scenario::ALLIED_SIDE, $alliedFleets, $data);
@@ -98,13 +98,11 @@ class SavegameRepository
      * @param Fleet[]    $fleets
      * @param string[][] $data
      */
-    private function getLocationsFromShipsInport(string $side, array $ships, array &$data)
+    private function getLocationsFromShipsInPort(string $side, array $ships, array &$data)
     {
-        foreach ($ships as $ship => $location) {
-            $data[$ship] = [
-                'location' => $location,
-                'side' => $side,
-            ];
+        foreach ($ships as $ship => $info) {
+            $info['side'] = $side;
+            $data[$ship] = $info;
         }
     }
 
@@ -117,7 +115,7 @@ class SavegameRepository
         foreach ($fleets as $fleet) {
             $currentLocation = $fleet->getLl();
             foreach ($fleet->getDivisions() as $divisionName => $division) {
-                foreach ($division as $ship) {
+                foreach ($division as $ship => $shipData) {
                     $data[$ship] = [
                         'location' => $currentLocation,
                         'fleet' => $fleet->getId(),
@@ -127,5 +125,10 @@ class SavegameRepository
                 }
             }
         }
+    }
+
+    public function persist(Savegame $savegame): void
+    {
+
     }
 }

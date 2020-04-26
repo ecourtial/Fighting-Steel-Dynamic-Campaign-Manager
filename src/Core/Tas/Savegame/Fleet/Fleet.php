@@ -42,6 +42,7 @@ class Fleet
     private $ships = [];
     private float $speed;
     private string $mission;
+    private int $lastDivisionCount;
 
     public function setId(string $id): void
     {
@@ -171,9 +172,13 @@ class Fleet
         $this->mission = $mission;
     }
 
+    public function getLastDivisionCount(): int
+    {
+        return $this->lastDivisionCount;
+    }
 
-
-
-
-
+    public function setLastDivisionCount(int $lastDivisionCount): void
+    {
+        $this->lastDivisionCount = $lastDivisionCount;
+    }
 }

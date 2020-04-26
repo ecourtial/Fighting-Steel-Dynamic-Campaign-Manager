@@ -83,4 +83,9 @@ class SavegameRepositoryTest extends TestCase
             );
         }
     }
+
+    public function testPersist(): void
+    {
+
+    }
 }

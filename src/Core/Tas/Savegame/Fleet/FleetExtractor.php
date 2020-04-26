@@ -50,13 +50,23 @@ class FleetExtractor
 
             if ('NAME' === $line['key'] && $record) {
                 $currentShipName = $line['value'];
+                $ships[$currentShipName] = [];
 
                 continue;
             }
 
-            if ('LOCATION' === $line['key'] && '' !== $currentShipName && $record) {
-                $ships[$currentShipName] = $line['value'];
-                $currentShipName = '';
+            if (
+                ('' !== $currentShipName && $record)
+                && (
+                    'LOCATION' === $line['key']
+                    || 'TYPE' === $line['key']
+                    || 'MAXSPEED' === $line['key']
+                    || 'ENDURANCE' === $line['key']
+                    || 'CURRENTENDURANCE' === $line['key']
+                    || 'RECONRANGE' === $line['key']
+                )
+            ) {
+                $ships[$currentShipName][$line['key']] = $line['value'];
 
                 continue;
             }
@@ -78,6 +88,7 @@ class FleetExtractor
         $fleetContext = false;
         $currentDivision = '';
         $currentName = '';
+        $lastDivisionCount = 0;
 
         foreach ($this->iniReader->getData($path, false) as $line) {
             // Task force header
@@ -181,6 +192,12 @@ class FleetExtractor
             ) {
                 $currentDivision = $line['value'];
                 $fleet->addDivision($currentDivision);
+
+                $offset = strpos($line['value'], 'DIVISION');
+                $offset+=8;
+                $divNumber = (int) substr($line['value'], $offset);
+                $fleet->setLastDivisionCount($divNumber);
+                $lastDivisionCount = $divNumber;
             }
 
             // Ship in ports are in the second part of the file. We need to stop here.

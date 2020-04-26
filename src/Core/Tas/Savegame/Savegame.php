@@ -12,6 +12,7 @@ namespace App\Core\Tas\Savegame;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\Tas\Savegame\Fleet\Fleet;
+use App\Core\Tas\Scenario\Scenario;
 use App\Core\Traits\HydrateTrait;
 use App\NameSwitcher\Exception\NoShipException;
 
@@ -38,6 +39,8 @@ class Savegame
     private bool $weatherState;
 
     private string $path;
+    private bool $axisShipsDataChanged = false;
+    private bool $alliedShipsDataChanged = false;
 
     /** @var string[] */
     private array $axisShipsInPort = [];
@@ -195,5 +198,52 @@ class Savegame
     public function setPath(string $path): void
     {
         $this->path = $path;
+    }
+
+    public function isShipsDataChanged(string $side): bool
+    {
+        if ($side === Scenario::AXIS_SIDE) {
+            return $this->axisShipsDataChanged;
+        } elseif ($side === Scenario::ALLIED_SIDE) {
+            return $this->alliedShipsDataChanged;
+        } else {
+            throw new InvalidInputException("Side '$side' is unknown");
+        }
+    }
+
+    public function setShipsDataChanged(string $side, bool $dataChanged): void
+    {
+        if ($side === Scenario::AXIS_SIDE) {
+            $this->axisShipsDataChanged = $dataChanged;
+        } elseif ($side === Scenario::ALLIED_SIDE) {
+            $this->alliedShipsDataChanged = $dataChanged;
+        } else {
+            throw new InvalidInputException("Side '$side' is unknown");
+        }
+    }
+
+    private function validateShipIsInPort(string $ship, string $side): void
+    {
+        if ($side === Scenario::AXIS_SIDE) {
+            if (false === array_key_exists($ship, $this->axisShipsInPort)) {
+                throw new InvalidInputException("Ship '$ship' is not in port on the axis side");
+            }
+        } elseif ($side === Scenario::ALLIED_SIDE) {
+            if (false === array_key_exists($ship, $this->alliedShipsInPort)) {
+                throw new InvalidInputException("Ship '$ship' is not in port on the allied side");
+            }
+        } else {
+            throw new InvalidInputException("Side '$side' is unknown");
+        }
+    }
+
+    public function removeShipInPort(string $ship, string $side): void
+    {
+        $this->validateShipIsInPort($ship, $side);
+        if ($side === Scenario::AXIS_SIDE) {
+            unset($this->axisShipsInPort[$ship]);
+        } else {
+            unset($this->alliedShipsInPort[$ship]);
+        }
     }
 }

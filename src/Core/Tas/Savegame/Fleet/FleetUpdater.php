@@ -13,21 +13,13 @@ namespace App\Core\Tas\Savegame\Fleet;
 use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
 use App\Core\Tas\Savegame\Savegame;
+use App\Core\Tas\Scenario\Scenario;
 
 class FleetUpdater
 {
     public const TO_PORT_ACTION = 'to_port';
     public const AT_SEA_ACTION = 'at_sea';
     public const DETACH_ACTION = 'detach';
-
-    private IniReader $iniReader;
-    private string $tasDirectory;
-
-    public function __construct(IniReader $iniReader, string $tasDirectory)
-    {
-        $this->iniReader = $iniReader;
-        $this->tasDirectory = $tasDirectory;
-    }
 
     public function action(
         Savegame $savegame,
@@ -50,12 +42,45 @@ class FleetUpdater
         }
     }
 
+    /**
+     * @param string[] $ships
+     * @param array[] $params
+     */
     private function putAtSea(Savegame $savegame, array $ships, array $params): void
     {
-        // D'abord, rajouter dans les infos les notions de type, endurance etc.
+        $side = $this->validateSide($savegame, $ships);
+        $shipsToMove = [];
 
-        // On va louper sur les navires pour construire la division de la TF
-        $side = $savegame->getShipData($ship)['side'];
-        $path = $savegame->getPath();
+//        dd($savegame);
+
+        foreach ($ships as $ship) {
+            $shipsToMove[$ship] = $savegame->getShipData($ship);
+            $savegame->removeShipInPort($ship, $side);
+        }
+
+        dd($savegame->getAxisShipsInPort());
+
+
+        $savegame->setShipsDataChanged($side, true);
+    }
+
+    private function validateSide($savegame, array $ships): string
+    {
+        $side = '';
+        // Check the side
+        foreach ($ships as $ship) {
+            $currentSide = $savegame->getShipData($ship)['side'];
+            if ($side === '') {
+                $side = $currentSide;
+
+                continue;
+            }
+
+            if ($currentSide !== $side) {
+                throw new InvalidInputException('Ships must be on the same side');
+            }
+        }
+
+        return $side;
     }
 }

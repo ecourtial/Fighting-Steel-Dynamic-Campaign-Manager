@@ -27,18 +27,102 @@ class FleetExtractorTest extends TestCase
     public function testExtractShipsInPortNormal(): void
     {
         $expected = [
-            'Valmy' => 'Bizerte',
-            'Verdun' => 'Bizerte',
-            'Guepard' => 'Bizerte',
-            'Vauban' => 'Bizerte',
-            'Lion' => 'Bizerte',
-            'Epervier' => 'Bizerte',
-            'La Marseillaise' => 'Bizerte',
-            'Jean De Vienne' => 'Bizerte',
-            'Emile Bertin' => 'Toulon',
-            'La Poursuivante' => 'Hyeres',
-            'Bayonnaise' => 'Hyeres',
-            'Baliste' => 'Hyeres',
+            'Valmy' => [
+                'TYPE' => 'DD',
+                'MAXSPEED' => '40',
+                'ENDURANCE' => '160',
+                'CURRENTENDURANCE' => '196',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Bizerte',
+            ],
+            'Verdun' => [
+                'TYPE' => 'DD',
+                'MAXSPEED' => '40',
+                'ENDURANCE' => '160',
+                'CURRENTENDURANCE' => '196',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Bizerte',
+            ],
+            'Guepard' => [
+                'TYPE' => 'DD',
+                'MAXSPEED' => '40',
+                'ENDURANCE' => '160',
+                'CURRENTENDURANCE' => '196',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Bizerte',
+            ],
+            'Vauban' => [
+                'TYPE' => 'DD',
+                'MAXSPEED' => '40',
+                'ENDURANCE' => '160',
+                'CURRENTENDURANCE' => '196',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Bizerte',
+            ],
+            'Lion' => [
+                'TYPE' => 'DD',
+                'MAXSPEED' => '40',
+                'ENDURANCE' => '160',
+                'CURRENTENDURANCE' => '196',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Bizerte',
+            ],
+            'Epervier' => [
+                'TYPE' => 'DD',
+                'MAXSPEED' => '40',
+                'ENDURANCE' => '160',
+                'CURRENTENDURANCE' => '196',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Bizerte',
+            ],
+            'La Marseillaise' => [
+                'TYPE' => 'CL',
+                'MAXSPEED' => '32',
+                'ENDURANCE' => '250',
+                'CURRENTENDURANCE' => '196',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Bizerte',
+            ],
+            'Jean De Vienne' => [
+                'TYPE' => 'CL',
+                'MAXSPEED' => '32',
+                'ENDURANCE' => '250',
+                'CURRENTENDURANCE' => '196',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Bizerte',
+            ],
+            'Emile Bertin' => [
+                'TYPE' => 'CL',
+                'MAXSPEED' => '32',
+                'ENDURANCE' => '250',
+                'CURRENTENDURANCE' => '196',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Toulon',
+            ],
+            'La Poursuivante' => [
+                'TYPE' => 'DD',
+                'MAXSPEED' => '34',
+                'ENDURANCE' => '154',
+                'CURRENTENDURANCE' => '195',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Hyeres',
+            ],
+            'Bayonnaise' => [
+                'TYPE' => 'DD',
+                'MAXSPEED' => '34',
+                'ENDURANCE' => '154',
+                'CURRENTENDURANCE' => '195',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Hyeres',
+            ],
+            'Baliste' => [
+                'TYPE' => 'DD',
+                'MAXSPEED' => '34',
+                'ENDURANCE' => '154',
+                'CURRENTENDURANCE' => '195',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Hyeres',
+            ],
         ];
 
         $path = $_ENV['TAS_LOCATION'] . DIRECTORY_SEPARATOR . 'Save1';
@@ -46,10 +130,38 @@ class FleetExtractorTest extends TestCase
         static::assertEquals($expected, static::$fleetExtractor->getShipsInPort($path, 'Allied'));
 
         $expected = [
-            'Provence' => 'Tarento',
-            'Ocean' => 'Napoli',
-            'Condorcet' => 'Napoli',
-            'Mogador' => 'Napoli',
+            'Provence' => [
+                'TYPE' => 'BB',
+                'MAXSPEED' => '20',
+                'ENDURANCE' => '200',
+                'CURRENTENDURANCE' => '197',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Tarento',
+            ],
+            'Ocean' => [
+                'TYPE' => 'BB',
+                'MAXSPEED' => '20',
+                'ENDURANCE' => '200',
+                'CURRENTENDURANCE' => '197',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Napoli',
+            ],
+            'Condorcet' => [
+                'TYPE' => 'BB',
+                'MAXSPEED' => '20',
+                'ENDURANCE' => '200',
+                'CURRENTENDURANCE' => '197',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Napoli',
+            ],
+            'Mogador' => [
+                'TYPE' => 'DD',
+                'MAXSPEED' => '20',
+                'ENDURANCE' => '200',
+                'CURRENTENDURANCE' => '197',
+                'RECONRANGE' => '0',
+                'LOCATION' => 'Napoli',
+            ],
         ];
         static::assertEquals($expected, static::$fleetExtractor->getShipsInPort($path, 'Axis'));
     }
@@ -105,6 +217,8 @@ class FleetExtractorTest extends TestCase
             $fleet->getDivisions()
         );
 
+        static::assertEquals(1, $fleet->getLastDivisionCount());
+
         static::assertEquals(
             [
                 'Gneisenau' => 'TF0DIVISION0',
@@ -139,5 +253,6 @@ class FleetExtractorTest extends TestCase
             ],
             $fleet->getShips()
         );
+        static::assertEquals(0, $fleet->getLastDivisionCount());
     }
 }
