@@ -62,10 +62,13 @@ class FleetExtractorTest extends TestCase
         static::assertEquals(2, count($fleets));
 
         $fleet = $fleets['TF0'];
+
         static::assertEquals('TF0', $fleet->getId());
         static::assertEquals('Summer Cruise (Lutjens)', $fleet->getName());
         static::assertEquals(100, $fleet->getProb());
         static::assertEquals('385652N 0034523E', $fleet->getLl());
+        static::assertEquals(21, $fleet->getSpeed());
+        static::assertEquals('Breakthrough', $fleet->getMission());
         static::assertEquals([
             0 => '3922N 00431E',
             1 => '4027N 00314E',
@@ -74,11 +77,29 @@ class FleetExtractorTest extends TestCase
         static::assertEquals(
             [
                 'TF0DIVISION0' => [
-                    0 => 'Gneisenau',
-                    1 => 'Scharnhorst',
+                    'Gneisenau' => [
+                        'TYPE' => 'BC',
+                        'MAXSPEED' => '21',
+                        'ENDURANCE' => '295',
+                        'CURRENTENDURANCE' => '286',
+                        'RECONRANGE' => '100',
+                    ],
+                    'Scharnhorst' => [
+                        'TYPE' => 'BC',
+                        'MAXSPEED' => '32',
+                        'ENDURANCE' => '295',
+                        'CURRENTENDURANCE' => '391',
+                        'RECONRANGE' => '100',
+                    ]
                 ],
                 'TF0DIVISION1' => [
-                    0 => 'Roma',
+                    'Roma' => [
+                        'TYPE' => 'BB',
+                        'MAXSPEED' => '21',
+                        'ENDURANCE' => '250',
+                        'CURRENTENDURANCE' => '220',
+                        'RECONRANGE' => '100',
+                    ]
                 ],
             ],
             $fleet->getDivisions()
@@ -103,7 +124,13 @@ class FleetExtractorTest extends TestCase
             1 => '3538N 01110W',
         ], $fleet->getWaypoints());
         static::assertEquals(['TF1DIVISION0' => [
-            0 => 'Littorio',
+            'Littorio' => [
+                'TYPE' => 'BB',
+                'MAXSPEED' => '25',
+                'ENDURANCE' => '250',
+                'CURRENTENDURANCE' => '210',
+                'RECONRANGE' => '100',
+            ]
         ]], $fleet->getDivisions());
 
         static::assertEquals(

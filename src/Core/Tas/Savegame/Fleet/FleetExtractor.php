@@ -77,6 +77,7 @@ class FleetExtractor
         $fleet = null;
         $fleetContext = false;
         $currentDivision = '';
+        $currentName = '';
 
         foreach ($this->iniReader->getData($path, false) as $line) {
             // Task force header
@@ -99,11 +100,36 @@ class FleetExtractor
             if ('NAME' === $line['key']) {
                 if ('' !== $currentDivision) {
                     $fleet->addShipToDivision($currentDivision, $line['value']);
+                    $currentName = $line['value'];
                 } elseif ($fleetContext) {
                     $fleet->setName($line['value']);
                 } else {
                     throw new InvalidInputException('Unknown NAME case');
                 }
+
+                continue;
+            }
+
+            if (
+                'TYPE' === $line['key']
+                || 'MAXSPEED' === $line['key']
+                || 'ENDURANCE' === $line['key']
+                || 'CURRENTENDURANCE' === $line['key']
+                || 'RECONRANGE' === $line['key']
+            ) {
+                $fleet->addDataToShip($currentDivision, $currentName, $line['key'], $line['value']);
+
+                continue;
+            }
+
+            if ('SPEED' === $line['key'] && $fleetContext) {
+                $fleet->setSpeed((float) $line['value']);
+
+                continue;
+            }
+
+            if ('MISSION' === $line['key'] && $fleetContext) {
+                $fleet->setMission($line['value']);
 
                 continue;
             }

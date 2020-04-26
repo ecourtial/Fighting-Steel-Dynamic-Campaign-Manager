@@ -14,6 +14,21 @@ use App\Core\Exception\InvalidInputException;
 
 class Fleet
 {
+    public const MISSION_TYPES = [
+        'Breakthrough',
+        'Cover',
+        'Convoy',
+        'Intercept',
+        'TacTransport',
+        'Bombard',
+        'SlTacTransport',
+        'InterceptTR',
+        'Patrol',
+        'HvyTacTransport',
+        'Minelaying',
+        'Replenish',
+    ];
+
     private string $id;
     private string $name;
     private int $prob;
@@ -25,6 +40,8 @@ class Fleet
     private array $divisions = [];
     /** @var string[] */
     private $ships = [];
+    private float $speed;
+    private string $mission;
 
     public function setId(string $id): void
     {
@@ -71,7 +88,12 @@ class Fleet
 
     public function addShipToDivision(string $division, string $ship): void
     {
-        $this->divisions[$division][] = $ship;
+        $this->divisions[$division][$ship] = [];
+    }
+
+    public function addDataToShip(string $division, string $ship, string $key, string $value): void
+    {
+        $this->divisions[$division][$ship][$key] = $value;
     }
 
     public function getId(): string
@@ -115,8 +137,8 @@ class Fleet
     public function getShips(): array
     {
         if ([] === $this->ships) {
-            foreach ($this->divisions as $divisionName => $ships) {
-                foreach ($ships as $ship) {
+            foreach ($this->divisions as $divisionName => $data) {
+                foreach ($data as $ship => $shipData) {
                     $this->ships[$ship] = $divisionName;
                 }
             }
@@ -124,4 +146,34 @@ class Fleet
 
         return $this->ships;
     }
+
+    public function getSpeed(): float
+    {
+        return $this->speed;
+    }
+
+    public function setSpeed(float $speed): void
+    {
+        $this->speed = $speed;
+    }
+
+    public function getMission(): string
+    {
+        return $this->mission;
+    }
+
+    public function setMission(string $mission): void
+    {
+        if (false === in_array($mission, static::MISSION_TYPES, true)) {
+             throw new InvalidInputException("Unknown mission type: '$mission'");
+        }
+
+        $this->mission = $mission;
+    }
+
+
+
+
+
+
 }
