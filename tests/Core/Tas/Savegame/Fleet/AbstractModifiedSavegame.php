@@ -58,6 +58,18 @@ abstract class AbstractModifiedSavegame extends TestCase
             ]
         );
 
+        // Put Condorcet and Mogador at sea, together
+        static::$updater->action(
+            $saveGame,
+            FleetUpdater::AT_SEA_ACTION,
+            ['Condorcet', 'Mogador'],
+            [
+                'mission' => 'Patrol',
+                'waypoints' => ['blob'],
+                'speed' => 16,
+            ]
+        );
+
         return $saveGame;
     }
 }
