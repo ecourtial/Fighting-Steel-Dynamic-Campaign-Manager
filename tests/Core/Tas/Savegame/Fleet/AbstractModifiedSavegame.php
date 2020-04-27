@@ -70,6 +70,12 @@ abstract class AbstractModifiedSavegame extends TestCase
             ]
         );
 
+        // Remove Gneisenau from her division and put her in port
+
+        // Separate Roma in her own TF: her division is disbanded
+
+        // Put Bretagne, Lorraine, La Palme, Le Mars and Tempete in port: their TF is disbanded
+
         return $saveGame;
     }
 }
