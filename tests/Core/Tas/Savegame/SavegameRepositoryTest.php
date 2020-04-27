@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @licence    MIT
  */
 
-namespace Tests\Core\Tas\Savegame;
+namespace App\Tests\Core\Tas\Savegame;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
@@ -62,13 +62,13 @@ class SavegameRepositoryTest extends TestCase
         $saveGame = static::$repo->getOne('Save1', true);
 
         static::assertEquals(4, count($saveGame->getAxisShipsInPort()));
-        static::assertEquals(12, count($saveGame->getAlliedShipsInPort()));
+        static::assertEquals(2, count($saveGame->getAlliedShipsInPort()));
         static::assertEquals(2, count($saveGame->getAxisFleets()));
         static::assertEquals(2, count($saveGame->getAlliedFleets()));
-        static::assertEquals('Tarento', $saveGame->getShipData('Provence')['location']);
-        static::assertEquals('Napoli', $saveGame->getShipData('Mogador')['location']);
-        static::assertEquals('Toulon', $saveGame->getShipData('Emile Bertin')['location']);
-        static::assertEquals('425652N 0032723E', $saveGame->getShipData('Littorio')['location']);
+        static::assertEquals('Tarento', $saveGame->getShipData('Provence')['LOCATION']);
+        static::assertEquals('Napoli', $saveGame->getShipData('Mogador')['LOCATION']);
+        static::assertEquals('Toulon', $saveGame->getShipData('Emile Bertin')['LOCATION']);
+        static::assertEquals('425652N 0032723E', $saveGame->getShipData('Littorio')['LOCATION']);
     }
 
     public function testGetOneBadFormat(): void
@@ -86,6 +86,5 @@ class SavegameRepositoryTest extends TestCase
 
     public function testPersist(): void
     {
-
     }
 }

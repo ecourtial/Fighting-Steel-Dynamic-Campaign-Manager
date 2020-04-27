@@ -12,6 +12,7 @@ namespace App\Core\Tas\Savegame\Fleet;
 
 use App\Core\Exception\InvalidInputException;
 
+// THIS CLASS REPRESENTS A TASKFORCE @TODO RENAME
 class Fleet
 {
     public const MISSION_TYPES = [
@@ -92,9 +93,14 @@ class Fleet
         $this->divisions[$division][$ship] = [];
     }
 
-    public function addDataToShip(string $division, string $ship, string $key, string $value): void
+    public function addDataToShipInDivision(string $division, string $ship, string $key, string $value): void
     {
         $this->divisions[$division][$ship][$key] = $value;
+    }
+
+    public function setShipData(string $ship, array $data): void
+    {
+        $this->ships[$ship] = $data;
     }
 
     public function getId(): string
@@ -166,7 +172,7 @@ class Fleet
     public function setMission(string $mission): void
     {
         if (false === in_array($mission, static::MISSION_TYPES, true)) {
-             throw new InvalidInputException("Unknown mission type: '$mission'");
+            throw new InvalidInputException("Unknown mission type: '$mission'");
         }
 
         $this->mission = $mission;

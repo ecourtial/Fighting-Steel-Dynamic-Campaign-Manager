@@ -14,11 +14,13 @@ use App\Core\Exception\InvalidInputException;
 use App\Core\Tas\Savegame\Fleet\Fleet;
 use App\Core\Tas\Scenario\Scenario;
 use App\Core\Traits\HydrateTrait;
+use App\Core\Traits\UnknownSideTrait;
 use App\NameSwitcher\Exception\NoShipException;
 
 class Savegame
 {
     use HydrateTrait;
+    use UnknownSideTrait;
 
     public const FIELDS_NAME = [
         'Fog',
@@ -52,6 +54,9 @@ class Savegame
     private array $alliedFleets = [];
     /** @var string[] */
     private array $shipsData = [];
+
+    private $axisMaxTfCount = 0;
+    private $alliedMaxTfCount = 0;
 
     /** @param string[] $data */
     public function __construct(array $data)
@@ -136,6 +141,8 @@ class Savegame
     /** @param Fleet[] $fleets */
     public function setAxisShipsAtSea(array $fleets): void
     {
+        $this->updateTfNumber($fleets, Scenario::AXIS_SIDE);
+
         $this->axisFleets = $fleets;
     }
 
@@ -148,6 +155,8 @@ class Savegame
     /** @param Fleet[] $fleets */
     public function setAlliedShipsAtSea(array $fleets): void
     {
+        $this->updateTfNumber($fleets, Scenario::ALLIED_SIDE);
+
         $this->alliedFleets = $fleets;
     }
 
@@ -175,10 +184,26 @@ class Savegame
         return $this->alliedFleets;
     }
 
-    /** @param string[] $shipsData */
+    public function getShipsInPort(string $side): array
+    {
+        $this->validateSide($side);
+        if (Scenario::AXIS_SIDE === $side) {
+            return $this->axisShipsInPort;
+        } else {
+            return $this->alliedShipsInPort;
+        }
+    }
+
+    /** @param string[][] $shipsData */
     public function setShipsData(array $shipsData): void
     {
         $this->shipsData = $shipsData;
+    }
+
+    /** @param string[][] $shipsData */
+    public function setShipData(string $ship, array $shipData): void
+    {
+        $this->shipsData[$ship] = $shipData;
     }
 
     public function getShipData(string $ship): array
@@ -202,48 +227,110 @@ class Savegame
 
     public function isShipsDataChanged(string $side): bool
     {
-        if ($side === Scenario::AXIS_SIDE) {
+        $this->validateSide($side);
+
+        if (Scenario::AXIS_SIDE === $side) {
             return $this->axisShipsDataChanged;
-        } elseif ($side === Scenario::ALLIED_SIDE) {
-            return $this->alliedShipsDataChanged;
         } else {
-            throw new InvalidInputException("Side '$side' is unknown");
+            return $this->alliedShipsDataChanged;
         }
     }
 
     public function setShipsDataChanged(string $side, bool $dataChanged): void
     {
-        if ($side === Scenario::AXIS_SIDE) {
+        $this->validateSide($side);
+
+        if (Scenario::AXIS_SIDE === $side) {
             $this->axisShipsDataChanged = $dataChanged;
-        } elseif ($side === Scenario::ALLIED_SIDE) {
-            $this->alliedShipsDataChanged = $dataChanged;
         } else {
-            throw new InvalidInputException("Side '$side' is unknown");
+            $this->alliedShipsDataChanged = $dataChanged;
         }
     }
 
     private function validateShipIsInPort(string $ship, string $side): void
     {
-        if ($side === Scenario::AXIS_SIDE) {
+        $this->validateSide($side);
+
+        if (Scenario::AXIS_SIDE === $side) {
             if (false === array_key_exists($ship, $this->axisShipsInPort)) {
                 throw new InvalidInputException("Ship '$ship' is not in port on the axis side");
             }
-        } elseif ($side === Scenario::ALLIED_SIDE) {
+        } else {
             if (false === array_key_exists($ship, $this->alliedShipsInPort)) {
                 throw new InvalidInputException("Ship '$ship' is not in port on the allied side");
             }
-        } else {
-            throw new InvalidInputException("Side '$side' is unknown");
         }
     }
 
     public function removeShipInPort(string $ship, string $side): void
     {
         $this->validateShipIsInPort($ship, $side);
-        if ($side === Scenario::AXIS_SIDE) {
+        if (Scenario::AXIS_SIDE === $side) {
             unset($this->axisShipsInPort[$ship]);
         } else {
             unset($this->alliedShipsInPort[$ship]);
+        }
+    }
+
+    public function getMaxTfNumber(string $side): int
+    {
+        $this->validateSide($side);
+
+        if (Scenario::AXIS_SIDE === $side) {
+            return $this->axisMaxTfCount;
+        } else {
+            return $this->alliedMaxTfCount;
+        }
+    }
+
+    public function incrementMaxTfNumber(string $side): void
+    {
+        $this->validateSide($side);
+
+        if (Scenario::AXIS_SIDE === $side) {
+            $this->axisMaxTfCount++;
+        } else {
+            $this->alliedMaxTfCount++;
+        }
+    }
+
+    public function getFleets(string $side): array
+    {
+        $this->validateSide($side);
+
+        if (Scenario::AXIS_SIDE === $side) {
+            return $this->axisFleets;
+        } else {
+            return $this->alliedFleets;
+        }
+    }
+
+    public function addFleet(string $side, Fleet $fleet): void
+    {
+        $this->validateSide($side);
+
+        if (Scenario::AXIS_SIDE === $side) {
+            $this->axisFleets[$fleet->getId()] = $fleet;
+        } else {
+            $this->alliedFleets[$fleet->getId()] = $fleet;
+        }
+    }
+
+    /** @param Fleet[] $fleets */
+    private function updateTfNumber(array $fleets, string $side): void
+    {
+        $this->validateSide($side);
+        foreach ($fleets as $fleet) {
+            $divNumber = (int) substr($fleet->getId(), 2);
+            if (Scenario::AXIS_SIDE === $side) {
+                if ($divNumber > $this->axisMaxTfCount) {
+                    $this->axisMaxTfCount = $divNumber;
+                }
+            } else {
+                if ($divNumber > $this->alliedMaxTfCount) {
+                    $this->alliedMaxTfCount = $divNumber;
+                }
+            }
         }
     }
 }

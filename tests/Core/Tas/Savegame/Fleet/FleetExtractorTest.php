@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @licence    MIT
  */
 
-namespace Tests\Core\Tas\Savegame\Fleet;
+namespace App\Tests\Core\Tas\Savegame\Fleet;
 
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
@@ -35,62 +35,6 @@ class FleetExtractorTest extends TestCase
                 'RECONRANGE' => '0',
                 'LOCATION' => 'Bizerte',
             ],
-            'Verdun' => [
-                'TYPE' => 'DD',
-                'MAXSPEED' => '40',
-                'ENDURANCE' => '160',
-                'CURRENTENDURANCE' => '196',
-                'RECONRANGE' => '0',
-                'LOCATION' => 'Bizerte',
-            ],
-            'Guepard' => [
-                'TYPE' => 'DD',
-                'MAXSPEED' => '40',
-                'ENDURANCE' => '160',
-                'CURRENTENDURANCE' => '196',
-                'RECONRANGE' => '0',
-                'LOCATION' => 'Bizerte',
-            ],
-            'Vauban' => [
-                'TYPE' => 'DD',
-                'MAXSPEED' => '40',
-                'ENDURANCE' => '160',
-                'CURRENTENDURANCE' => '196',
-                'RECONRANGE' => '0',
-                'LOCATION' => 'Bizerte',
-            ],
-            'Lion' => [
-                'TYPE' => 'DD',
-                'MAXSPEED' => '40',
-                'ENDURANCE' => '160',
-                'CURRENTENDURANCE' => '196',
-                'RECONRANGE' => '0',
-                'LOCATION' => 'Bizerte',
-            ],
-            'Epervier' => [
-                'TYPE' => 'DD',
-                'MAXSPEED' => '40',
-                'ENDURANCE' => '160',
-                'CURRENTENDURANCE' => '196',
-                'RECONRANGE' => '0',
-                'LOCATION' => 'Bizerte',
-            ],
-            'La Marseillaise' => [
-                'TYPE' => 'CL',
-                'MAXSPEED' => '32',
-                'ENDURANCE' => '250',
-                'CURRENTENDURANCE' => '196',
-                'RECONRANGE' => '0',
-                'LOCATION' => 'Bizerte',
-            ],
-            'Jean De Vienne' => [
-                'TYPE' => 'CL',
-                'MAXSPEED' => '32',
-                'ENDURANCE' => '250',
-                'CURRENTENDURANCE' => '196',
-                'RECONRANGE' => '0',
-                'LOCATION' => 'Bizerte',
-            ],
             'Emile Bertin' => [
                 'TYPE' => 'CL',
                 'MAXSPEED' => '32',
@@ -98,30 +42,6 @@ class FleetExtractorTest extends TestCase
                 'CURRENTENDURANCE' => '196',
                 'RECONRANGE' => '0',
                 'LOCATION' => 'Toulon',
-            ],
-            'La Poursuivante' => [
-                'TYPE' => 'DD',
-                'MAXSPEED' => '34',
-                'ENDURANCE' => '154',
-                'CURRENTENDURANCE' => '195',
-                'RECONRANGE' => '0',
-                'LOCATION' => 'Hyeres',
-            ],
-            'Bayonnaise' => [
-                'TYPE' => 'DD',
-                'MAXSPEED' => '34',
-                'ENDURANCE' => '154',
-                'CURRENTENDURANCE' => '195',
-                'RECONRANGE' => '0',
-                'LOCATION' => 'Hyeres',
-            ],
-            'Baliste' => [
-                'TYPE' => 'DD',
-                'MAXSPEED' => '34',
-                'ENDURANCE' => '154',
-                'CURRENTENDURANCE' => '195',
-                'RECONRANGE' => '0',
-                'LOCATION' => 'Hyeres',
             ],
         ];
 
@@ -202,7 +122,7 @@ class FleetExtractorTest extends TestCase
                         'ENDURANCE' => '295',
                         'CURRENTENDURANCE' => '391',
                         'RECONRANGE' => '100',
-                    ]
+                    ],
                 ],
                 'TF0DIVISION1' => [
                     'Roma' => [
@@ -211,7 +131,7 @@ class FleetExtractorTest extends TestCase
                         'ENDURANCE' => '250',
                         'CURRENTENDURANCE' => '220',
                         'RECONRANGE' => '100',
-                    ]
+                    ],
                 ],
             ],
             $fleet->getDivisions()
@@ -244,7 +164,7 @@ class FleetExtractorTest extends TestCase
                 'ENDURANCE' => '250',
                 'CURRENTENDURANCE' => '210',
                 'RECONRANGE' => '100',
-            ]
+            ],
         ]], $fleet->getDivisions());
 
         static::assertEquals(

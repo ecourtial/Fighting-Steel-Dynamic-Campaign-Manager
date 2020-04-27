@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\NameSwitcher\Validator;
+namespace App\Tests\NameSwitcher\Validator;
 
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;

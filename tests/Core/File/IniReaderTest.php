@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\File;
+namespace App\Tests\Core\File;
 
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;

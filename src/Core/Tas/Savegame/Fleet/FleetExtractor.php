@@ -12,10 +12,12 @@ namespace App\Core\Tas\Savegame\Fleet;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
-use App\Core\Tas\Scenario\Scenario;
+use App\Core\Traits\UnknownSideTrait;
 
 class FleetExtractor
 {
+    use UnknownSideTrait;
+
     public const TF_REGEX = '/^TF[0-9]*$/';
     public const TF_DIVISION_REGEX = '/^TF[0-9]*DIVISION[0-9]$/';
 
@@ -29,9 +31,7 @@ class FleetExtractor
     /** @return string[] */
     public function getShipsInPort(string $path, string $side): array
     {
-        if (false === in_array($side, Scenario::SIDES, true)) {
-            throw new InvalidInputException("Unknown side '$side'");
-        }
+        $this->validateSide($side);
 
         $path .= DIRECTORY_SEPARATOR . $side . 'Ships.cfg';
         $record = false;
@@ -78,9 +78,7 @@ class FleetExtractor
     /** @return Fleet[] */
     public function extractFleets(string $path, string $side): array
     {
-        if (false === in_array($side, Scenario::SIDES, true)) {
-            throw new InvalidInputException("Unknown side '$side'");
-        }
+        $this->validateSide($side);
 
         $path .= DIRECTORY_SEPARATOR . $side . 'Ships.cfg';
         $fleets = [];
@@ -88,7 +86,7 @@ class FleetExtractor
         $fleetContext = false;
         $currentDivision = '';
         $currentName = '';
-        $lastDivisionCount = 0;
+        $lastDivisionCount = null;
 
         foreach ($this->iniReader->getData($path, false) as $line) {
             // Task force header
@@ -99,6 +97,7 @@ class FleetExtractor
                 if ($fleet instanceof Fleet) {
                     $fleets[$fleet->getId()] = $fleet;
                     $currentDivision = '';
+                    $lastDivisionCount = null;
                 }
 
                 $fleet = new Fleet();
@@ -128,7 +127,7 @@ class FleetExtractor
                 || 'CURRENTENDURANCE' === $line['key']
                 || 'RECONRANGE' === $line['key']
             ) {
-                $fleet->addDataToShip($currentDivision, $currentName, $line['key'], $line['value']);
+                $fleet->addDataToShipInDivision($currentDivision, $currentName, $line['key'], $line['value']);
 
                 continue;
             }
@@ -194,10 +193,13 @@ class FleetExtractor
                 $fleet->addDivision($currentDivision);
 
                 $offset = strpos($line['value'], 'DIVISION');
-                $offset+=8;
+                $offset += 8;
                 $divNumber = (int) substr($line['value'], $offset);
-                $fleet->setLastDivisionCount($divNumber);
-                $lastDivisionCount = $divNumber;
+
+                if (null === $lastDivisionCount || $divNumber > $lastDivisionCount) {
+                    $fleet->setLastDivisionCount($divNumber);
+                    $lastDivisionCount = $divNumber;
+                }
             }
 
             // Ship in ports are in the second part of the file. We need to stop here.

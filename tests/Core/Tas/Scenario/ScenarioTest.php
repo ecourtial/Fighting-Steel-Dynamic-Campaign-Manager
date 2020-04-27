@@ -7,10 +7,9 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\Tas\Scenario;
+namespace App\Tests\Core\Tas\Scenario;
 
 use App\Core\Exception\InvalidInputException;
-use App\Core\Exception\SideErrorException;
 use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 use App\Core\Tas\Exception\DuplicateShipException;
 use App\Core\Tas\Scenario\Scenario;
@@ -41,9 +40,9 @@ class ScenarioTest extends TestCase
             $scenario = new Scenario($scenarioName, $scenarioFullPath, $scenarioShipFile);
             $scenario->setTasShips('Ah', []);
             static::fail('Since the side is invalid, an exception was expected');
-        } catch (SideErrorException $exception) {
+        } catch (InvalidInputException $exception) {
             static::assertEquals(
-                "Invalid side: 'Ah'",
+                "Side 'Ah' is unknown",
                 $exception->getMessage()
             );
         }
@@ -152,9 +151,9 @@ class ScenarioTest extends TestCase
         try {
             $scenario = new Scenario($scenarioName, $scenarioFullPath, $shipDataFile);
             $scenario->getTasShips('Ah');
-        } catch (SideErrorException $exception) {
+        } catch (InvalidInputException $exception) {
             static::assertEquals(
-                "Invalid side: 'Ah'",
+                "Side 'Ah' is unknown",
                 $exception->getMessage()
             );
         }

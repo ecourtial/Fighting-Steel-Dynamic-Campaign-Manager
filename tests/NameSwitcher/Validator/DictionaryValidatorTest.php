@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\NameSwitcher\Validator;
+namespace App\Tests\NameSwitcher\Validator;
 
 use App\NameSwitcher\Dictionary\DictionaryReader;
 use App\NameSwitcher\Validator\DictionaryValidator;

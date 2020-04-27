@@ -101,7 +101,7 @@ class SavegameRepository
     private function getLocationsFromShipsInPort(string $side, array $ships, array &$data)
     {
         foreach ($ships as $ship => $info) {
-            $info['side'] = $side;
+            $info['SIDE'] = $side;
             $data[$ship] = $info;
         }
     }
@@ -117,10 +117,10 @@ class SavegameRepository
             foreach ($fleet->getDivisions() as $divisionName => $division) {
                 foreach ($division as $ship => $shipData) {
                     $data[$ship] = [
-                        'location' => $currentLocation,
-                        'fleet' => $fleet->getId(),
-                        'division' => $divisionName,
-                        'side' => $side,
+                        'LOCATION' => $currentLocation,
+                        'FLEET' => $fleet->getId(),
+                        'DIVISION' => $divisionName,
+                        'SIDE' => $side,
                     ];
                 }
             }
@@ -129,6 +129,5 @@ class SavegameRepository
 
     public function persist(Savegame $savegame): void
     {
-
     }
 }

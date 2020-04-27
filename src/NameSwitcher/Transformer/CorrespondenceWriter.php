@@ -31,6 +31,6 @@ class CorrespondenceWriter
             $entries[] = $ship->getOriginalName() . '=' . $ship->getShortName();
         }
 
-        $this->textFileWriter->writeMultiline($this->filePath, $entries);
+        $this->textFileWriter->writeMultilineFromArray($this->filePath, $entries);
     }
 }

@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\NameSwitcher\Dictionary;
+namespace App\Tests\NameSwitcher\Dictionary;
 
 use App\NameSwitcher\Dictionary\Dictionary;
 use App\NameSwitcher\Dictionary\DictionaryReader;

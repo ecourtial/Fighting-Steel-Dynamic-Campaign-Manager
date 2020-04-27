@@ -58,7 +58,7 @@ class ScenarioUpdater
             $currentLine++;
         }
 
-        $this->textFileWriter->writeMultiline($fsScenarioPath, $newContent);
+        $this->textFileWriter->writeMultilineFromArray($fsScenarioPath, $newContent);
     }
 
     /** @param string[] $correspondence */
@@ -93,6 +93,6 @@ class ScenarioUpdater
             $currentLine++;
         }
 
-        $this->textFileWriter->writeMultiline($fsScenarioPath, $newContent);
+        $this->textFileWriter->writeMultilineFromArray($fsScenarioPath, $newContent);
     }
 }

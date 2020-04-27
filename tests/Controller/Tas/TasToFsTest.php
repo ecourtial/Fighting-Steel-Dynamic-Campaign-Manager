@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @licence    MIT
  */
 
-namespace Tests\Controller\Tas;
+namespace App\Tests\Controller\Tas;
 
 use App\Controller\Tas\TasToFs;
 use App\Core\Tas\Scenario\Scenario;

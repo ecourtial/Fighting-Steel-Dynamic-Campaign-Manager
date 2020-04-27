@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\Tas\Scenario;
+namespace App\Tests\Core\Tas\Scenario;
 
 use App\Core\Exception\FileNotFoundException;
 use App\Core\Exception\InvalidInputException;

@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\File;
+namespace App\Tests\Core\File;
 
 use App\Core\File\TextFileWriter;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +19,7 @@ class TextFileWriterTest extends TestCase
     {
         $path = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'testOutput.txt';
         $lines = ['Bonjour', 'Eric'];
-        (new TextFileWriter())->writeMultiline($path, $lines);
+        (new TextFileWriter())->writeMultilineFromArray($path, $lines);
         $content = file_get_contents($path);
         $content = explode(PHP_EOL, $content);
         unlink($path);
@@ -29,7 +29,7 @@ class TextFileWriterTest extends TestCase
     public function testError(): void
     {
         try {
-            (new TextFileWriter())->writeMultiline('AH.txt', [], true);
+            (new TextFileWriter())->writeMultilineFromArray('AH.txt', [], true);
             static::fail('Since the output failed, an exception was expected.');
         } catch (IOException $exception) {
             static::assertEquals(

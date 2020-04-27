@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\Fs\BattleReport\Ship;
+namespace App\Tests\Core\Fs\BattleReport\Ship;
 
 use App\Core\Exception\CoreException;
 use App\Core\Exception\InvalidInputException;

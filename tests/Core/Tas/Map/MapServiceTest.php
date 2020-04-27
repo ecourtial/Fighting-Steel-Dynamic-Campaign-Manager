@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @licence    MIT
  */
 
-namespace Tests\Core\Tas\Map;
+namespace App\Tests\Core\Tas\Map;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\Tas\Map\MapService;
@@ -82,5 +82,9 @@ class MapServiceTest extends TestCase
                 $exception->getMessage()
             );
         }
+    }
+
+    public function testGetFirstWaypointData(): void
+    {
     }
 }

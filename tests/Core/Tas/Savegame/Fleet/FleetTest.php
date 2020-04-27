@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @licence    MIT
  */
 
-namespace Tests\Core\Tas\Savegame\Fleet;
+namespace App\Tests\Core\Tas\Savegame\Fleet;
 
 use PHPUnit\Framework\TestCase;
 

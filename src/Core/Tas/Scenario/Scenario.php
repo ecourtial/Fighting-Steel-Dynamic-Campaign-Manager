@@ -10,13 +10,15 @@ declare(strict_types=1);
 namespace App\Core\Tas\Scenario;
 
 use App\Core\Exception\InvalidInputException;
-use App\Core\Exception\SideErrorException;
 use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 use App\Core\Tas\Exception\DuplicateShipException;
 use App\Core\Tas\Ship\Ship as TasShip;
+use App\Core\Traits\UnknownSideTrait;
 
 class Scenario
 {
+    use UnknownSideTrait;
+
     public const ALLIED_SIDE = 'Allied';
     public const AXIS_SIDE = 'Axis';
 
@@ -75,7 +77,7 @@ class Scenario
      */
     public function setTasShips(string $side, array $ships): void
     {
-        static::validateSide($side);
+        $this->validateSide($side);
         $propertyName = strtolower($side) . 'Ships';
         $this->$propertyName = [];
         $count = 0;
@@ -106,17 +108,10 @@ class Scenario
     /** @return TasShip[] */
     public function getTasShips(string $side): array
     {
-        static::validateSide($side);
+        $this->validateSide($side);
         $propertyName = strtolower($side) . 'Ships';
 
         return $this->$propertyName;
-    }
-
-    public static function validateSide(string $side): void
-    {
-        if (false === in_array($side, static::SIDES, true)) {
-            throw new SideErrorException("Invalid side: '{$side}'");
-        }
     }
 
     /** @return FsShip[] */

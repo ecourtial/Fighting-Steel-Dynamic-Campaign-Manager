@@ -24,9 +24,16 @@ function file_put_contents(string $path, string $content, bool $test = false): b
 class TextFileWriter
 {
     /** @param string[] $lines */
-    public function writeMultiline(string $path, array $lines, bool $test = false): void
+    public function writeMultilineFromArray(string $path, array $lines, bool $test = false): void
     {
-        if (false === file_put_contents($path, implode(PHP_EOL, $lines), $test)) {
+        $data = implode(PHP_EOL, $lines);
+        $this->writeMultilineFromString($path, $data, $test);
+    }
+
+    /** @param string[] $lines */
+    public function writeMultilineFromString(string $path, string $lines, bool $test = false): void
+    {
+        if (false === file_put_contents($path, $lines, $test)) {
             throw new IOException("Impossible to update the content of the file '{$path}'");
         }
     }

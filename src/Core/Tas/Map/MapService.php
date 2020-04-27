@@ -71,4 +71,10 @@ class MapService
             throw new InvalidInputException("Unknown TAS location part: '{$entry}'");
         }
     }
+
+    // Return the first waypoint at sea for the given port.
+    public function getFirstWaypointData(string $port): string
+    {
+        return 'AHAH';
+    }
 }

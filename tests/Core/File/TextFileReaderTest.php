@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\File;
+namespace App\Tests\Core\File;
 
 use App\Core\Exception\FileNotFoundException;
 use App\Core\File\TextFileReader;
