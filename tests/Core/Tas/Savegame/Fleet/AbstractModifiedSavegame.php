@@ -13,7 +13,6 @@ namespace App\Tests\Core\Tas\Savegame\Fleet;
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
 use App\Core\File\TextFileWriter;
-use App\Core\Tas\Port\PortService;
 use App\Core\Tas\Savegame\Fleet\FleetExtractor;
 use App\Core\Tas\Savegame\Fleet\FleetUpdater;
 use App\Core\Tas\Savegame\Fleet\FleetWriter;
@@ -33,7 +32,6 @@ abstract class AbstractModifiedSavegame extends TestCase
     public static function setUpBeforeClass(): void
     {
         $iniReader = new IniReader(new TextFileReader());
-        $portService = new PortService($iniReader);
 
         static::$repo = new SavegameRepository(
             new SavegameReader($iniReader),
@@ -42,7 +40,7 @@ abstract class AbstractModifiedSavegame extends TestCase
             $_ENV['TAS_LOCATION']
         );
 
-        static::$updater = new FleetUpdater($portService);
+        static::$updater = new FleetUpdater();
     }
 
     protected function getModifiedSavegame(): Savegame
@@ -55,6 +53,7 @@ abstract class AbstractModifiedSavegame extends TestCase
             FleetUpdater::AT_SEA_ACTION,
             ['Provence'],
             [
+                'll' => 'HOP',
                 'mission' => 'Intercept',
                 'waypoints' => ['kjgjtll'],
                 'speed' => 18,
@@ -67,6 +66,7 @@ abstract class AbstractModifiedSavegame extends TestCase
             FleetUpdater::AT_SEA_ACTION,
             ['Condorcet', 'Mogador'],
             [
+                'll' => 'HOP',
                 'mission' => 'Patrol',
                 'waypoints' => ['blob'],
                 'speed' => 16,
@@ -107,6 +107,7 @@ abstract class AbstractModifiedSavegame extends TestCase
             FleetUpdater::AT_SEA_ACTION,
             ['Gneisenau'],
             [
+                'll' => 'HOP',
                 'waypoints' => ['hehe', 'hoho'],
                 'mission' => 'Cover',
                 'speed' => 24,

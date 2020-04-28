@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace App\Core\Tas\Savegame\Fleet;
 
 use App\Core\Exception\InvalidInputException;
-use App\Core\Tas\Port\PortService;
 use App\Core\Tas\Savegame\Savegame;
 use App\Core\Tas\Ship\Ship;
 
@@ -20,13 +19,6 @@ class FleetUpdater
     public const TO_PORT_ACTION = 'to_port';
     public const AT_SEA_ACTION = 'at_sea';
     public const DETACH_ACTION = 'detach';
-
-    private PortService $portService;
-
-    public function __construct(PortService $portService)
-    {
-        $this->portService = $portService;
-    }
 
     public function action(
         Savegame $savegame,
@@ -73,8 +65,7 @@ class FleetUpdater
 
         // Create the fleet
         $tfId = 'TF' . ($savegame->getMaxTfNumber($side) + 1);
-        $location = $this->portService->getPortFirstWayPoint($port);
-        $fleet = $this->createFleet($location, $tfId, $params);
+        $fleet = $this->createFleet($params['ll'], $tfId, $params);
 
         // Create the division
         $this->createDivision($savegame, $fleet, $side, $shipsToMove);
