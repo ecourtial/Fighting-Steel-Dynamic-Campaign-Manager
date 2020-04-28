@@ -114,7 +114,7 @@ class SavegameRepositoryTest extends TestCase
             $fleetWriter->expects(static::at(0))->method('update')->with($saveGame, Scenario::ALLIED_SIDE);
         }
         if ($axisFleetModified) {
-            $at = $alliedFleetModified === true ? 1 : 0;
+            $at = true === $alliedFleetModified ? 1 : 0;
             $fleetWriter->expects(static::at($at))->method('update')->with($saveGame, Scenario::AXIS_SIDE);
         }
 

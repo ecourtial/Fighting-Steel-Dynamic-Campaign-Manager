@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace App\Core\Tas\Savegame\Fleet;
 
 use App\Core\Exception\InvalidInputException;
-use App\Core\Tas\Map\MapService;
 use App\Core\Tas\Port\PortService;
 use App\Core\Tas\Savegame\Savegame;
 use App\Core\Tas\Ship\Ship;
@@ -165,7 +164,6 @@ class FleetUpdater
             $savegame->setShipData($ship, $newShipData);
             unset($newShipData['SIDE']);
 
-
             // Remove her from her division
             $savegame->getFleets($side)[$shipData['FLEET']]->removeShipFromDivision(
                 $shipData['DIVISION'],
@@ -204,7 +202,6 @@ class FleetUpdater
 
         return $value;
     }
-
 
     private function createFleet(string $location, string $tfId, array $params): Fleet
     {

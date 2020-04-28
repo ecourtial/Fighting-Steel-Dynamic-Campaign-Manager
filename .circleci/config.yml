@@ -35,9 +35,6 @@ jobs:
   phpcs:
     executor: php
     steps:
-      - run:
-          name: Install alpine requirements for checkout
-          command: apk add git openssh-client curl
       - checkout
       - attach_workspace:
           at: .
@@ -45,12 +42,19 @@ jobs:
           name: phpcs
           command: vendor/bin/phpcs
 
+  phpcsfixer:
+    executor: php
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: phpcs
+          command: vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes
+
   phpstan:
     executor: php
     steps:
-      - run:
-          name: Install alpine requirements for checkout
-          command: apk add git openssh-client curl
       - checkout
       - attach_workspace:
           at: .
@@ -127,6 +131,9 @@ workflows:
           requires:
             - phpunit
       - phpcs:
+          requires:
+            - composer
+      - phpcsfixer:
           requires:
             - composer
       - phpstan:

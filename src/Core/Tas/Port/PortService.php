@@ -43,6 +43,5 @@ class PortService
 
     private function loadData(): void
     {
-        
     }
 }

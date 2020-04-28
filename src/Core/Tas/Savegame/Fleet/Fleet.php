@@ -100,7 +100,7 @@ class Fleet
 
     public function removeShipFromDivision(string $division, string $ship): void
     {
-         unset($this->divisions[$division][$ship]);
+        unset($this->divisions[$division][$ship]);
     }
 
     public function addDataToShipInDivision(string $division, string $ship, string $key, string $value): void
