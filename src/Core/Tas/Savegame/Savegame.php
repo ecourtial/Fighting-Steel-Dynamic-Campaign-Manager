@@ -194,6 +194,16 @@ class Savegame
         }
     }
 
+    public function setShipsInPort(string $side, array $ships): void
+    {
+        $this->validateSide($side);
+        if (Scenario::AXIS_SIDE === $side) {
+            $this->axisShipsInPort = $ships;
+        } else {
+            $this->alliedShipsInPort = $ships;
+        }
+    }
+
     /** @param string[][] $shipsData */
     public function setShipsData(array $shipsData): void
     {
@@ -313,6 +323,17 @@ class Savegame
             $this->axisFleets[$fleet->getId()] = $fleet;
         } else {
             $this->alliedFleets[$fleet->getId()] = $fleet;
+        }
+    }
+
+    public function removeFleet(string $side, string $fleetId): void
+    {
+        $this->validateSide($side);
+
+        if (Scenario::AXIS_SIDE === $side) {
+            unset($this->axisFleets[$fleetId]);
+        } else {
+            unset($this->alliedFleets[$fleetId]);
         }
     }
 

@@ -86,7 +86,6 @@ class FleetExtractor
         $fleetContext = false;
         $currentDivision = '';
         $currentName = '';
-        $lastDivisionCount = null;
 
         foreach ($this->iniReader->getData($path, false) as $line) {
             // Task force header
@@ -97,7 +96,6 @@ class FleetExtractor
                 if ($fleet instanceof Fleet) {
                     $fleets[$fleet->getId()] = $fleet;
                     $currentDivision = '';
-                    $lastDivisionCount = null;
                 }
 
                 $fleet = new Fleet();
@@ -191,15 +189,6 @@ class FleetExtractor
             ) {
                 $currentDivision = $line['value'];
                 $fleet->addDivision($currentDivision);
-
-                $offset = strpos($line['value'], 'DIVISION');
-                $offset += 8;
-                $divNumber = (int) substr($line['value'], $offset);
-
-                if (null === $lastDivisionCount || $divNumber > $lastDivisionCount) {
-                    $fleet->setLastDivisionCount($divNumber);
-                    $lastDivisionCount = $divNumber;
-                }
             }
 
             // Ship in ports are in the second part of the file. We need to stop here.

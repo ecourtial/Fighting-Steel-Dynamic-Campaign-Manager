@@ -52,9 +52,11 @@ class FleetWriterTest extends AbstractModifiedSavegame
         $saveGame->setPath($_ENV['TAS_LOCATION'] . DIRECTORY_SEPARATOR . 'Save5');
 
         static::$fleetWriter->update($saveGame, 'Axis');
+        static::$fleetWriter->update($saveGame, 'Allied');
 
         // Mock the state that it should be after reload
         $saveGame->setShipsDataChanged('Axis', false);
+        $saveGame->setShipsDataChanged('Allied', false);
 
         $reloadSaveGame = static::$repo->getOne('Save5', true);
 

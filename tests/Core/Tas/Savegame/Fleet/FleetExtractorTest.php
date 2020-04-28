@@ -137,8 +137,6 @@ class FleetExtractorTest extends TestCase
             $fleet->getDivisions()
         );
 
-        static::assertEquals(1, $fleet->getLastDivisionCount());
-
         static::assertEquals(
             [
                 'Gneisenau' => 'TF0DIVISION0',
@@ -173,6 +171,5 @@ class FleetExtractorTest extends TestCase
             ],
             $fleet->getShips()
         );
-        static::assertEquals(0, $fleet->getLastDivisionCount());
     }
 }

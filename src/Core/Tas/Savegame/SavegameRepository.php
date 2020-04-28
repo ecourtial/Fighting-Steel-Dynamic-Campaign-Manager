@@ -13,22 +13,26 @@ namespace App\Core\Tas\Savegame;
 use App\Core\Exception\InvalidInputException;
 use App\Core\Tas\Savegame\Fleet\Fleet;
 use App\Core\Tas\Savegame\Fleet\FleetExtractor;
+use App\Core\Tas\Savegame\Fleet\FleetWriter;
 use App\Core\Tas\Scenario\Scenario;
 
 class SavegameRepository
 {
     private SavegameReader $savegameReader;
     private FleetExtractor $fleetExtractor;
+    private FleetWriter $fleetWriter;
     private string $tasDirectory;
 
     public function __construct(
         SavegameReader $savegameReader,
         FleetExtractor $fleetExtractor,
+        FleetWriter $fleetWriter,
         string $tasDirectory
     ) {
         $this->savegameReader = $savegameReader;
         $this->fleetExtractor = $fleetExtractor;
         $this->tasDirectory = $tasDirectory;
+        $this->fleetWriter = $fleetWriter;
     }
 
     /** @return string[] */
@@ -94,6 +98,17 @@ class SavegameRepository
         return $save;
     }
 
+    public function persist(Savegame $savegame): void
+    {
+        if ($savegame->isShipsDataChanged(Scenario::ALLIED_SIDE)) {
+            $this->fleetWriter->update($savegame, Scenario::ALLIED_SIDE);
+        }
+
+        if ($savegame->isShipsDataChanged(Scenario::AXIS_SIDE)) {
+            $this->fleetWriter->update($savegame, Scenario::AXIS_SIDE);
+        }
+    }
+
     /**
      * @param Fleet[]    $fleets
      * @param string[][] $data
@@ -125,9 +140,5 @@ class SavegameRepository
                 }
             }
         }
-    }
-
-    public function persist(Savegame $savegame): void
-    {
     }
 }

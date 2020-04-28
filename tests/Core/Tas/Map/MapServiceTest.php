@@ -83,8 +83,4 @@ class MapServiceTest extends TestCase
             );
         }
     }
-
-    public function testGetFirstWaypointData(): void
-    {
-    }
 }

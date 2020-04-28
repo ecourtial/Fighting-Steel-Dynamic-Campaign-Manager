@@ -8,11 +8,10 @@ declare(strict_types=1);
  * @licence    MIT
  */
 
-namespace App\Tests\Core\Tas\Savegame\Fleet;
+namespace App\Tests\Core\Tas\Savegame\Port;
 
-class FleetUpdaterTest extends AbstractModifiedSavegame
+use PHPUnit\Framework\TestCase;
+
+class PortServiceTest extends TestCase
 {
-    public function testGlobal(): void
-    {
-    }
 }

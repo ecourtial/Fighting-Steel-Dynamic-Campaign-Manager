@@ -58,8 +58,8 @@ class Fleet
     public function setProb(string $prob): void
     {
         $prob = (int) $prob;
-        if (100 !== $prob) {
-            throw new InvalidInputException('Fleet prob must be 100!');
+        if ($prob < 1 || $prob > 100) {
+            throw new InvalidInputException("Fleet prob must be >= 1 and <= 100! $prob given.");
         }
         $this->prob = $prob;
     }
@@ -88,9 +88,19 @@ class Fleet
         $this->divisions[$division] = [];
     }
 
+    public function removeDivision(string $division): void
+    {
+        unset($this->divisions[$division]);
+    }
+
     public function addShipToDivision(string $division, string $ship): void
     {
         $this->divisions[$division][$ship] = [];
+    }
+
+    public function removeShipFromDivision(string $division, string $ship): void
+    {
+         unset($this->divisions[$division][$ship]);
     }
 
     public function addDataToShipInDivision(string $division, string $ship, string $key, string $value): void
@@ -98,9 +108,9 @@ class Fleet
         $this->divisions[$division][$ship][$key] = $value;
     }
 
-    public function setShipData(string $ship, array $data): void
+    public function getShipDataFromDivision(string $division, string $ship): array
     {
-        $this->ships[$ship] = $data;
+        return $this->divisions[$division][$ship];
     }
 
     public function getId(): string
