@@ -103,7 +103,7 @@ class FleetUpdater
 
         // Create the new fleet
         $tfId = 'TF' . ($savegame->getMaxTfNumber($side) + 1);
-        $location = array_values($params['waypoints'])[0];
+        $location = $params['waypoints'][0];
         $fleet = $this->createFleet($location, $tfId, $params);
 
         // Process the ships
