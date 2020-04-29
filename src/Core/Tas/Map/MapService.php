@@ -52,7 +52,7 @@ class MapService
         return convertDMSToDecimal($this->convertTasLocationElement($latitudeOrLongitude));
     }
 
-    private function convertTasLocationElement(string $entry): string
+    protected function convertTasLocationElement(string $entry): string
     {
         $entryLength = strlen($entry);
         // 5 and 6 => cases for the waypoints. 7 and 8 are for LL.

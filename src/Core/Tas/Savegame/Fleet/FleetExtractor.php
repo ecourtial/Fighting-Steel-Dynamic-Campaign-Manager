@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace App\Core\Tas\Savegame\Fleet;
 
-use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
 use App\Core\Traits\SideValidationTrait;
 
@@ -56,7 +55,7 @@ class FleetExtractor
             }
 
             if (
-                ('' !== $currentShipName && $record)
+                $record
                 && (
                     'LOCATION' === $line['key']
                     || 'TYPE' === $line['key']
@@ -83,7 +82,7 @@ class FleetExtractor
         $path .= DIRECTORY_SEPARATOR . $side . 'Ships.cfg';
         $fleets = [];
         $fleet = null;
-        $fleetContext = false;
+        $fleetContext = null;
         $currentDivision = '';
         $currentName = '';
 
@@ -107,7 +106,6 @@ class FleetExtractor
 
             if ('NAME' === $line['key']) {
                 if ('' !== $currentDivision) {
-                    $fleet->addShipToDivision($currentDivision, $line['value']);
                     $currentName = $line['value'];
                 } else {
                     // if $fleetContext, any other case is probably because the file is not properly formed
@@ -167,7 +165,6 @@ class FleetExtractor
                 && preg_match(static::TF_DIVISION_REGEX, $line['value'])
             ) {
                 $currentDivision = $line['value'];
-                $fleet->addDivision($currentDivision);
             }
 
             // Ship in ports are in the second part of the file. We need to stop here.

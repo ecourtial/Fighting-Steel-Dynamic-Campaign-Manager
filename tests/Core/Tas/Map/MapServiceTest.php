@@ -74,6 +74,9 @@ class MapServiceTest extends TestCase
             // Means 36°08N 5.22°W
             ['360800N', 36.08],
             ['0052200W', -5.22],
+            // Means 36°08S 5.22°W
+            ['360800S', -36.08],
+            ['0052200W', -5.22],
         ];
     }
 
@@ -88,5 +91,18 @@ class MapServiceTest extends TestCase
                 $exception->getMessage()
             );
         }
+    }
+
+    public function testConvertTasLocationElement(): void
+    {
+        $service = new class() extends MapService {
+            public function convert(string $input): string
+            {
+                return $this->convertTasLocationElement($input);
+            }
+        };
+
+        static::assertEquals('36.08S', $service->convert('360800S'));
+        static::assertEquals('005.22W', $service->convert('0052200W'));
     }
 }

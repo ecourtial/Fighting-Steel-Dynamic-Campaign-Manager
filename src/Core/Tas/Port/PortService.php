@@ -16,6 +16,8 @@ use App\Core\Tas\Exception\MissingPortException;
 
 class PortService
 {
+    public const LAST_KEY = 'FWP';
+
     private IniReader $iniReader;
     private string $tasScenarioDirectory;
     /** @var mixed[] */
@@ -48,22 +50,22 @@ class PortService
             $firstLine = true;
             $currentName = '';
 
-            foreach ($this->iniReader->getData($path, false) as $element) {
-                if ($firstLine === true) {
+            foreach ($this->iniReader->getData($path) as $element) {
+                if (true === $firstLine) {
                     $this->checkVersion($element);
                     $firstLine = false;
                 }
 
                 if ('NAME' === $element['key']) {
                     $currentName = $element['value'];
-
-                    continue;
                 }
 
-                if ('FWP' === $element['key'] && '' !== $currentName) {
+                if ('FWP' === $element['key']) {
                     $this->data[$currentName]['FWP'] = $element['value'];
+                }
 
-                    continue;
+                if (static::LAST_KEY === $element['key']) {
+                    $currentName = '';
                 }
             }
         }

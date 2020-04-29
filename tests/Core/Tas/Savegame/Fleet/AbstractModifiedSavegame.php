@@ -45,7 +45,7 @@ abstract class AbstractModifiedSavegame extends TestCase
     protected function getModifiedSavegame(): Savegame
     {
         $portServiceMock = static::getMockBuilder(PortService::class)->disableOriginalConstructor()->getMock();
-        $portServiceMock->method('getPortData')->willReturn('AHAH');
+        $portServiceMock->method('getPortFirstWaypoint')->willReturn('AHAH');
 
         $updater = new FleetUpdater($portServiceMock);
 
@@ -57,7 +57,6 @@ abstract class AbstractModifiedSavegame extends TestCase
             FleetUpdater::AT_SEA_ACTION,
             ['Provence'],
             [
-                'll' => 'HOP',
                 'mission' => 'Intercept',
                 'waypoints' => ['kjgjtll', 'kjgergtrggjtll'],
                 'speed' => 18,
@@ -70,12 +69,18 @@ abstract class AbstractModifiedSavegame extends TestCase
             FleetUpdater::AT_SEA_ACTION,
             ['Condorcet', 'Mogador'],
             [
-                'll' => 'HOP',
                 'mission' => 'Patrol',
                 'waypoints' => ['blob', 'kjgergtrggjtll'],
                 'speed' => 16,
             ]
         );
+
+        static::assertEquals([
+            'LOCATION' => 'AHAH',
+            'SIDE' => 'Axis',
+            'FLEET' => 'TF3',
+            'DIVISION' => 'TF3DIVISION0',
+        ], $saveGame->getShipData('Mogador'));
 
         // Remove Gneisenau from her division and put her in port
         $updater->action(
@@ -97,6 +102,50 @@ abstract class AbstractModifiedSavegame extends TestCase
             ]
         );
 
+        static::assertEquals([
+            'LOCATION' => 'kjgjtll',
+            'SIDE' => 'Axis',
+            'FLEET' => 'TF4',
+            'DIVISION' => 'TF4DIVISION0',
+            ], $saveGame->getShipData('Roma'));
+
+        // Detach Algerie
+        $updater->action(
+            $saveGame,
+            FleetUpdater::DETACH_ACTION,
+            ['Algerie'],
+            [
+                'waypoints' => ['kjgjtll', 'fkljkl'],
+                'mission' => 'Bombard',
+                'speed' => 16,
+            ]
+        );
+
+        $newAlgerieData = [
+            'LOCATION' => 'kjgjtll',
+            'SIDE' => 'Allied',
+            'FLEET' => 'TF2',
+            'DIVISION' => 'TF2DIVISION0',
+        ];
+        static::assertEquals($newAlgerieData, $saveGame->getShipData('Algerie'));
+        static::assertEquals(
+            [
+                'Algerie' => [
+                    'TYPE' => 'CA',
+                    'MAXSPEED' => '32',
+                    'ENDURANCE' => '195',
+                    'CURRENTENDURANCE' => '186',
+                    'RECONRANGE' => '0',
+                ],
+            ],
+            $saveGame->getFleets('Allied')['TF2']->getDivisions()['TF2DIVISION0']
+        );
+        static::assertEquals(['kjgjtll', 'fkljkl'], $saveGame->getFleets('Allied')['TF2']->getWaypoints());
+        static::assertEquals(
+            ['Dupleix', 'Foch'],
+            array_keys($saveGame->getFleets('Allied')['TF1']->getDivisions()['TF1DIVISION0'])
+        );
+
         // Put Bretagne, Lorraine, La Palme, Le Mars and Tempete in port: their TF is disbanded
         $updater->action(
             $saveGame,
@@ -111,12 +160,15 @@ abstract class AbstractModifiedSavegame extends TestCase
             FleetUpdater::AT_SEA_ACTION,
             ['Gneisenau'],
             [
-                'll' => 'HOP',
                 'waypoints' => ['hehe', 'hoho', 'kjgergtrggjtll'],
                 'mission' => 'Cover',
                 'speed' => 24,
             ]
         );
+
+        // Check before return
+        static::assertTrue($saveGame->isShipsDataChanged('Axis'));
+        static::assertTrue($saveGame->isShipsDataChanged('Allied'));
 
         return $saveGame;
     }

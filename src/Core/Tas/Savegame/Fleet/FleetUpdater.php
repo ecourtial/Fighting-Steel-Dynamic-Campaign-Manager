@@ -234,11 +234,9 @@ class FleetUpdater
         array $shipsToMove
     ): void {
         $division = $fleet->getId() . 'DIVISION0';
-        $fleet->addDivision($division);
 
         foreach ($shipsToMove as $ship => $shipData) {
             unset($shipData['LOCATION']);
-            $fleet->addShipToDivision($division, $ship);
             foreach ($shipData as $key => $value) {
                 $fleet->addDataToShipInDivision($division, $ship, $key, $value);
             }

@@ -127,11 +127,12 @@ class SavegameTest extends TestCase
 
     public function testFleetIncrement(): void
     {
-        $save = new class ($this->input) extends Savegame {
+        $save = new class($this->input) extends Savegame {
             public function getFleetCountAxis(): int
             {
                 return $this->axisMaxTfCount;
             }
+
             public function getFleetCountAllied(): int
             {
                 return $this->alliedMaxTfCount;

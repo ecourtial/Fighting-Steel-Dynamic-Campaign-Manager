@@ -17,7 +17,6 @@ class FleetUpdaterTest extends AbstractModifiedSavegame
         $updater = new FleetUpdater($portServiceMock);
         $saveGame = static::$repo->getOne('Save1', true);
 
-        // Put Provence at sea, alone.
         try {
             $updater->action(
                 $saveGame,
@@ -37,6 +36,98 @@ class FleetUpdaterTest extends AbstractModifiedSavegame
                 $exception->getMessage()
             );
         }
+    }
+
+    public function testShipIsNoLongerInPort(): void
+    {
+        $portServiceMock = static::getMockBuilder(PortService::class)->disableOriginalConstructor()->getMock();
+        $updater = new FleetUpdater($portServiceMock);
+        $saveGame = static::$repo->getOne('Save1', true);
+
+        $updater->action(
+            $saveGame,
+            FleetUpdater::AT_SEA_ACTION,
+            ['Provence'],
+            [
+                'll' => 'HOP',
+                'mission' => 'Intercept',
+                'waypoints' => ['kjgjtll'],
+                'speed' => 18,
+            ]
+        );
+
+        static::assertArrayNotHasKey('Provence', $saveGame->getShipsInPort('Axis'));
+        static::assertTrue($saveGame->isShipsDataChanged('Axis'));
+    }
+
+    public function testDetach(): void
+    {
+        $portServiceMock = static::getMockBuilder(PortService::class)->disableOriginalConstructor()->getMock();
+        $updater = new FleetUpdater($portServiceMock);
+        $saveGame = static::$repo->getOne('Save1', true);
+
+        $updater->action(
+            $saveGame,
+            FleetUpdater::DETACH_ACTION,
+            ['Algerie'],
+            [
+                'll' => 'HOP',
+                'mission' => 'Intercept',
+                'waypoints' => ['kjgjtll', 'HEHE'],
+                'speed' => 18,
+            ]
+        );
+
+        $updater->action(
+            $saveGame,
+            FleetUpdater::DETACH_ACTION,
+            ['Roma'],
+            [
+                'll' => 'HOP',
+                'mission' => 'Intercept',
+                'waypoints' => ['kjgjtll', 'HEHE'],
+                'speed' => 18,
+            ]
+        );
+
+        static::assertTrue($saveGame->isShipsDataChanged('Allied'));
+        static::assertTrue($saveGame->isShipsDataChanged('Axis'));
+
+        static::assertEquals([
+            'LOCATION' => 'kjgjtll',
+            'SIDE' => 'Axis',
+            'FLEET' => 'TF2',
+            'DIVISION' => 'TF2DIVISION0',
+        ], $saveGame->getShipData('Roma'));
+    }
+
+    public function testToPort(): void
+    {
+        $portServiceMock = static::getMockBuilder(PortService::class)->disableOriginalConstructor()->getMock();
+        $updater = new FleetUpdater($portServiceMock);
+        $saveGame = static::$repo->getOne('Save1', true);
+
+        $updater->action(
+            $saveGame,
+            FleetUpdater::TO_PORT_ACTION,
+            ['Littorio'],
+            [
+                'port' => 'La Spezia',
+            ]
+        );
+
+        $updater->action(
+            $saveGame,
+            FleetUpdater::TO_PORT_ACTION,
+            ['Bretagne'],
+            [
+                'port' => 'Mers-El-Kebir',
+            ]
+        );
+
+        static::assertTrue($saveGame->isShipsDataChanged('Allied'));
+        static::assertTrue($saveGame->isShipsDataChanged('Axis'));
+        static::assertArrayNotHasKey('TF1', $saveGame->getAxisFleets());
     }
 
     public function testUnknownAction(): void
@@ -67,7 +158,37 @@ class FleetUpdaterTest extends AbstractModifiedSavegame
             static::fail('Since the action is not known, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
-                "Ships must be on the same SIDE",
+                'Ships must be on the same SIDE',
+                $exception->getMessage()
+            );
+        }
+
+        try {
+            $updater->action($saveGame, FleetUpdater::DETACH_ACTION, ['Provence', 'Emile Bertin']);
+            static::fail('Since the action is not known, an exception was expected');
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                'Ships must be on the same SIDE',
+                $exception->getMessage()
+            );
+        }
+
+        try {
+            $updater->action($saveGame, FleetUpdater::DETACH_ACTION, ['Roma', 'Littorio']);
+            static::fail('Since the action is not known, an exception was expected');
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                'Ships must be on the same FLEET',
+                $exception->getMessage()
+            );
+        }
+
+        try {
+            $updater->action($saveGame, FleetUpdater::TO_PORT_ACTION, ['Roma', 'Littorio']);
+            static::fail('Since the action is not known, an exception was expected');
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                'Ships must be on the same LOCATION',
                 $exception->getMessage()
             );
         }

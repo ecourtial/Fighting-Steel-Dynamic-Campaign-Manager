@@ -82,19 +82,9 @@ class Fleet
         $this->waypoints[] = $wp;
     }
 
-    public function addDivision(string $division): void
-    {
-        $this->divisions[$division] = [];
-    }
-
     public function removeDivision(string $division): void
     {
         unset($this->divisions[$division]);
-    }
-
-    public function addShipToDivision(string $division, string $ship): void
-    {
-        $this->divisions[$division][$ship] = [];
     }
 
     public function removeShipFromDivision(string $division, string $ship): void
