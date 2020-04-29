@@ -36,7 +36,8 @@ class ScenarioValidationTest extends TestCase
     {
         [$scenarioProcessor] = $this->getMocks();
         $scenarioProcessor->expects(static::once())->method('convertFromFsToTas')->willThrowException(
-            new \Exception('Oh sooorrrryyy'));
+            new \Exception('Oh sooorrrryyy')
+        );
 
         $controller = new FsToTas($scenarioProcessor);
         $response = $controller();

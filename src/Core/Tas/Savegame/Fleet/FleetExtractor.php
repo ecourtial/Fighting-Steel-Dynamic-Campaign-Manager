@@ -1,22 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       23/04/2020 (dd-mm-YYYY)
  * @licence    MIT
  */
 
+declare(strict_types=1);
+
 namespace App\Core\Tas\Savegame\Fleet;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
-use App\Core\Traits\UnknownSideTrait;
+use App\Core\Traits\SideValidationTrait;
 
 class FleetExtractor
 {
-    use UnknownSideTrait;
+    use SideValidationTrait;
 
     public const TF_REGEX = '/^TF[0-9]*$/';
     public const TF_DIVISION_REGEX = '/^TF[0-9]*DIVISION[0-9]$/';
@@ -28,7 +28,7 @@ class FleetExtractor
         $this->iniReader = $iniReader;
     }
 
-    /** @return string[] */
+    /** @return string[][] */
     public function getShipsInPort(string $path, string $side): array
     {
         $this->validateSide($side);
@@ -109,10 +109,9 @@ class FleetExtractor
                 if ('' !== $currentDivision) {
                     $fleet->addShipToDivision($currentDivision, $line['value']);
                     $currentName = $line['value'];
-                } elseif ($fleetContext) {
-                    $fleet->setName($line['value']);
                 } else {
-                    throw new InvalidInputException('Unknown NAME case');
+                    // if $fleetContext, any other case is probably because the file is not properly formed
+                    $fleet->setName($line['value']);
                 }
 
                 continue;
@@ -156,30 +155,10 @@ class FleetExtractor
 
             if ('LL' === $line['key'] && $fleetContext) {
                 $fleet->setLl($line['value']);
-
-                continue;
-            }
-
-            if ('OBJECTIVE' === $line['key'] && $fleetContext) {
-                throw new InvalidInputException('OBJECTIVE is not supported for fleets!');
-            }
-
-            if ('LL' === $line['key'] && $fleetContext) {
-                $fleet->setLl($line['value']);
-
-                continue;
             }
 
             if (('WP' === $line['key'] || 'TP' === $line['key']) && $fleetContext) {
                 $fleet->addWaypoint($line['value']);
-
-                continue;
-            }
-
-            if ('ENDMISSION' === $line['key'] && $fleetContext) {
-                $fleetContext = false;
-
-                continue;
             }
 
             // Division header

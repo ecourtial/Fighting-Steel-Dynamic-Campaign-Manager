@@ -1,19 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       16/03/2020 (dd-mm-YYYY)
  */
 
+declare(strict_types=1);
+
 namespace App\Core\Tas\Ship;
 
 use App\Core\File\IniReader;
 use App\Core\Tas\Scenario\Scenario;
+use App\Core\Traits\SideValidationTrait;
 
 class ShipExtractor
 {
+    use SideValidationTrait;
+
     protected IniReader $iniReader;
 
     public function __construct(IniReader $iniReader)
@@ -24,7 +27,7 @@ class ShipExtractor
     /** @return Ship[] */
     public function extract(Scenario $scenario, string $side): array
     {
-        Scenario::validateSide($side);
+        $this->validateSide($side);
         $filePath = $scenario->getFullPath() . DIRECTORY_SEPARATOR . $side . 'Ships.cfg';
         $ships = [];
         $currentName = '';

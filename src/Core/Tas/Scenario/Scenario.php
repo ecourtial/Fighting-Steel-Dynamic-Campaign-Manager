@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       16/03/2020 (dd-mm-YYYY)
  */
+
+declare(strict_types=1);
 
 namespace App\Core\Tas\Scenario;
 
@@ -13,11 +13,11 @@ use App\Core\Exception\InvalidInputException;
 use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 use App\Core\Tas\Exception\DuplicateShipException;
 use App\Core\Tas\Ship\Ship as TasShip;
-use App\Core\Traits\UnknownSideTrait;
+use App\Core\Traits\SideValidationTrait;
 
 class Scenario
 {
-    use UnknownSideTrait;
+    use SideValidationTrait;
 
     public const ALLIED_SIDE = 'Allied';
     public const AXIS_SIDE = 'Axis';

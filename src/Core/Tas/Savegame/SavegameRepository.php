@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       23/04/2020 (dd-mm-YYYY)
  * @licence    MIT
  */
+
+declare(strict_types=1);
 
 namespace App\Core\Tas\Savegame;
 
@@ -110,10 +110,10 @@ class SavegameRepository
     }
 
     /**
-     * @param Fleet[]    $fleets
+     * @param string[][] $ships
      * @param string[][] $data
      */
-    private function getLocationsFromShipsInPort(string $side, array $ships, array &$data)
+    private function getLocationsFromShipsInPort(string $side, array $ships, array &$data): void
     {
         foreach ($ships as $ship => $info) {
             $info['SIDE'] = $side;
@@ -125,7 +125,7 @@ class SavegameRepository
      * @param Fleet[]    $fleets
      * @param string[][] $data
      */
-    private function getLocationsFromFleets(string $side, array $fleets, array &$data)
+    private function getLocationsFromFleets(string $side, array $fleets, array &$data): void
     {
         foreach ($fleets as $fleet) {
             $currentLocation = $fleet->getLl();

@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Core\Tas\Savegame\Fleet;
 
+use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
 use App\Core\Tas\Savegame\Fleet\FleetExtractor;
@@ -171,5 +172,31 @@ class FleetExtractorTest extends TestCase
             ],
             $fleet->getShips()
         );
+    }
+
+    public function testGetShipsInPortBadSide(): void
+    {
+        try {
+            static::$fleetExtractor->getShipsInPort('AH', 'OH');
+            static::fail('Since the side is invalid, an exception was expected');
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                "Side 'OH' is unknown",
+                $exception->getMessage()
+            );
+        }
+    }
+
+    public function testExtractFleetBadSide(): void
+    {
+        try {
+            static::$fleetExtractor->extractFleets('AH', 'OH');
+            static::fail('Since the side is invalid, an exception was expected');
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                "Side 'OH' is unknown",
+                $exception->getMessage()
+            );
+        }
     }
 }

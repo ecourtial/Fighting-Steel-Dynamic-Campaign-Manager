@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author Eric COURTIAL <e.courtial30@gmail.com>
  * @licence MIT
  */
+
+declare(strict_types=1);
 
 namespace App\Core\File;
 
@@ -35,7 +35,7 @@ class IniReader
                 } else {
                     $headerCount++;
                     yield [
-                        'key' => trim('header_' . $headerCount),
+                        'key' => 'header_' . $headerCount,
                         'value' => str_replace(['[', ']'], '', $line),
                     ];
                 }

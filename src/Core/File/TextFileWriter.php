@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       07/04/2020 (dd-mm-YYYY)
  */
+
+declare(strict_types=1);
 
 namespace App\Core\File;
 
@@ -30,7 +30,6 @@ class TextFileWriter
         $this->writeMultilineFromString($path, $data, $test);
     }
 
-    /** @param string[] $lines */
     public function writeMultilineFromString(string $path, string $lines, bool $test = false): void
     {
         if (false === file_put_contents($path, $lines, $test)) {

@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       23/04/2020 (dd-mm-YYYY)
  * @licence    MIT
  */
+
+declare(strict_types=1);
 
 namespace App\Core\Tas\Savegame;
 
@@ -14,13 +14,13 @@ use App\Core\Exception\InvalidInputException;
 use App\Core\Tas\Savegame\Fleet\Fleet;
 use App\Core\Tas\Scenario\Scenario;
 use App\Core\Traits\HydrateTrait;
-use App\Core\Traits\UnknownSideTrait;
+use App\Core\Traits\SideValidationTrait;
 use App\NameSwitcher\Exception\NoShipException;
 
 class Savegame
 {
     use HydrateTrait;
-    use UnknownSideTrait;
+    use SideValidationTrait;
 
     public const FIELDS_NAME = [
         'Fog',
@@ -44,19 +44,19 @@ class Savegame
     private bool $axisShipsDataChanged = false;
     private bool $alliedShipsDataChanged = false;
 
-    /** @var string[] */
+    /** @var string[][] */
     private array $axisShipsInPort = [];
-    /** @var string[] */
+    /** @var string[][] */
     private array $alliedShipsInPort = [];
     /** @var Fleet[] */
     private array $axisFleets = [];
     /** @var Fleet[] */
     private array $alliedFleets = [];
-    /** @var string[] */
+    /** @var string[][] */
     private array $shipsData = [];
 
-    private $axisMaxTfCount = 0;
-    private $alliedMaxTfCount = 0;
+    protected int $axisMaxTfCount = 0;
+    protected int $alliedMaxTfCount = 0;
 
     /** @param string[] $data */
     public function __construct(array $data)
@@ -69,7 +69,7 @@ class Savegame
         return $this->fog;
     }
 
-    public function setFog(string $fog): void
+    private function setFog(string $fog): void
     {
         if ('Yes' === $fog) {
             $fog = true;
@@ -87,7 +87,7 @@ class Savegame
         return $this->scenarioName;
     }
 
-    public function setScenarioName(string $scenarioName): void
+    private function setScenarioName(string $scenarioName): void
     {
         $this->scenarioName = $scenarioName;
     }
@@ -97,7 +97,7 @@ class Savegame
         return $this->saveDate;
     }
 
-    public function setSaveDate(string $saveDate): void
+    private function setSaveDate(string $saveDate): void
     {
         $this->saveDate = (int) $saveDate;
     }
@@ -107,7 +107,7 @@ class Savegame
         return $this->saveTime;
     }
 
-    public function setSaveTime(string $saveTime): void
+    private function setSaveTime(string $saveTime): void
     {
         $this->saveTime = (int) $saveTime;
     }
@@ -117,7 +117,7 @@ class Savegame
         return $this->cloudCover;
     }
 
-    public function setCloudCover(string $cloudCover): void
+    private function setCloudCover(string $cloudCover): void
     {
         $this->cloudCover = (bool) $cloudCover;
     }
@@ -127,12 +127,12 @@ class Savegame
         return $this->weatherState;
     }
 
-    public function setWeatherState(string $weatherState): void
+    private function setWeatherState(string $weatherState): void
     {
         $this->weatherState = (bool) $weatherState;
     }
 
-    /** @param string[] $ships */
+    /** @param string[][] $ships */
     public function setAxisShipsInPort(array $ships): void
     {
         $this->axisShipsInPort = $ships;
@@ -146,7 +146,7 @@ class Savegame
         $this->axisFleets = $fleets;
     }
 
-    /** @param string[] $ships */
+    /** @param string[][] $ships */
     public function setAlliedShipsInPort(array $ships): void
     {
         $this->alliedShipsInPort = $ships;
@@ -160,7 +160,7 @@ class Savegame
         $this->alliedFleets = $fleets;
     }
 
-    /** @return  string[] */
+    /** @return  string[][] */
     public function getAxisShipsInPort(): array
     {
         return $this->axisShipsInPort;
@@ -172,7 +172,7 @@ class Savegame
         return $this->axisFleets;
     }
 
-    /** @return  string[] */
+    /** @return  string[][] */
     public function getAlliedShipsInPort(): array
     {
         return $this->alliedShipsInPort;
@@ -184,6 +184,7 @@ class Savegame
         return $this->alliedFleets;
     }
 
+    /** @return  string[][] */
     public function getShipsInPort(string $side): array
     {
         $this->validateSide($side);
@@ -194,6 +195,7 @@ class Savegame
         }
     }
 
+    /** @param  string[][] $ships */
     public function setShipsInPort(string $side, array $ships): void
     {
         $this->validateSide($side);
@@ -210,12 +212,13 @@ class Savegame
         $this->shipsData = $shipsData;
     }
 
-    /** @param string[][] $shipsData */
+    /** @param string[] $shipData */
     public function setShipData(string $ship, array $shipData): void
     {
         $this->shipsData[$ship] = $shipData;
     }
 
+    /** @return string[] */
     public function getShipData(string $ship): array
     {
         if (false === array_key_exists($ship, $this->shipsData)) {
@@ -263,11 +266,11 @@ class Savegame
 
         if (Scenario::AXIS_SIDE === $side) {
             if (false === array_key_exists($ship, $this->axisShipsInPort)) {
-                throw new InvalidInputException("Ship '$ship' is not in port on the axis side");
+                throw new NoShipException("Ship '$ship' is not in port on the Axis side");
             }
         } else {
             if (false === array_key_exists($ship, $this->alliedShipsInPort)) {
-                throw new InvalidInputException("Ship '$ship' is not in port on the allied side");
+                throw new NoShipException("Ship '$ship' is not in port on the Allied side");
             }
         }
     }
@@ -304,6 +307,7 @@ class Savegame
         }
     }
 
+    /** @return Fleet[] */
     public function getFleets(string $side): array
     {
         $this->validateSide($side);
@@ -340,7 +344,6 @@ class Savegame
     /** @param Fleet[] $fleets */
     private function updateTfNumber(array $fleets, string $side): void
     {
-        $this->validateSide($side);
         foreach ($fleets as $fleet) {
             $divNumber = (int) substr($fleet->getId(), 2);
             if (Scenario::AXIS_SIDE === $side) {

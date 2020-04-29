@@ -34,8 +34,9 @@ class DictionaryFactoryTest extends TestCase
         $reader = $this->getMockBuilder(DictionaryReader::class)->disableOriginalConstructor()->getMock();
         $reader->method('extractData')
             ->with('AH.csv')
-            ->will($this->generate([$shipData]
-        ));
+            ->will($this->generate(
+                [$shipData]
+            ));
 
         $factory = new DictionaryFactory($reader);
         $result = ($factory->getDictionary('AH.csv')->getShipsList());

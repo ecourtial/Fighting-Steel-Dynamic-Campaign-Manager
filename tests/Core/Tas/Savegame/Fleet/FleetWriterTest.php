@@ -10,7 +10,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Core\Tas\Savegame\Fleet;
 
+use App\Core\Exception\InvalidInputException;
 use App\Core\File\TextFileWriter;
+use App\Core\Tas\Port\PortService;
+use App\Core\Tas\Savegame\Fleet\FleetUpdater;
 use App\Core\Tas\Savegame\Fleet\FleetWriter;
 
 class FleetWriterTest extends AbstractModifiedSavegame
@@ -45,6 +48,7 @@ class FleetWriterTest extends AbstractModifiedSavegame
         }
     }
 
+    // Note: this code also test a big part of the FleetUpdater class
     public function testUpdateAxisFleet(): void
     {
         // Change the path just to not override the real one.

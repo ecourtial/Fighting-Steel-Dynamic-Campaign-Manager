@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @author     Eric COURTIAL <e.courtial30@gmail.com>
+ */
+
 declare(strict_types=1);
 
 namespace App\NameSwitcher;
@@ -15,9 +19,6 @@ use App\NameSwitcher\Switcher\SwitcherFactory;
 use App\NameSwitcher\Switcher\SwitcherInterface;
 use App\NameSwitcher\Transformer\CorrespondenceWriter;
 
-/**
- * @author     Eric COURTIAL <e.courtial30@gmail.com>
- */
 class ScenarioProcessor
 {
     private SwitcherFactory $switcherFactory;

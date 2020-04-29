@@ -25,7 +25,7 @@ class TextFileReaderTest extends TestCase
         }
 
         static::assertEquals(
-           [
+            [
                '[GENERAL CONFIG - NOTE FILE HAS SPACES FOR TESTING PURPOSE]',
                'TAS_PATH = "C:\Program Files\Thunder At Sea"',
                'FS_PATH=" C:\Program Files\Fighting Steel"',

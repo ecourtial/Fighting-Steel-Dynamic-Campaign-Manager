@@ -1,16 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       23/04/2020 (dd-mm-YYYY)
  * @licence    MIT
  */
 
+declare(strict_types=1);
+
 namespace App\Core\Tas\Savegame\Fleet;
 
 use App\Core\Exception\InvalidInputException;
+use App\Core\Tas\Port\PortService;
 use App\Core\Tas\Savegame\Savegame;
 use App\Core\Tas\Ship\Ship;
 
@@ -20,6 +21,17 @@ class FleetUpdater
     public const AT_SEA_ACTION = 'at_sea';
     public const DETACH_ACTION = 'detach';
 
+    private PortService $portService;
+
+    public function __construct(PortService $portService)
+    {
+        $this->portService = $portService;
+    }
+
+    /**
+     * @param string[] $ships
+     * @param mixed[]  $params
+     */
     public function action(
         Savegame $savegame,
         string $action,
@@ -47,7 +59,7 @@ class FleetUpdater
 
     /**
      * @param string[] $ships
-     * @param array[]  $params
+     * @param string[] $params
      */
     private function putAtSea(Savegame $savegame, array $ships, array $params): void
     {
@@ -65,7 +77,7 @@ class FleetUpdater
 
         // Create the fleet
         $tfId = 'TF' . ($savegame->getMaxTfNumber($side) + 1);
-        $fleet = $this->createFleet($params['ll'], $tfId, $params);
+        $fleet = $this->createFleet($this->portService->getPortFirstWaypoint($port), $tfId, $params);
 
         // Create the division
         $this->createDivision($savegame, $fleet, $side, $shipsToMove);
@@ -174,7 +186,8 @@ class FleetUpdater
         $savegame->setShipsDataChanged($side, true);
     }
 
-    private function validateSameData($savegame, array $ships, string $key): string
+    /** @param string[] $ships */
+    private function validateSameData(Savegame $savegame, array $ships, string $key): string
     {
         $value = '';
 
@@ -194,6 +207,7 @@ class FleetUpdater
         return $value;
     }
 
+    /** @param mixed[] $params */
     private function createFleet(string $location, string $tfId, array $params): Fleet
     {
         $fleet = new Fleet();
@@ -212,6 +226,7 @@ class FleetUpdater
         return $fleet;
     }
 
+    /** @param string[][] $shipsToMove */
     private function createDivision(
         Savegame $savegame,
         Fleet $fleet,
@@ -239,6 +254,7 @@ class FleetUpdater
         }
     }
 
+    /** @param string[] $fleetsToCheck */
     private function cleanUpFleetsAndDivisions(array $fleetsToCheck, string $side, Savegame $savegame): void
     {
         // Disband any empty division and any empty TF

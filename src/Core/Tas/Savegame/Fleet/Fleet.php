@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       23/04/2020 (dd-mm-YYYY)
  * @licence    MIT
  */
+
+declare(strict_types=1);
 
 namespace App\Core\Tas\Savegame\Fleet;
 
@@ -37,13 +37,12 @@ class Fleet
     private string $ll;
     /** @var string[] */
     private array $waypoints = [];
-    /** @var string[][] */
+    /** @var mixed[] */
     private array $divisions = [];
     /** @var string[] */
     private $ships = [];
     private float $speed;
     private string $mission;
-    private int $lastDivisionCount;
 
     public function setId(string $id): void
     {
@@ -108,6 +107,7 @@ class Fleet
         $this->divisions[$division][$ship][$key] = $value;
     }
 
+    /** @return mixed[] */
     public function getShipDataFromDivision(string $division, string $ship): array
     {
         return $this->divisions[$division][$ship];
@@ -144,7 +144,7 @@ class Fleet
         return $this->waypoints;
     }
 
-    /** @return string[]  */
+    /** @return string[][][]  */
     public function getDivisions(): array
     {
         return $this->divisions;
@@ -186,15 +186,5 @@ class Fleet
         }
 
         $this->mission = $mission;
-    }
-
-    public function getLastDivisionCount(): int
-    {
-        return $this->lastDivisionCount;
-    }
-
-    public function setLastDivisionCount(int $lastDivisionCount): void
-    {
-        $this->lastDivisionCount = $lastDivisionCount;
     }
 }

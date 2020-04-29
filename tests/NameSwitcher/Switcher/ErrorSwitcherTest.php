@@ -95,7 +95,8 @@ class ErrorSwitcherTest extends TestCase
                     'FsShortName' => 'Queen Eliz',
                     'SimilarTo' => 'Royal Sovereign',
                 ],
-            ]);
+            ]
+        );
 
         $expected = [
             'Richelieu' => new Ship('Richelieu', 'Richelieu', 'Richelieu'),
@@ -142,7 +143,8 @@ class ErrorSwitcherTest extends TestCase
                     'FsShortName' => 'Bismarck',
                     'SimilarTo' => 'Scharnhorst',
                 ],
-            ]);
+            ]
+        );
 
         $switcher = new $class();
         $correspondence = $switcher->switch($dico, $ships, 'Blue');
@@ -194,7 +196,8 @@ class ErrorSwitcherTest extends TestCase
                     'FsShortName' => 'Scheer',
                     'SimilarTo' => 'Scharnhorst',
                 ],
-            ]);
+            ]
+        );
 
         $switcher = new $class();
         $correspondence = $switcher->switch($dico, $ships, 'Blue');

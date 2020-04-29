@@ -46,7 +46,8 @@ class ScenarioValidationTest extends TestCase
         $requestStack->expects(static::once())->method('getCurrentRequest')->willReturn($request);
         $request->expects(static::at(0))->method('get')->with('scenario', null)->willReturn('UnScenario');
         $scenarioValidator->expects(static::once())->method('validate')->with('UnScenario')->willThrowException(
-            new \Exception('Oh sooorrrryyy'));
+            new \Exception('Oh sooorrrryyy')
+        );
 
         $controller = new ScenarioValidation($requestStack, $scenarioValidator);
         $response = $controller();
