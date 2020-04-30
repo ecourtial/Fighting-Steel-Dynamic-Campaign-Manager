@@ -34,30 +34,42 @@ class IniReader
                 continue;
             }
 
-            if (preg_match('/^\[.*]$/', $line)) {
-                // Ignore headers of sections?
-                if (false === $ignoreHeaders) {
-                    $headerCount++;
-                    yield [
-                        'key' => 'header_' . $headerCount,
-                        'value' => str_replace(['[', ']'], '', $line),
-                    ];
-                }
-            } else {
-                // Standard lines. Properly formed or not?
-                $keys = explode('=', $line);
-
-                if (2 !== count($keys)) {
-                    if (false === $ignoreMalformed) {
-                        yield ['key' => $line, 'value' => ''];
-                    }
-                } else {
-                    yield [
-                        'key' => trim($keys[0]),
-                        'value' => trim($keys[1], ' "'),
-                    ];
-                }
+            $data = $this->handleLine($headerCount, $line, $ignoreHeaders, $ignoreMalformed);
+            if (null !== $data) {
+                yield $data;
             }
         }
+    }
+
+    /** @return string[]|null */
+    private function handleLine(int &$headerCount, string $line, bool $ignoreHeaders, bool $ignoreMalformed): ?array
+    {
+        if (preg_match('/^\[.*]$/', $line)) {
+            // Ignore headers of sections?
+            if (false === $ignoreHeaders) {
+                $headerCount++;
+
+                return [
+                    'key' => 'header_' . $headerCount,
+                    'value' => str_replace(['[', ']'], '', $line),
+                ];
+            }
+        } else {
+            // Standard lines. Properly formed or not?
+            $keys = explode('=', $line);
+
+            if (2 !== count($keys)) {
+                if (false === $ignoreMalformed) {
+                    return ['key' => $line, 'value' => ''];
+                }
+            } else {
+                return [
+                    'key' => trim($keys[0]),
+                    'value' => trim($keys[1], ' "'),
+                ];
+            }
+        }
+
+        return null;
     }
 }
