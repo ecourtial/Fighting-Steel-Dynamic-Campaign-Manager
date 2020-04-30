@@ -1,7 +1,8 @@
 phpcs:
 	vendor/bin/phpcs -n
 
-phpcbf:
+cleancode:
+	vendor/bin/php-cs-fixer fix --allow-risky=yes --diff
 	vendor/bin/phpcbf
 
 phpstan:

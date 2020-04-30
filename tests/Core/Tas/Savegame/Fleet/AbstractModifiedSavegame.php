@@ -21,25 +21,32 @@ use App\Core\Tas\Savegame\Savegame;
 use App\Core\Tas\Savegame\SavegameReader;
 use App\Core\Tas\Savegame\SavegameRepository;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\Test\TestLogger;
 
 abstract class AbstractModifiedSavegame extends TestCase
 {
     /** @var SavegameRepository */
-    protected static $repo;
+    private ?SavegameRepository $repo = null;
+    private TestLogger $logger;
 
-    /** @var FleetUpdater */
-    protected static $updater;
-
-    public static function setUpBeforeClass(): void
+    protected function getRepo(): SavegameRepository
     {
-        $iniReader = new IniReader(new TextFileReader());
+        if (null === $this->repo) {
+            $iniReader = new IniReader(new TextFileReader());
+            $this->logger = new TestLogger();
 
-        static::$repo = new SavegameRepository(
-            new SavegameReader($iniReader),
-            new FleetExtractor($iniReader),
-            new FleetWriter(new TextFileWriter()),
-            $_ENV['TAS_LOCATION']
-        );
+            $this->repo = new SavegameRepository(
+                new SavegameReader($iniReader),
+                new FleetExtractor($iniReader),
+                new FleetWriter(new TextFileWriter()),
+                $_ENV['TAS_LOCATION'],
+                $this->logger
+            );
+        }
+
+        $this->logger->reset();
+
+        return $this->repo;
     }
 
     protected function getModifiedSavegame(): Savegame
@@ -49,7 +56,7 @@ abstract class AbstractModifiedSavegame extends TestCase
 
         $updater = new FleetUpdater($portServiceMock);
 
-        $saveGame = static::$repo->getOne('Save1', true);
+        $saveGame = $this->getRepo()->getOne('Save1', true);
 
         // Put Provence at sea, alone.
         $updater->action(
@@ -75,13 +82,6 @@ abstract class AbstractModifiedSavegame extends TestCase
             ]
         );
 
-        static::assertEquals([
-            'LOCATION' => 'AHAH',
-            'SIDE' => 'Axis',
-            'FLEET' => 'TF3',
-            'DIVISION' => 'TF3DIVISION0',
-        ], $saveGame->getShipData('Mogador'));
-
         // Remove Gneisenau from her division and put her in port
         $updater->action(
             $saveGame,
@@ -102,13 +102,6 @@ abstract class AbstractModifiedSavegame extends TestCase
             ]
         );
 
-        static::assertEquals([
-            'LOCATION' => 'kjgjtll',
-            'SIDE' => 'Axis',
-            'FLEET' => 'TF4',
-            'DIVISION' => 'TF4DIVISION0',
-            ], $saveGame->getShipData('Roma'));
-
         // Detach Algerie
         $updater->action(
             $saveGame,
@@ -119,31 +112,6 @@ abstract class AbstractModifiedSavegame extends TestCase
                 'mission' => 'Bombard',
                 'speed' => 16,
             ]
-        );
-
-        $newAlgerieData = [
-            'LOCATION' => 'kjgjtll',
-            'SIDE' => 'Allied',
-            'FLEET' => 'TF2',
-            'DIVISION' => 'TF2DIVISION0',
-        ];
-        static::assertEquals($newAlgerieData, $saveGame->getShipData('Algerie'));
-        static::assertEquals(
-            [
-                'Algerie' => [
-                    'TYPE' => 'CA',
-                    'MAXSPEED' => '32',
-                    'ENDURANCE' => '195',
-                    'CURRENTENDURANCE' => '186',
-                    'RECONRANGE' => '0',
-                ],
-            ],
-            $saveGame->getFleets('Allied')['TF2']->getDivisions()['TF2DIVISION0']
-        );
-        static::assertEquals(['kjgjtll', 'fkljkl'], $saveGame->getFleets('Allied')['TF2']->getWaypoints());
-        static::assertEquals(
-            ['Dupleix', 'Foch'],
-            array_keys($saveGame->getFleets('Allied')['TF1']->getDivisions()['TF1DIVISION0'])
         );
 
         // Put Bretagne, Lorraine, La Palme, Le Mars and Tempete in port: their TF is disbanded
@@ -165,10 +133,6 @@ abstract class AbstractModifiedSavegame extends TestCase
                 'speed' => 24,
             ]
         );
-
-        // Check before return
-        static::assertTrue($saveGame->isShipsDataChanged('Axis'));
-        static::assertTrue($saveGame->isShipsDataChanged('Allied'));
 
         return $saveGame;
     }

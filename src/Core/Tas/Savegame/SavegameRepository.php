@@ -11,10 +11,11 @@ declare(strict_types=1);
 namespace App\Core\Tas\Savegame;
 
 use App\Core\Exception\InvalidInputException;
-use App\Core\Tas\Savegame\Fleet\Fleet;
 use App\Core\Tas\Savegame\Fleet\FleetExtractor;
 use App\Core\Tas\Savegame\Fleet\FleetWriter;
+use App\Core\Tas\Savegame\Fleet\TaskForce;
 use App\Core\Tas\Scenario\Scenario;
+use Psr\Log\LoggerInterface;
 
 class SavegameRepository
 {
@@ -22,17 +23,20 @@ class SavegameRepository
     private FleetExtractor $fleetExtractor;
     private FleetWriter $fleetWriter;
     private string $tasDirectory;
+    private LoggerInterface $logger;
 
     public function __construct(
         SavegameReader $savegameReader,
         FleetExtractor $fleetExtractor,
         FleetWriter $fleetWriter,
-        string $tasDirectory
+        string $tasDirectory,
+        LoggerInterface $logger
     ) {
         $this->savegameReader = $savegameReader;
         $this->fleetExtractor = $fleetExtractor;
         $this->tasDirectory = $tasDirectory;
         $this->fleetWriter = $fleetWriter;
+        $this->logger = $logger;
     }
 
     /** @return string[] */
@@ -40,22 +44,23 @@ class SavegameRepository
     {
         /**
          * Will return an array of string for the available savegames, on the following pattern:
-         * 'tasScenarioName' => 'saveX' where X is the number of the slot.
+         * 'tasScenarioName' => 'SaveX' where X is the number of the slot.
          */
         $saveGames = [];
         $folderContent = scandir($this->tasDirectory);
 
         foreach ($folderContent as $element) {
             $saveGameFullPath = $this->tasDirectory . DIRECTORY_SEPARATOR . $element;
-            if (
-                is_dir($saveGameFullPath)
-                && preg_match(Savegame::PATH_REGEX, $element)
-            ) {
+
+            if (preg_match(Savegame::PATH_REGEX, $element)) {
                 try {
                     $saveGame = $this->savegameReader->extract($saveGameFullPath);
                     $saveGames[$saveGame->getScenarioName()] = $element;
                 } catch (\Throwable $exception) {
-                    // Log
+                    // We don't want any error to pop up since SaveGames and Scenarios are in the same folder
+                    $this->logger->error(
+                        "Error when trying to load the savegame '$element'. Error was: " . $exception->getMessage()
+                    );
                 }
             }
         }
@@ -79,10 +84,10 @@ class SavegameRepository
             $axisFleets = $this->fleetExtractor->extractFleets($path, Scenario::AXIS_SIDE);
             $alliedFleets = $this->fleetExtractor->extractFleets($path, Scenario::ALLIED_SIDE);
 
-            $save->setAxisShipsInPort($axisShipsInPort);
-            $save->setAxisShipsAtSea($axisFleets);
-            $save->setAlliedShipsInPort($alliedShipsInPort);
-            $save->setAlliedShipsAtSea($alliedFleets);
+            $save->getNavalData()->setShipsInPort('Axis', $axisShipsInPort);
+            $save->getNavalData()->setShipsAtSea('Axis', $axisFleets);
+            $save->getNavalData()->setShipsInPort('Allied', $alliedShipsInPort);
+            $save->getNavalData()->setShipsAtSea('Allied', $alliedFleets);
 
             // Location and other data
             $data = [];
@@ -92,7 +97,7 @@ class SavegameRepository
             $this->getLocationsFromFleets(Scenario::AXIS_SIDE, $axisFleets, $data);
             $this->getLocationsFromFleets(Scenario::ALLIED_SIDE, $alliedFleets, $data);
 
-            $save->setShipsData($data);
+            $save->getNavalData()->setShipsData($data);
         }
 
         return $save;
@@ -100,11 +105,11 @@ class SavegameRepository
 
     public function persist(Savegame $savegame): void
     {
-        if ($savegame->isShipsDataChanged(Scenario::ALLIED_SIDE)) {
+        if ($savegame->getNavalData()->isShipsDataChanged(Scenario::ALLIED_SIDE)) {
             $this->fleetWriter->update($savegame, Scenario::ALLIED_SIDE);
         }
 
-        if ($savegame->isShipsDataChanged(Scenario::AXIS_SIDE)) {
+        if ($savegame->getNavalData()->isShipsDataChanged(Scenario::AXIS_SIDE)) {
             $this->fleetWriter->update($savegame, Scenario::AXIS_SIDE);
         }
     }
@@ -122,14 +127,14 @@ class SavegameRepository
     }
 
     /**
-     * @param Fleet[]    $fleets
-     * @param string[][] $data
+     * @param TaskForce[] $fleets
+     * @param string[][]  $data
      */
     private function getLocationsFromFleets(string $side, array $fleets, array &$data): void
     {
         foreach ($fleets as $fleet) {
             $currentLocation = $fleet->getLl();
-            foreach ($fleet->getDivisions() as $divisionName => $division) {
+            foreach ($fleet->getFleetData()->getDivisions() as $divisionName => $division) {
                 foreach ($division as $ship => $shipData) {
                     $data[$ship] = [
                         'LOCATION' => $currentLocation,

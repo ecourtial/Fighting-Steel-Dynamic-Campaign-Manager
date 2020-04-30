@@ -69,23 +69,23 @@ class FleetUpdater
 
         // Remove the ship from port
         foreach ($ships as $ship) {
-            $shipsToMove[$ship] = $savegame->getShipData($ship);
+            $shipsToMove[$ship] = $savegame->getNavalData()->getShipData($ship);
             $shipsToMove[$ship]['LOCATION'] = '';
             unset($shipsToMove[$ship]['SIDE']);
-            $savegame->removeShipInPort($ship, $side);
+            $savegame->getNavalData()->removeShipInPort($ship, $side);
         }
 
         // Create the fleet
-        $tfId = 'TF' . ($savegame->getMaxTfNumber($side) + 1);
+        $tfId = 'TF' . ($savegame->getNavalData()->getMaxTfNumber($side) + 1);
         $fleet = $this->createFleet($this->portService->getPortFirstWaypoint($port), $tfId, $params);
 
         // Create the division
         $this->createDivision($savegame, $fleet, $side, $shipsToMove);
 
         // Update the savegame
-        $savegame->addFleet($side, $fleet);
-        $savegame->incrementMaxTfNumber($side);
-        $savegame->setShipsDataChanged($side, true);
+        $savegame->getNavalData()->addFleet($side, $fleet);
+        $savegame->getNavalData()->incrementMaxTfNumber($side);
+        $savegame->getNavalData()->setShipsDataChanged($side, true);
     }
 
     /**
@@ -102,27 +102,27 @@ class FleetUpdater
         $fleetsToCheck = [];
 
         // Create the new fleet
-        $tfId = 'TF' . ($savegame->getMaxTfNumber($side) + 1);
+        $tfId = 'TF' . ($savegame->getNavalData()->getMaxTfNumber($side) + 1);
         $location = $params['waypoints'][0];
         $fleet = $this->createFleet($location, $tfId, $params);
 
         // Process the ships
         foreach ($ships as $ship) {
             // Get data
-            $shipData = $savegame->getShipData($ship);
+            $shipData = $savegame->getNavalData()->getShipData($ship);
 
             if (false === in_array($shipData['FLEET'], $fleetsToCheck, true)) {
                 $fleetsToCheck[] = $shipData['FLEET'];
             }
 
-            $shipsToMove[$ship] = $savegame->getFleets($side)[$shipData['FLEET']]
-                ->getShipDataFromDivision($shipData['DIVISION'], $ship);
+            $shipsToMove[$ship] = $savegame->getNavalData()->getFleets($side)[$shipData['FLEET']]
+                ->getFleetData()->getShipDataFromDivision($shipData['DIVISION'], $ship);
 
             // Remove from former fleet-division
-            $savegame->getFleets($side)[$shipData['FLEET']]->removeShipFromDivision($shipData['DIVISION'], $ship);
-
-            // Update data
-            $savegame->setShipData($ship, $shipsToMove[$ship]);
+            $savegame->getNavalData()
+                ->getFleets($side)[$shipData['FLEET']]
+                ->getFleetData()
+                ->removeShipFromDivision($shipData['DIVISION'], $ship);
         }
 
         // Create the division
@@ -132,9 +132,9 @@ class FleetUpdater
         $this->cleanUpFleetsAndDivisions($fleetsToCheck, $side, $savegame);
 
         // Update the savegame
-        $savegame->addFleet($side, $fleet);
-        $savegame->incrementMaxTfNumber($side);
-        $savegame->setShipsDataChanged($side, true);
+        $savegame->getNavalData()->addFleet($side, $fleet);
+        $savegame->getNavalData()->incrementMaxTfNumber($side);
+        $savegame->getNavalData()->setShipsDataChanged($side, true);
     }
 
     /**
@@ -151,39 +151,42 @@ class FleetUpdater
 
         foreach ($ships as $ship) {
             // Prepare and update data
-            $shipData = $savegame->getShipData($ship);
+            $shipData = $savegame->getNavalData()->getShipData($ship);
 
             if (false === in_array($shipData['FLEET'], $fleetsToCheck, true)) {
                 $fleetsToCheck[] = $shipData['FLEET'];
             }
 
-            $newShipData = $savegame->getFleets($side)[$shipData['FLEET']]->getShipDataFromDivision(
-                $shipData['DIVISION'],
-                $ship
-            );
+            $newShipData = $savegame->getNavalData()
+                ->getFleets($side)[$shipData['FLEET']]
+                ->getFleetData()
+                ->getShipDataFromDivision(
+                    $shipData['DIVISION'],
+                    $ship
+                );
             $newShipData['LOCATION'] = $params['port'];
             $newShipData['SIDE'] = $side;
 
-            $savegame->setShipData($ship, $newShipData);
+            $savegame->getNavalData()->setShipData($ship, $newShipData);
             unset($newShipData['SIDE']);
 
             // Remove her from her division
-            $savegame->getFleets($side)[$shipData['FLEET']]->removeShipFromDivision(
+            $savegame->getNavalData()->getFleets($side)[$shipData['FLEET']]->getFleetData()->removeShipFromDivision(
                 $shipData['DIVISION'],
                 $ship
             );
 
             // Put her in port
-            $shipsInPort = $savegame->getShipsInPort($side);
+            $shipsInPort = $savegame->getNavalData()->getShipsInPort($side);
             $shipsInPort[$ship] = $newShipData;
-            $savegame->setShipsInPort($side, $shipsInPort);
+            $savegame->getNavalData()->setShipsInPort($side, $shipsInPort);
         }
 
         // cleanup fleets and divisions
         $this->cleanUpFleetsAndDivisions($fleetsToCheck, $side, $savegame);
 
         // Update the savegame
-        $savegame->setShipsDataChanged($side, true);
+        $savegame->getNavalData()->setShipsDataChanged($side, true);
     }
 
     /** @param string[] $ships */
@@ -192,7 +195,7 @@ class FleetUpdater
         $value = '';
 
         foreach ($ships as $ship) {
-            $currentValue = $savegame->getShipData($ship)[$key];
+            $currentValue = $savegame->getNavalData()->getShipData($ship)[$key];
             if ('' === $value) {
                 $value = $currentValue;
 
@@ -208,14 +211,13 @@ class FleetUpdater
     }
 
     /** @param mixed[] $params */
-    private function createFleet(string $location, string $tfId, array $params): Fleet
+    private function createFleet(string $location, string $tfId, array $params): TaskForce
     {
-        $fleet = new Fleet();
+        $fleet = new TaskForce($tfId);
         $fleet->setLl($location);
         $fleet->setCaseCount('1');
         $fleet->setProb('100');
         $fleet->setName($tfId);
-        $fleet->setId($tfId);
         $fleet->setMission($params['mission']);
         $fleet->setSpeed($params['speed']);
 
@@ -229,18 +231,18 @@ class FleetUpdater
     /** @param string[][] $shipsToMove */
     private function createDivision(
         Savegame $savegame,
-        Fleet $fleet,
+        TaskForce $fleet,
         string $side,
         array $shipsToMove
-    ): void {
+    ): string {
         $division = $fleet->getId() . 'DIVISION0';
 
         foreach ($shipsToMove as $ship => $shipData) {
             unset($shipData['LOCATION']);
             foreach ($shipData as $key => $value) {
-                $fleet->addDataToShipInDivision($division, $ship, $key, $value);
+                $fleet->getFleetData()->addDataToShipInDivision($division, $ship, $key, $value);
             }
-            $savegame->setShipData(
+            $savegame->getNavalData()->setShipData(
                 $ship,
                 [
                     'LOCATION' => $fleet->getLl(),
@@ -250,6 +252,8 @@ class FleetUpdater
                 ]
             );
         }
+
+        return $division;
     }
 
     /** @param string[] $fleetsToCheck */
@@ -257,14 +261,14 @@ class FleetUpdater
     {
         // Disband any empty division and any empty TF
         foreach ($fleetsToCheck as $fleet) {
-            foreach ($savegame->getFleets($side)[$fleet]->getDivisions() as $divisionName => $division) {
+            foreach ($savegame->getNavalData()->getFleets($side)[$fleet]->getFleetData()->getDivisions() as $divisionName => $division) {
                 if ([] == $division) {
-                    $savegame->getFleets($side)[$fleet]->removeDivision($divisionName);
+                    $savegame->getNavalData()->getFleets($side)[$fleet]->getFleetData()->removeDivision($divisionName);
                 }
             }
 
-            if ($savegame->getFleets($side)[$fleet]->getDivisions() == []) {
-                $savegame->removeFleet($side, $fleet);
+            if ($savegame->getNavalData()->getFleets($side)[$fleet]->getFleetData()->getDivisions() == []) {
+                $savegame->getNavalData()->removeFleet($side, $fleet);
             }
         }
     }

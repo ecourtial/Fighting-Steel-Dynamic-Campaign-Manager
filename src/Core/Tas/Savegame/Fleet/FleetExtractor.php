@@ -38,43 +38,52 @@ class FleetExtractor
         $currentShipName = '';
 
         foreach ($this->iniReader->getData($path, false) as $line) {
-            if (
-                0 === strpos($line['key'], 'header_')
-                && 'SHIPS IN PORT' === $line['value']
-            ) {
-                $record = true;
-
-                continue;
-            }
-
-            if ('NAME' === $line['key'] && $record) {
-                $currentShipName = $line['value'];
-                $ships[$currentShipName] = [];
-
-                continue;
-            }
-
-            if (
-                $record
-                && (
-                    'LOCATION' === $line['key']
-                    || 'TYPE' === $line['key']
-                    || 'MAXSPEED' === $line['key']
-                    || 'ENDURANCE' === $line['key']
-                    || 'CURRENTENDURANCE' === $line['key']
-                    || 'RECONRANGE' === $line['key']
-                )
-            ) {
-                $ships[$currentShipName][$line['key']] = $line['value'];
-
-                continue;
-            }
+            $this->handlePortLine($ships, $record, $currentShipName, $line);
         }
 
         return $ships;
     }
 
-    /** @return Fleet[] */
+    /**
+     * @param string[][] $ships
+     * @param string[]   $line
+     */
+    private function handlePortLine(array &$ships, bool &$record, string &$currentShipName, array $line): void
+    {
+        if (
+            0 === strpos($line['key'], 'header_')
+            && 'SHIPS IN PORT' === $line['value']
+        ) {
+            $record = true;
+
+            return;
+        }
+
+        if ('NAME' === $line['key'] && $record) {
+            $currentShipName = $line['value'];
+            $ships[$currentShipName] = [];
+
+            return;
+        }
+
+        if (
+            $record
+            && (
+                'LOCATION' === $line['key']
+                || 'TYPE' === $line['key']
+                || 'MAXSPEED' === $line['key']
+                || 'ENDURANCE' === $line['key']
+                || 'CURRENTENDURANCE' === $line['key']
+                || 'RECONRANGE' === $line['key']
+            )
+        ) {
+            $ships[$currentShipName][$line['key']] = $line['value'];
+
+            return;
+        }
+    }
+
+    /** @return TaskForce[] */
     public function extractFleets(string $path, string $side): array
     {
         $this->validateSide($side);
@@ -92,80 +101,18 @@ class FleetExtractor
                 0 === strpos($line['key'], 'header_')
                     && preg_match(static::TF_REGEX, $line['value'])
             ) {
-                if ($fleet instanceof Fleet) {
+                if ($fleet instanceof TaskForce) {
                     $fleets[$fleet->getId()] = $fleet;
                     $currentDivision = '';
                 }
 
-                $fleet = new Fleet();
-                $fleet->setId($line['value']);
+                $fleet = new TaskForce($line['value']);
                 $fleetContext = true;
 
                 continue;
             }
 
-            if ('NAME' === $line['key']) {
-                if ('' !== $currentDivision) {
-                    $currentName = $line['value'];
-                } else {
-                    // if $fleetContext, any other case is probably because the file is not properly formed
-                    $fleet->setName($line['value']);
-                }
-
-                continue;
-            }
-
-            if (
-                'TYPE' === $line['key']
-                || 'MAXSPEED' === $line['key']
-                || 'ENDURANCE' === $line['key']
-                || 'CURRENTENDURANCE' === $line['key']
-                || 'RECONRANGE' === $line['key']
-            ) {
-                $fleet->addDataToShipInDivision($currentDivision, $currentName, $line['key'], $line['value']);
-
-                continue;
-            }
-
-            if ('SPEED' === $line['key'] && $fleetContext) {
-                $fleet->setSpeed((float) $line['value']);
-
-                continue;
-            }
-
-            if ('MISSION' === $line['key'] && $fleetContext) {
-                $fleet->setMission($line['value']);
-
-                continue;
-            }
-
-            if ('PROB' === $line['key'] && $fleetContext) {
-                $fleet->setProb($line['value']);
-
-                continue;
-            }
-
-            if ('CASECOUNT' === $line['key'] && $fleetContext) {
-                $fleet->setCaseCount($line['value']);
-
-                continue;
-            }
-
-            if ('LL' === $line['key'] && $fleetContext) {
-                $fleet->setLl($line['value']);
-            }
-
-            if (('WP' === $line['key'] || 'TP' === $line['key']) && $fleetContext) {
-                $fleet->addWaypoint($line['value']);
-            }
-
-            // Division header
-            if (
-                0 === strpos($line['key'], 'header_')
-                && preg_match(static::TF_DIVISION_REGEX, $line['value'])
-            ) {
-                $currentDivision = $line['value'];
-            }
+            $this->handleFleetLine($line, $currentName, $fleet, $currentDivision, $fleetContext);
 
             // Ship in ports are in the second part of the file. We need to stop here.
             if (
@@ -179,5 +126,91 @@ class FleetExtractor
         }
 
         return $fleets;
+    }
+
+    /** @param string[] $line */
+    private function handleFleetLine(
+        array $line,
+        string &$currentName,
+        ?TaskForce $fleet,
+        string &$currentDivision,
+        ?bool &$fleetContext
+    ): void {
+        if ('NAME' === $line['key']) {
+            if ('' !== $currentDivision) {
+                $currentName = $line['value'];
+            } else {
+                // if $fleetContext, any other case is probably because the file is not properly formed
+                $fleet->setName($line['value']);
+            }
+
+            return;
+        }
+
+        if (
+            'TYPE' === $line['key']
+            || 'MAXSPEED' === $line['key']
+            || 'ENDURANCE' === $line['key']
+            || 'CURRENTENDURANCE' === $line['key']
+            || 'RECONRANGE' === $line['key']
+        ) {
+            $fleet->getFleetData()->addDataToShipInDivision($currentDivision, $currentName, $line['key'], $line['value']);
+
+            return;
+        }
+
+        if (
+            in_array(
+                $line['key'],
+                [
+                'SPEED',
+                'MISSION',
+                'PROB',
+                'CASECOUNT',
+                'LL',
+                'WP',
+                'TP',
+                ],
+                true
+            )
+        ) {
+            $this->addDataToFleet($fleet, $line, $fleetContext);
+        }
+
+        // Division header
+        if (
+            0 === strpos($line['key'], 'header_')
+            && preg_match(static::TF_DIVISION_REGEX, $line['value'])
+        ) {
+            $currentDivision = $line['value'];
+        }
+    }
+
+    /** @param string[] $line */
+    private function addDataToFleet(TaskForce $fleet, array $line, bool $fleetContext): void
+    {
+        if ('SPEED' === $line['key'] && $fleetContext) {
+            $fleet->setSpeed((float) $line['value']);
+        }
+
+        if ('MISSION' === $line['key'] && $fleetContext) {
+            $fleet->setMission($line['value']);
+        }
+
+        if ('PROB' === $line['key'] && $fleetContext) {
+            $fleet->setProb($line['value']);
+        }
+
+        if ('CASECOUNT' === $line['key'] && $fleetContext) {
+            $fleet->setCaseCount($line['value']);
+        }
+
+        if ('LL' === $line['key'] && $fleetContext) {
+            $fleet->setLl($line['value']);
+        }
+
+        if (('WP' === $line['key'] || 'TP' === $line['key']) && $fleetContext) {
+            $fleet->addWaypoint($line['value']);
+        }
     }
 }

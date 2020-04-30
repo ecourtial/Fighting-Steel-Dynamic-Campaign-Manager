@@ -27,7 +27,7 @@ class FleetWriter
         $path = $savegame->getPath() . DIRECTORY_SEPARATOR . $side . 'Ships.cfg';
         $content = '';
 
-        foreach ($savegame->getFleets($side) as $fleet) {
+        foreach ($savegame->getNavalData()->getFleets($side) as $fleet) {
             // Basic info of the TF
             $content .= '[' . $fleet->getId() . ']' . PHP_EOL;
             $content .= 'NAME=' . $fleet->getName() . PHP_EOL;
@@ -41,7 +41,7 @@ class FleetWriter
 
             $wpCount = count($fleet->getWaypoints());
             foreach ($fleet->getWaypoints() as $waypoint) {
-                if (0 === $wpCount) {
+                if ($wpCount > 1) {
                     $prefix = 'WP';
                 } else {
                     $prefix = 'TP';
@@ -55,7 +55,7 @@ class FleetWriter
             $content .= PHP_EOL;
 
             // Divisions
-            foreach ($fleet->getDivisions() as $divisionName => $division) {
+            foreach ($fleet->getFleetData()->getDivisions() as $divisionName => $division) {
                 $content .= '[' . $divisionName . ']' . PHP_EOL;
                 $content .= 'FORMATION=Column' . PHP_EOL;
                 $content .= PHP_EOL;
@@ -71,10 +71,17 @@ class FleetWriter
         } // End loop on the fleets
 
         // Ships in Port
-        $content .= '[SHIPS IN PORT]' . PHP_EOL;
+        $content .= $this->addShipsInPort($savegame, $side);
+
+        $this->textFileWriter->writeMultilineFromString($path, $content);
+    }
+
+    private function addShipsInPort(Savegame $savegame, string $side): string
+    {
+        $content = '[SHIPS IN PORT]' . PHP_EOL;
         $content .= PHP_EOL;
 
-        foreach ($savegame->getShipsInPort($side) as $ship => $shipData) {
+        foreach ($savegame->getNavalData()->getShipsInPort($side) as $ship => $shipData) {
             $content .= 'NAME=' . $ship . PHP_EOL;
             foreach ($shipData as $key => $value) {
                 $content .= $key . '=' . $value . PHP_EOL;
@@ -82,6 +89,6 @@ class FleetWriter
             $content .= PHP_EOL;
         }
 
-        $this->textFileWriter->writeMultilineFromString($path, $content);
+        return $content;
     }
 }

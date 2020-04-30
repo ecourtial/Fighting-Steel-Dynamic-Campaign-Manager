@@ -135,7 +135,7 @@ class FleetExtractorTest extends TestCase
                     ],
                 ],
             ],
-            $fleet->getDivisions()
+            $fleet->getFleetData()->getDivisions()
         );
 
         static::assertEquals(
@@ -144,7 +144,7 @@ class FleetExtractorTest extends TestCase
                 'Scharnhorst' => 'TF0DIVISION0',
                 'Roma' => 'TF0DIVISION1',
             ],
-            $fleet->getShips()
+            $fleet->getFleetData()->getShips()
         );
 
         $fleet = $fleets['TF1'];
@@ -164,13 +164,13 @@ class FleetExtractorTest extends TestCase
                 'CURRENTENDURANCE' => '210',
                 'RECONRANGE' => '100',
             ],
-        ]], $fleet->getDivisions());
+        ]], $fleet->getFleetData()->getDivisions());
 
         static::assertEquals(
             [
                 'Littorio' => 'TF1DIVISION0',
             ],
-            $fleet->getShips()
+            $fleet->getFleetData()->getShips()
         );
     }
 

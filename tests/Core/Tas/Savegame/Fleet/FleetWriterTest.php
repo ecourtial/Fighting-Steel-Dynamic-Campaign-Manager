@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace App\Tests\Core\Tas\Savegame\Fleet;
 
 use App\Core\File\TextFileWriter;
-use App\Core\Tas\Savegame\Fleet\FleetUpdater;
 use App\Core\Tas\Savegame\Fleet\FleetWriter;
 
 class FleetWriterTest extends AbstractModifiedSavegame
@@ -51,17 +50,32 @@ class FleetWriterTest extends AbstractModifiedSavegame
     {
         // Change the path just to not override the real one.
         $saveGame = $this->getModifiedSavegame();
-        $saveGame->setPath($_ENV['TAS_LOCATION'] . DIRECTORY_SEPARATOR . 'Save5');
+        $path = $_ENV['TAS_LOCATION'] . DIRECTORY_SEPARATOR . 'Save5';
+        $saveGame->setPath($path);
 
         static::$fleetWriter->update($saveGame, 'Axis');
         static::$fleetWriter->update($saveGame, 'Allied');
 
         // Mock the state that it should be after reload
-        $saveGame->setShipsDataChanged('Axis', false);
-        $saveGame->setShipsDataChanged('Allied', false);
+        $saveGame->getNavalData()->setShipsDataChanged('Axis', false);
+        $saveGame->getNavalData()->setShipsDataChanged('Allied', false);
 
-        $reloadSaveGame = static::$repo->getOne('Save5', true);
+        $reloadSaveGame = $this->getRepo()->getOne('Save5', true);
 
+        // So now we compare the savegame before persist and after reload
         static::assertEquals($saveGame, $reloadSaveGame);
+
+        // And now we also need to check the file is properly written
+        $expectedContentDir = $_ENV['TAS_LOCATION'] . DIRECTORY_SEPARATOR . '..'
+            . DIRECTORY_SEPARATOR . 'ExpectedModification' . DIRECTORY_SEPARATOR . 'Save1'
+            . DIRECTORY_SEPARATOR;
+
+        $expectedContent = file_get_contents($expectedContentDir . 'AxisShips.cfg');
+        $newContent = file_get_contents($path . DIRECTORY_SEPARATOR . 'AxisShips.cfg');
+        static::assertEquals($expectedContent, $newContent);
+
+        $expectedContent = file_get_contents($expectedContentDir . 'AlliedShips.cfg');
+        $newContent = file_get_contents($path . DIRECTORY_SEPARATOR . 'AlliedShips.cfg');
+        static::assertEquals($expectedContent, $newContent);
     }
 }

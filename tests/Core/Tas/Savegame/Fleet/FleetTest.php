@@ -7,14 +7,14 @@ namespace App\Tests\Core\Tas\Savegame\Fleet;
 // Note that a big part of the code of the Fleet class is actually tested in the FleetWriterTest
 
 use App\Core\Exception\InvalidInputException;
-use App\Core\Tas\Savegame\Fleet\Fleet;
+use App\Core\Tas\Savegame\Fleet\TaskForce;
 use PHPUnit\Framework\TestCase;
 
 class FleetTest extends TestCase
 {
     public function testUnknownMission(): void
     {
-        $fleet = new Fleet();
+        $fleet = new TaskForce('AH');
         try {
             $fleet->setMission('Scuttle');
             static::fail('Since the mission is not known, an exception was expected');
@@ -28,7 +28,7 @@ class FleetTest extends TestCase
 
     public function testBadCaseCount(): void
     {
-        $fleet = new Fleet();
+        $fleet = new TaskForce('OH');
         try {
             $fleet->setCaseCount('2');
             static::fail('Since the case count is invalid, an exception was expected');
@@ -42,7 +42,7 @@ class FleetTest extends TestCase
 
     public function testInvalidProb(): void
     {
-        $fleet = new Fleet();
+        $fleet = new TaskForce('HE');
         try {
             $fleet->setProb('-1');
             static::fail('Since the probability is invalid, an exception was expected');

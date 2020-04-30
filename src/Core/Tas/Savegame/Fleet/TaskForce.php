@@ -12,8 +12,7 @@ namespace App\Core\Tas\Savegame\Fleet;
 
 use App\Core\Exception\InvalidInputException;
 
-// THIS CLASS REPRESENTS A TASKFORCE @TODO RENAME
-class Fleet
+class TaskForce
 {
     public const MISSION_TYPES = [
         'Breakthrough',
@@ -35,18 +34,16 @@ class Fleet
     private int $prob;
     private int $caseCount;
     private string $ll;
-    /** @var string[] */
-    private array $waypoints = [];
-    /** @var mixed[] */
-    private array $divisions = [];
-    /** @var string[] */
-    private $ships = [];
     private float $speed;
     private string $mission;
+    /** @var string[] */
+    private array $waypoints = [];
+    private FleetData $fleetData;
 
-    public function setId(string $id): void
+    public function __construct(string $id)
     {
         $this->id = $id;
+        $this->fleetData = new FleetData();
     }
 
     public function setName(string $name): void
@@ -82,27 +79,6 @@ class Fleet
         $this->waypoints[] = $wp;
     }
 
-    public function removeDivision(string $division): void
-    {
-        unset($this->divisions[$division]);
-    }
-
-    public function removeShipFromDivision(string $division, string $ship): void
-    {
-        unset($this->divisions[$division][$ship]);
-    }
-
-    public function addDataToShipInDivision(string $division, string $ship, string $key, string $value): void
-    {
-        $this->divisions[$division][$ship][$key] = $value;
-    }
-
-    /** @return mixed[] */
-    public function getShipDataFromDivision(string $division, string $ship): array
-    {
-        return $this->divisions[$division][$ship];
-    }
-
     public function getId(): string
     {
         return $this->id;
@@ -134,26 +110,6 @@ class Fleet
         return $this->waypoints;
     }
 
-    /** @return string[][][]  */
-    public function getDivisions(): array
-    {
-        return $this->divisions;
-    }
-
-    /** @return string[]  */
-    public function getShips(): array
-    {
-        if ([] === $this->ships) {
-            foreach ($this->divisions as $divisionName => $data) {
-                foreach ($data as $ship => $shipData) {
-                    $this->ships[$ship] = $divisionName;
-                }
-            }
-        }
-
-        return $this->ships;
-    }
-
     public function getSpeed(): float
     {
         return $this->speed;
@@ -176,5 +132,10 @@ class Fleet
         }
 
         $this->mission = $mission;
+    }
+
+    public function getFleetData(): FleetData
+    {
+        return $this->fleetData;
     }
 }

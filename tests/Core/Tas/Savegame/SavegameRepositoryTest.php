@@ -16,27 +16,38 @@ use App\Core\File\TextFileReader;
 use App\Core\File\TextFileWriter;
 use App\Core\Tas\Savegame\Fleet\FleetExtractor;
 use App\Core\Tas\Savegame\Fleet\FleetWriter;
+use App\Core\Tas\Savegame\NavalData;
 use App\Core\Tas\Savegame\Savegame;
 use App\Core\Tas\Savegame\SavegameReader;
 use App\Core\Tas\Savegame\SavegameRepository;
 use App\Core\Tas\Scenario\Scenario;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\Test\TestLogger;
 
 class SavegameRepositoryTest extends TestCase
 {
     /** @var SavegameRepository */
-    private static $repo;
+    private ?SavegameRepository $repo = null;
+    private TestLogger $logger;
 
-    public static function setUpBeforeClass(): void
+    private function getRepo(): SavegameRepository
     {
-        $iniReader = new IniReader(new TextFileReader());
+        if (null === $this->repo) {
+            $iniReader = new IniReader(new TextFileReader());
+            $this->logger = new TestLogger();
 
-        static::$repo = new SavegameRepository(
-            new SavegameReader($iniReader),
-            new FleetExtractor($iniReader),
-            new FleetWriter(new TextFileWriter()),
-            $_ENV['TAS_LOCATION']
-        );
+            $this->repo = new SavegameRepository(
+                new SavegameReader($iniReader),
+                new FleetExtractor($iniReader),
+                new FleetWriter(new TextFileWriter()),
+                $_ENV['TAS_LOCATION'],
+                $this->logger
+            );
+        }
+
+        $this->logger->reset();
+
+        return $this->repo;
     }
 
     public function testGetList(): void
@@ -46,40 +57,42 @@ class SavegameRepositoryTest extends TestCase
                 'Goeben reminiscence' => 'Save1',
                 'RN Nightmares' => 'Save2',
             ],
-            static::$repo->getList()
+            $this->getRepo()->getList()
         );
+
+        static::assertEquals(3, $this->logger->hasErrorRecords());
     }
 
     public function testGetOne(): void
     {
-        $saveGame = static::$repo->getOne('Save1');
+        $saveGame = $this->getRepo()->getOne('Save1');
         static::assertEquals('Goeben reminiscence', $saveGame->getScenarioName());
         static::assertEquals('tests/Assets/TAS/Save1', $saveGame->getPath());
 
-        static::assertEquals(0, count($saveGame->getAxisShipsInPort()));
-        static::assertEquals(0, count($saveGame->getAlliedShipsInPort()));
-        static::assertEquals(0, count($saveGame->getAxisFleets()));
-        static::assertEquals(0, count($saveGame->getAlliedFleets()));
+        static::assertEquals(0, count($saveGame->getNavalData()->getShipsInPort('Axis')));
+        static::assertEquals(0, count($saveGame->getNavalData()->getShipsInPort('Allied')));
+        static::assertEquals(0, count($saveGame->getNavalData()->getFleets('Axis')));
+        static::assertEquals(0, count($saveGame->getNavalData()->getFleets('Allied')));
     }
 
     public function testGetOneWithAllData(): void
     {
-        $saveGame = static::$repo->getOne('Save1', true);
+        $saveGame = $this->getRepo()->getOne('Save1', true);
 
-        static::assertEquals(4, count($saveGame->getAxisShipsInPort()));
-        static::assertEquals(2, count($saveGame->getAlliedShipsInPort()));
-        static::assertEquals(2, count($saveGame->getAxisFleets()));
-        static::assertEquals(2, count($saveGame->getAlliedFleets()));
-        static::assertEquals('Tarento', $saveGame->getShipData('Provence')['LOCATION']);
-        static::assertEquals('Napoli', $saveGame->getShipData('Mogador')['LOCATION']);
-        static::assertEquals('Toulon', $saveGame->getShipData('Emile Bertin')['LOCATION']);
-        static::assertEquals('425652N 0032723E', $saveGame->getShipData('Littorio')['LOCATION']);
+        static::assertEquals(4, count($saveGame->getNavalData()->getShipsInPort('Axis')));
+        static::assertEquals(2, count($saveGame->getNavalData()->getShipsInPort('Allied')));
+        static::assertEquals(2, count($saveGame->getNavalData()->getFleets('Axis')));
+        static::assertEquals(2, count($saveGame->getNavalData()->getFleets('Allied')));
+        static::assertEquals('Tarento', $saveGame->getNavalData()->getShipData('Provence')['LOCATION']);
+        static::assertEquals('Napoli', $saveGame->getNavalData()->getShipData('Mogador')['LOCATION']);
+        static::assertEquals('Toulon', $saveGame->getNavalData()->getShipData('Emile Bertin')['LOCATION']);
+        static::assertEquals('425652N 0032723E', $saveGame->getNavalData()->getShipData('Littorio')['LOCATION']);
     }
 
     public function testGetOneBadFormat(): void
     {
         try {
-            static::$repo->getOne('Save7');
+            $this->getRepo()->getOne('Save7');
             static::fail('Since the input key is invalid, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -97,18 +110,25 @@ class SavegameRepositoryTest extends TestCase
         $iniReader = static::getMockBuilder(IniReader::class)->disableOriginalConstructor()->getMock();
         $fleetWriter = static::getMockBuilder(FleetWriter::class)->disableOriginalConstructor()->getMock();
 
-        $saveGame = static::getMockBuilder(Savegame::class)->disableOriginalConstructor()->getMock();
+        $navalData = $this->getMockBuilder(NavalData::class)->getMock();
 
-        $saveGame
+        $navalData
             ->expects(static::at(0))
             ->method('isShipsDataChanged')
             ->with(Scenario::ALLIED_SIDE)
             ->willReturn($alliedFleetModified);
-        $saveGame
+        $navalData
             ->expects(static::at(1))
             ->method('isShipsDataChanged')
             ->with(Scenario::AXIS_SIDE)
             ->willReturn($axisFleetModified);
+
+        $saveGame = new class($navalData) extends Savegame {
+            public function __construct(NavalData $navalData)
+            {
+                $this->navalData = $navalData;
+            }
+        };
 
         if ($alliedFleetModified) {
             $fleetWriter->expects(static::at(0))->method('update')->with($saveGame, Scenario::ALLIED_SIDE);
@@ -122,7 +142,8 @@ class SavegameRepositoryTest extends TestCase
             new SavegameReader($iniReader),
             new FleetExtractor($iniReader),
             $fleetWriter,
-            ''
+            '',
+            new TestLogger()
         );
 
         $repo->persist($saveGame);

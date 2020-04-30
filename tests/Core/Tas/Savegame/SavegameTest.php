@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace App\Tests\Core\Tas\Savegame;
 
 use App\Core\Exception\InvalidInputException;
-use App\Core\Tas\Savegame\Fleet\Fleet;
+use App\Core\Tas\Savegame\Fleet\TaskForce;
 use App\Core\Tas\Savegame\Savegame;
 use App\NameSwitcher\Exception\NoShipException;
 use PHPUnit\Framework\TestCase;
@@ -73,7 +73,7 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
         try {
-            $save->getShipData('Hood');
+            $save->getNavalData()->getShipData('Hood');
             static::fail('Since the ship does not exist, an exception was expected');
         } catch (NoShipException $exception) {
             static::assertEquals(
@@ -87,23 +87,23 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
 
-        $save->setShipsDataChanged('Allied', false);
-        $save->setShipsDataChanged('Axis', false);
-        static::assertFalse($save->isShipsDataChanged('Allied'));
-        static::assertFalse($save->isShipsDataChanged('Axis'));
+        $save->getNavalData()->setShipsDataChanged('Allied', false);
+        $save->getNavalData()->setShipsDataChanged('Axis', false);
+        static::assertFalse($save->getNavalData()->isShipsDataChanged('Allied'));
+        static::assertFalse($save->getNavalData()->isShipsDataChanged('Axis'));
 
-        $save->setShipsDataChanged('Allied', true);
-        $save->setShipsDataChanged('Axis', true);
+        $save->getNavalData()->setShipsDataChanged('Allied', true);
+        $save->getNavalData()->setShipsDataChanged('Axis', true);
 
-        static::assertTrue($save->isShipsDataChanged('Allied'));
-        static::assertTrue($save->isShipsDataChanged('Axis'));
+        static::assertTrue($save->getNavalData()->isShipsDataChanged('Allied'));
+        static::assertTrue($save->getNavalData()->isShipsDataChanged('Axis'));
     }
 
     public function testRemoveShipInPortNotInPort(): void
     {
         $save = new Savegame($this->input);
         try {
-            $save->removeShipInPort('Hood', 'Allied');
+            $save->getNavalData()->removeShipInPort('Hood', 'Allied');
             static::fail('Since the ship is not in port, an exception was expected');
         } catch (NoShipException $exception) {
             static::assertEquals(
@@ -117,12 +117,11 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
 
-        $fleet = new Fleet();
-        $fleet->setId('Foo');
-        $save->addFleet('Axis', $fleet);
-        static::assertEquals('Foo', $save->getAxisFleets()['Foo']->getId());
-        $save->removeFleet('Axis', $fleet->getId());
-        static::assertEquals(0, count($save->getAxisFleets()));
+        $fleet = new TaskForce('Foo');
+        $save->getNavalData()->addFleet('Axis', $fleet);
+        static::assertEquals('Foo', $save->getNavalData()->getFleets('Axis')['Foo']->getId());
+        $save->getNavalData()->removeFleet('Axis', $fleet->getId());
+        static::assertEquals(0, count($save->getNavalData()->getFleets('Axis')));
     }
 
     public function testFleetIncrement(): void
@@ -130,17 +129,17 @@ class SavegameTest extends TestCase
         $save = new class($this->input) extends Savegame {
             public function getFleetCountAxis(): int
             {
-                return $this->axisMaxTfCount;
+                return $this->navalData->getMaxTfNumber('Axis');
             }
 
             public function getFleetCountAllied(): int
             {
-                return $this->alliedMaxTfCount;
+                return $this->navalData->getMaxTfNumber('Allied');
             }
         };
 
-        $save->incrementMaxTfNumber('Axis');
-        $save->incrementMaxTfNumber('Allied');
+        $save->getNavalData()->incrementMaxTfNumber('Axis');
+        $save->getNavalData()->incrementMaxTfNumber('Allied');
 
         static::assertEquals(1, $save->getFleetCountAxis());
         static::assertEquals(1, $save->getFleetCountAllied());
@@ -150,7 +149,7 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
         try {
-            $save->addFleet('Hood', new Fleet());
+            $save->getNavalData()->addFleet('Hood', new TaskForce('UU'));
             static::fail('Since the side is incorrect, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -164,7 +163,7 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
         try {
-            $save->getFleets('Hood');
+            $save->getNavalData()->getFleets('Hood');
             static::fail('Since the side is incorrect, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -178,7 +177,7 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
         try {
-            $save->incrementMaxTfNumber('Hood');
+            $save->getNavalData()->incrementMaxTfNumber('Hood');
             static::fail('Since the side is incorrect, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -192,7 +191,7 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
         try {
-            $save->getMaxTfNumber('Hood');
+            $save->getNavalData()->getMaxTfNumber('Hood');
             static::fail('Since the side is incorrect, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -206,7 +205,7 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
         try {
-            $save->removeFleet('Hood', 'HO');
+            $save->getNavalData()->removeFleet('Hood', 'HO');
             static::fail('Since the side is incorrect, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -220,7 +219,7 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
         try {
-            $save->setShipsDataChanged('HO', false);
+            $save->getNavalData()->setShipsDataChanged('HO', false);
             static::fail('Since the side is incorrect, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -234,7 +233,7 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
         try {
-            $save->isShipsDataChanged('HO');
+            $save->getNavalData()->isShipsDataChanged('HO');
             static::fail('Since the side is incorrect, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -248,7 +247,7 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
         try {
-            $save->getShipsInPort('HO');
+            $save->getNavalData()->getShipsInPort('HO');
             static::fail('Since the side is incorrect, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -262,7 +261,7 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
         try {
-            $save->removeShipInPort('Hood', 'HO');
+            $save->getNavalData()->removeShipInPort('Hood', 'HO');
             static::fail('Since the side is incorrect, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -276,7 +275,7 @@ class SavegameTest extends TestCase
     {
         $save = new Savegame($this->input);
         try {
-            $save->setShipsInPort('HO', []);
+            $save->getNavalData()->setShipsInPort('HO', []);
             static::fail('Since the side is incorrect, an exception was expected');
         } catch (InvalidInputException $exception) {
             static::assertEquals(
@@ -292,7 +291,7 @@ class SavegameTest extends TestCase
 
         foreach (['Axis', 'Allied'] as $side) {
             try {
-                $save->removeShipInPort('Hood', $side);
+                $save->getNavalData()->removeShipInPort('Hood', $side);
                 static::fail('Since the ship is the incorrect side, an exception was expected');
             } catch (NoShipException $exception) {
                 static::assertEquals(
@@ -301,5 +300,27 @@ class SavegameTest extends TestCase
                 );
             }
         }
+    }
+
+    public function testSetShipsAtSea(): void
+    {
+        $alliedFleets = [
+            'TFO' => new TaskForce('TFO'),
+            'TF1' => new TaskForce('TF1'),
+            'TF3' => new TaskForce('TF3'),
+        ];
+
+        $axisFleets = [
+            'TFO' => new TaskForce('TFO'),
+            'TF1' => new TaskForce('TF1'),
+            'TF2' => new TaskForce('TF2'),
+        ];
+
+        $save = new Savegame($this->input);
+        $save->getNavalData()->setShipsAtSea('Allied', $alliedFleets);
+        $save->getNavalData()->setShipsAtSea('Axis', $axisFleets);
+
+        static::assertEquals(3, $save->getNavalData()->getMaxTfNumber('Allied'));
+        static::assertEquals(2, $save->getNavalData()->getMaxTfNumber('Axis'));
     }
 }

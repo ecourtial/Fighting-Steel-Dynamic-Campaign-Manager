@@ -23,13 +23,19 @@ class IniReader
      *
      * @throws \App\Core\Exception\FileNotFoundException
      */
-    public function getData(string $fileName, bool $ignoreHeaders = true): \Generator
+    public function getData(string $fileName, bool $ignoreHeaders = true, bool $ignoreMalformed = true): \Generator
     {
         $headerCount = 0;
 
         foreach ($this->textFileReader->getFileContent($fileName) as $line) {
-            // Ignore headers of sections
+            // Ignore empty lines
+            $line = trim($line, ' "');
+            if ('' === $line) {
+                continue;
+            }
+
             if (preg_match('/^\[.*]$/', $line)) {
+                // Ignore headers of sections?
                 if ($ignoreHeaders) {
                     continue;
                 } else {
@@ -39,17 +45,23 @@ class IniReader
                         'value' => str_replace(['[', ']'], '', $line),
                     ];
                 }
-            }
+            } else {
+                // Standard lines. Properly formed or not?
+                $keys = explode('=', $line);
 
-            $keys = explode('=', $line);
-            if (2 !== count($keys)) {
-                continue;
+                if (2 !== count($keys)) {
+                    if ($ignoreMalformed) {
+                        continue;
+                    } else {
+                        yield ['key' => $line, 'value' => ''];
+                    }
+                } else {
+                    yield [
+                        'key' => trim($keys[0]),
+                        'value' => trim($keys[1], ' "'),
+                    ];
+                }
             }
-
-            yield [
-                'key' => trim($keys[0]),
-                'value' => trim($keys[1], ' "'),
-            ];
         }
     }
 }

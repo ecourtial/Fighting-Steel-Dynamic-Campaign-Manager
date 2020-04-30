@@ -15,7 +15,7 @@ class FleetUpdaterTest extends AbstractModifiedSavegame
     {
         $portServiceMock = static::getMockBuilder(PortService::class)->disableOriginalConstructor()->getMock();
         $updater = new FleetUpdater($portServiceMock);
-        $saveGame = static::$repo->getOne('Save1', true);
+        $saveGame = $this->getRepo()->getOne('Save1', true);
 
         try {
             $updater->action(
@@ -42,7 +42,7 @@ class FleetUpdaterTest extends AbstractModifiedSavegame
     {
         $portServiceMock = static::getMockBuilder(PortService::class)->disableOriginalConstructor()->getMock();
         $updater = new FleetUpdater($portServiceMock);
-        $saveGame = static::$repo->getOne('Save1', true);
+        $saveGame = $this->getRepo()->getOne('Save1', true);
 
         $updater->action(
             $saveGame,
@@ -56,15 +56,15 @@ class FleetUpdaterTest extends AbstractModifiedSavegame
             ]
         );
 
-        static::assertArrayNotHasKey('Provence', $saveGame->getShipsInPort('Axis'));
-        static::assertTrue($saveGame->isShipsDataChanged('Axis'));
+        static::assertArrayNotHasKey('Provence', $saveGame->getNavalData()->getShipsInPort('Axis'));
+        static::assertTrue($saveGame->getNavalData()->isShipsDataChanged('Axis'));
     }
 
     public function testDetach(): void
     {
         $portServiceMock = static::getMockBuilder(PortService::class)->disableOriginalConstructor()->getMock();
         $updater = new FleetUpdater($portServiceMock);
-        $saveGame = static::$repo->getOne('Save1', true);
+        $saveGame = $this->getRepo()->getOne('Save1', true);
 
         $updater->action(
             $saveGame,
@@ -90,22 +90,22 @@ class FleetUpdaterTest extends AbstractModifiedSavegame
             ]
         );
 
-        static::assertTrue($saveGame->isShipsDataChanged('Allied'));
-        static::assertTrue($saveGame->isShipsDataChanged('Axis'));
+        static::assertTrue($saveGame->getNavalData()->isShipsDataChanged('Allied'));
+        static::assertTrue($saveGame->getNavalData()->isShipsDataChanged('Axis'));
 
         static::assertEquals([
             'LOCATION' => 'kjgjtll',
             'SIDE' => 'Axis',
             'FLEET' => 'TF2',
             'DIVISION' => 'TF2DIVISION0',
-        ], $saveGame->getShipData('Roma'));
+        ], $saveGame->getNavalData()->getShipData('Roma'));
     }
 
     public function testToPort(): void
     {
         $portServiceMock = static::getMockBuilder(PortService::class)->disableOriginalConstructor()->getMock();
         $updater = new FleetUpdater($portServiceMock);
-        $saveGame = static::$repo->getOne('Save1', true);
+        $saveGame = $this->getRepo()->getOne('Save1', true);
 
         $updater->action(
             $saveGame,
@@ -125,16 +125,16 @@ class FleetUpdaterTest extends AbstractModifiedSavegame
             ]
         );
 
-        static::assertTrue($saveGame->isShipsDataChanged('Allied'));
-        static::assertTrue($saveGame->isShipsDataChanged('Axis'));
-        static::assertArrayNotHasKey('TF1', $saveGame->getAxisFleets());
+        static::assertTrue($saveGame->getNavalData()->isShipsDataChanged('Allied'));
+        static::assertTrue($saveGame->getNavalData()->isShipsDataChanged('Axis'));
+        static::assertArrayNotHasKey('TF1', $saveGame->getNavalData()->getFleets('Axis'));
     }
 
     public function testUnknownAction(): void
     {
         $portServiceMock = static::getMockBuilder(PortService::class)->disableOriginalConstructor()->getMock();
         $updater = new FleetUpdater($portServiceMock);
-        $saveGame = static::$repo->getOne('Save1');
+        $saveGame = $this->getRepo()->getOne('Save1');
 
         try {
             $updater->action($saveGame, 'AHAH', ['Hood']);
@@ -151,7 +151,7 @@ class FleetUpdaterTest extends AbstractModifiedSavegame
     {
         $portServiceMock = static::getMockBuilder(PortService::class)->disableOriginalConstructor()->getMock();
         $updater = new FleetUpdater($portServiceMock);
-        $saveGame = static::$repo->getOne('Save1', true);
+        $saveGame = $this->getRepo()->getOne('Save1', true);
 
         try {
             $updater->action($saveGame, FleetUpdater::AT_SEA_ACTION, ['Provence', 'Emile Bertin']);

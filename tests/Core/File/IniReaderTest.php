@@ -43,14 +43,45 @@ class IniFileReaderTest extends TestCase
     public function testGetDataMalformedLine(): void
     {
         $fileName = 'tests/Assets/dcm-config-bad.ini';
-        $data = [];
 
+        // Normal
+        $data = [];
         foreach (static::$iniReader->getData($fileName) as $line) {
             $data[] = $line;
         }
 
         static::assertEquals(
             [['key' => 'TAS_PATH', 'value' => 'C:\Program Files\Thunder At Sea']],
+            $data
+        );
+
+        // Header
+        $data = [];
+        foreach (static::$iniReader->getData($fileName, false) as $line) {
+            $data[] = $line;
+        }
+
+        static::assertEquals(
+            [
+                ['key' => 'header_1', 'value' => 'GENERAL CONFIG'],
+                ['key' => 'TAS_PATH', 'value' => 'C:\Program Files\Thunder At Sea'],
+            ],
+            $data
+        );
+
+        // Malformed
+        $data = [];
+        foreach (static::$iniReader->getData($fileName, false, false) as $line) {
+            $data[] = $line;
+        }
+
+        static::assertEquals(
+            [
+                ['key' => 'header_1', 'value' => 'GENERAL CONFIG'],
+                ['key' => 'TAS_PATH', 'value' => 'C:\Program Files\Thunder At Sea'],
+                ['key' => 'FS_PATH" C:\Program Files\Fighting Steel', 'value' => ''],
+                ['key' => 'Pouet', 'value' => ''],
+            ],
             $data
         );
     }
