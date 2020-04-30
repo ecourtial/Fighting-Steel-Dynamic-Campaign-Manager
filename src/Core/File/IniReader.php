@@ -36,9 +36,7 @@ class IniReader
 
             if (preg_match('/^\[.*]$/', $line)) {
                 // Ignore headers of sections?
-                if ($ignoreHeaders) {
-                    continue;
-                } else {
+                if (false === $ignoreHeaders) {
                     $headerCount++;
                     yield [
                         'key' => 'header_' . $headerCount,
@@ -50,9 +48,7 @@ class IniReader
                 $keys = explode('=', $line);
 
                 if (2 !== count($keys)) {
-                    if ($ignoreMalformed) {
-                        continue;
-                    } else {
+                    if (false === $ignoreMalformed) {
                         yield ['key' => $line, 'value' => ''];
                     }
                 } else {

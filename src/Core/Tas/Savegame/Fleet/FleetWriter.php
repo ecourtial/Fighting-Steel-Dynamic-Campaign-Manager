@@ -39,35 +39,13 @@ class FleetWriter
             $content .= 'FORMATIONHEADING=0' . PHP_EOL;
             $content .= 'LL=' . $fleet->getLl() . PHP_EOL;
 
-            $wpCount = count($fleet->getWaypoints());
-            foreach ($fleet->getWaypoints() as $waypoint) {
-                if ($wpCount > 1) {
-                    $prefix = 'WP';
-                } else {
-                    $prefix = 'TP';
-                }
-                $content .= $prefix . '=' . $waypoint . PHP_EOL;
-
-                $wpCount--;
-            }
+            $content .= $this->addWaypoints($fleet);
 
             $content .= 'ENDMISSION' . PHP_EOL;
             $content .= PHP_EOL;
 
             // Divisions
-            foreach ($fleet->getFleetData()->getDivisions() as $divisionName => $division) {
-                $content .= '[' . $divisionName . ']' . PHP_EOL;
-                $content .= 'FORMATION=Column' . PHP_EOL;
-                $content .= PHP_EOL;
-
-                foreach ($division as $ship => $shipData) {
-                    $content .= 'NAME=' . $ship . PHP_EOL;
-                    foreach ($shipData as $key => $value) {
-                        $content .= $key . '=' . $value . PHP_EOL;
-                    }
-                    $content .= PHP_EOL;
-                }
-            }
+            $content .= $this->addDivisions($fleet);
         } // End loop on the fleets
 
         // Ships in Port
@@ -87,6 +65,46 @@ class FleetWriter
                 $content .= $key . '=' . $value . PHP_EOL;
             }
             $content .= PHP_EOL;
+        }
+
+        return $content;
+    }
+
+    private function addDivisions(TaskForce $fleet): string
+    {
+        $content = '';
+
+        foreach ($fleet->getFleetData()->getDivisions() as $divisionName => $division) {
+            $content .= '[' . $divisionName . ']' . PHP_EOL;
+            $content .= 'FORMATION=Column' . PHP_EOL;
+            $content .= PHP_EOL;
+
+            foreach ($division as $ship => $shipData) {
+                $content .= 'NAME=' . $ship . PHP_EOL;
+                foreach ($shipData as $key => $value) {
+                    $content .= $key . '=' . $value . PHP_EOL;
+                }
+                $content .= PHP_EOL;
+            }
+        }
+
+        return $content;
+    }
+
+    private function addWaypoints(TaskForce $fleet): string
+    {
+        $content = '';
+        $wpCount = count($fleet->getWaypoints());
+
+        foreach ($fleet->getWaypoints() as $waypoint) {
+            if ($wpCount > 1) {
+                $prefix = 'WP';
+            } else {
+                $prefix = 'TP';
+            }
+            $content .= $prefix . '=' . $waypoint . PHP_EOL;
+
+            $wpCount--;
         }
 
         return $content;
