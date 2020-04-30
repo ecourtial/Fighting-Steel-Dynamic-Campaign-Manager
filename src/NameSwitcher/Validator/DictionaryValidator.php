@@ -1,13 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This class validate the FORMAT of a dictionary.
  *
  * @author Eric COURTIAL <e.courtial30@gmail.com>
  * @licence MIT
  */
+
+declare(strict_types=1);
 
 namespace App\NameSwitcher\Validator;
 

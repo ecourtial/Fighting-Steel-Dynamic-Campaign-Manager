@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\NameSwitcher\Dictionary;
+namespace App\Tests\NameSwitcher\Dictionary;
 
 use App\Core\Exception\CoreException;
 use App\Core\Exception\InvalidInputException;
@@ -93,8 +93,11 @@ class ShipTest extends TestCase
         try {
             new Ship($data);
             static::fail('Since the input data is invalid, an exception was expected.');
-        } catch (InvalidShipDataException $exception) {
-            static::assertEquals("The attribute 'Foo' is unknown", $exception->getMessage());
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                "The attribute 'Foo' is unknown in App\NameSwitcher\Dictionary\Ship",
+                $exception->getMessage()
+            );
         }
     }
 
@@ -106,8 +109,11 @@ class ShipTest extends TestCase
         try {
             new Ship($data);
             static::fail('An exception was expected since the field qty is not the correct one');
-        } catch (InvalidShipDataException $exception) {
-            static::assertEquals('Invalid ship attribute quantity', $exception->getMessage());
+        } catch (InvalidInputException $exception) {
+            static::assertEquals(
+                'Invalid attribute quantity in App\NameSwitcher\Dictionary\Ship',
+                $exception->getMessage()
+            );
         }
     }
 

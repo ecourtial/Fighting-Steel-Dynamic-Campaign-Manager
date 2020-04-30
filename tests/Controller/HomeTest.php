@@ -8,11 +8,10 @@ declare(strict_types=1);
  * @licence    MIT
  */
 
-namespace Tests\Controller;
+namespace App\Tests\Controller;
 
 use App\Controller\Home;
 use App\Core\Tas\Scenario\ScenarioRepository;
-use App\Tests\Controller\ResponseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class HomeTest extends WebTestCase

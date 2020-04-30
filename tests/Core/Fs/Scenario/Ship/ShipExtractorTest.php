@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\Fs\Scenario\Ship;
+namespace App\Tests\Core\Fs\Scenario\Ship;
 
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;

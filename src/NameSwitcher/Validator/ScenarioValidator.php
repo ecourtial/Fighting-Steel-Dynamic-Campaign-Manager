@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This class validate the FORMAT of a dictionary
  * THEN the all the crossed data are present in:
@@ -14,6 +12,8 @@ declare(strict_types=1);
  * @author Eric COURTIAL <e.courtial30@gmail.com>
  * @licence MIT
  */
+
+declare(strict_types=1);
 
 namespace App\NameSwitcher\Validator;
 

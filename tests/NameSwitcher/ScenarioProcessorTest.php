@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\NameSwitcher;
+namespace App\Tests\NameSwitcher;
 
 use App\Core\Exception\CoreException;
 use App\Core\File\IniReader;

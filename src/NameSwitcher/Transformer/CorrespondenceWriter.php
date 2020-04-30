@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       05/04/2020 (dd-mm-YYYY)
  */
+
+declare(strict_types=1);
 
 namespace App\NameSwitcher\Transformer;
 
@@ -31,6 +31,6 @@ class CorrespondenceWriter
             $entries[] = $ship->getOriginalName() . '=' . $ship->getShortName();
         }
 
-        $this->textFileWriter->writeMultiline($this->filePath, $entries);
+        $this->textFileWriter->writeMultilineFromArray($this->filePath, $entries);
     }
 }

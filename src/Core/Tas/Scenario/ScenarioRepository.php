@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author     Eric COURTIAL <e.courtial30@gmail.com>
  * @date       16/03/2020 (dd-mm-YYYY)
  */
+
+declare(strict_types=1);
 
 namespace App\Core\Tas\Scenario;
 
@@ -13,6 +13,7 @@ use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
 use App\Core\Fs\Scenario\Ship\ShipExtractor as FsShipExtractor;
 use App\Core\Tas\Exception\MissingTasScenarioException;
+use App\Core\Tas\Savegame\Savegame;
 use App\Core\Tas\Ship\ShipExtractor as TasShipExtractor;
 
 class ScenarioRepository
@@ -33,7 +34,7 @@ class ScenarioRepository
         TasShipExtractor $tasShipExtractor,
         FsShipExtractor $fsShipExtractor
     ) {
-        $this->scenarioDirectory = $tasDirectory . DIRECTORY_SEPARATOR . 'Scenarios';
+        $this->scenarioDirectory = $tasDirectory;
         $this->iniReader = $iniReader;
         $this->tasShipExtractor = $tasShipExtractor;
         $this->fsShipExtractor = $fsShipExtractor;
@@ -54,6 +55,7 @@ class ScenarioRepository
             if (
                 is_dir($scenarioFullPath)
                 && preg_match('/^[a-zA-Z0-9 ]*$/', $element)
+                && 0 === preg_match(Savegame::PATH_REGEX, $element)
             ) {
                 $exploded = explode(DIRECTORY_SEPARATOR, $element);
                 $scenarioKey = array_pop($exploded);

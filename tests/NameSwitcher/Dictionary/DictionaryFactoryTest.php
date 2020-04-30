@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\NameSwitcher\Dictionary;
+namespace App\Tests\NameSwitcher\Dictionary;
 
 use App\NameSwitcher\Dictionary\DictionaryFactory;
 use App\NameSwitcher\Dictionary\DictionaryReader;
@@ -34,8 +34,9 @@ class DictionaryFactoryTest extends TestCase
         $reader = $this->getMockBuilder(DictionaryReader::class)->disableOriginalConstructor()->getMock();
         $reader->method('extractData')
             ->with('AH.csv')
-            ->will($this->generate([$shipData]
-        ));
+            ->will($this->generate(
+                [$shipData]
+            ));
 
         $factory = new DictionaryFactory($reader);
         $result = ($factory->getDictionary('AH.csv')->getShipsList());

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author Eric COURTIAL <e.courtial30@gmail.com>
  * @licence MIT
@@ -9,6 +7,8 @@ declare(strict_types=1);
  * Warning: this class is "full" of "hacks to workaround
  * native functions PHP issues.
  */
+
+declare(strict_types=1);
 
 namespace App\Core\File;
 

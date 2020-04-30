@@ -7,10 +7,10 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\Tas\Ship;
+namespace App\Tests\Core\Tas\Ship;
 
 use App\Core\Exception\FileNotFoundException;
-use App\Core\Exception\SideErrorException;
+use App\Core\Exception\InvalidInputException;
 use App\Core\File\IniReader;
 use App\Core\File\TextFileReader;
 use App\Core\Fs\Scenario\Ship\ShipExtractor as FsShipExtractor;
@@ -66,7 +66,7 @@ class ShipExtractorTest extends TestCase
             (new TasShipExtractor($iniReader))->extract($scenario, 'Axis');
         } catch (FileNotFoundException $exception) {
             static::assertEquals(
-                "Impossible to read the content of the file 'tests/Assets/TAS/Scenarios/IncompleteScenarioWithNotTasShipFile/AxisShips.cfg'.",
+                "Impossible to read the content of the file 'tests/Assets/TAS/IncompleteScenarioWithNotTasShipFile/AxisShips.cfg'.",
                 $exception->getMessage()
             );
         }
@@ -80,9 +80,9 @@ class ShipExtractorTest extends TestCase
         $iniReader = new IniReader($textReader);
         try {
             (new TasShipExtractor($iniReader))->extract($scenario, 'Ennemy');
-        } catch (SideErrorException $exception) {
+        } catch (InvalidInputException $exception) {
             static::assertEquals(
-                "Invalid side: 'Ennemy'",
+                "Side 'Ennemy' is unknown",
                 $exception->getMessage()
             );
         }

@@ -1,15 +1,16 @@
 <?php
 
+/**
+ * @author     Eric COURTIAL <e.courtial30@gmail.com>
+ * @date       05/04/2020 (dd-mm-YYYY)
+ */
+
 declare(strict_types=1);
 
 namespace App\NameSwitcher\Switcher;
 
 use App\NameSwitcher\Dictionary\Dictionary;
 
-/**
- * @author     Eric COURTIAL <e.courtial30@gmail.com>
- * @date       05/04/2020 (dd-mm-YYYY)
- */
 interface SwitcherInterface
 {
     public const SWITCH_BASIC = 'switch_basic';

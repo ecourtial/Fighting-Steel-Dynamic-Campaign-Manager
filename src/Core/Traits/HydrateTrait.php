@@ -1,16 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @author Eric COURTIAL <e.courtial30@gmail.com>
  * @licence MIT
  */
 
+declare(strict_types=1);
+
 namespace App\Core\Traits;
 
 use App\Core\Exception\CoreException;
-use App\NameSwitcher\Exception\InvalidShipDataException;
+use App\Core\Exception\InvalidInputException;
 
 trait HydrateTrait
 {
@@ -18,12 +18,12 @@ trait HydrateTrait
     private function hydrate(array $data): void
     {
         if (count($data) !== count(static::FIELDS_NAME)) {
-            throw new InvalidShipDataException('Invalid ship attribute quantity');
+            throw new InvalidInputException('Invalid attribute quantity in ' . __CLASS__);
         }
 
         foreach ($data as $key => $value) {
             if (false === in_array($key, static::FIELDS_NAME, true)) {
-                throw new InvalidShipDataException("The attribute '{$key}' is unknown");
+                throw new InvalidInputException("The attribute '{$key}' is unknown in " . __CLASS__);
             }
 
             $methodName = 'set' . $key;

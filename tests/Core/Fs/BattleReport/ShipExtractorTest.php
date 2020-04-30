@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\Fs\BattleReport;
+namespace App\Tests\Core\Fs\BattleReport;
 
 use App\Core\Exception\FileNotFoundException;
 use App\Core\File\IniReader;

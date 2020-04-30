@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Core\Tas\Ship;
+namespace App\Tests\Core\Tas\Ship;
 
 use App\Core\Exception\InvalidInputException;
 use App\Core\Tas\Ship\Ship;

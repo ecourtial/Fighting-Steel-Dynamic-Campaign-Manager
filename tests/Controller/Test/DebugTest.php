@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @licence MIT
  */
 
-namespace Tests\Controller\Test;
+namespace App\Tests\Controller\Test;
 
 use App\Controller\Test\Debug;
 use App\Core\Exception\SecurityException;

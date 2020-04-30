@@ -35,22 +35,16 @@ jobs:
   phpcs:
     executor: php
     steps:
-      - run:
-          name: Install alpine requirements for checkout
-          command: apk add git openssh-client curl
       - checkout
       - attach_workspace:
           at: .
       - run:
           name: phpcs
-          command: vendor/bin/phpcs
+          command: vendor/bin/phpcs -n
 
   phpstan:
     executor: php
     steps:
-      - run:
-          name: Install alpine requirements for checkout
-          command: apk add git openssh-client curl
       - checkout
       - attach_workspace:
           at: .

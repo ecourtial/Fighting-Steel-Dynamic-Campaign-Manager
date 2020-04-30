@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @licence    MIT
  */
 
-namespace Tests\Controller\Tas;
+namespace App\Tests\Controller\Tas;
 
 use App\Controller\Tas\ScenarioValidation;
 use App\NameSwitcher\Validator\ScenarioValidator;
@@ -46,7 +46,8 @@ class ScenarioValidationTest extends TestCase
         $requestStack->expects(static::once())->method('getCurrentRequest')->willReturn($request);
         $request->expects(static::at(0))->method('get')->with('scenario', null)->willReturn('UnScenario');
         $scenarioValidator->expects(static::once())->method('validate')->with('UnScenario')->willThrowException(
-            new \Exception('Oh sooorrrryyy'));
+            new \Exception('Oh sooorrrryyy')
+        );
 
         $controller = new ScenarioValidation($requestStack, $scenarioValidator);
         $response = $controller();
