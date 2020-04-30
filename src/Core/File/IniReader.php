@@ -44,12 +44,14 @@ class IniReader
     /** @return string[]|null */
     private function handleLine(int &$headerCount, string $line, bool $ignoreHeaders, bool $ignoreMalformed): ?array
     {
+        $result = null;
+
         if (preg_match('/^\[.*]$/', $line)) {
             // Ignore headers of sections?
             if (false === $ignoreHeaders) {
                 $headerCount++;
 
-                return [
+                $result = [
                     'key' => 'header_' . $headerCount,
                     'value' => str_replace(['[', ']'], '', $line),
                 ];
@@ -60,16 +62,16 @@ class IniReader
 
             if (2 !== count($keys)) {
                 if (false === $ignoreMalformed) {
-                    return ['key' => $line, 'value' => ''];
+                    $result = ['key' => $line, 'value' => ''];
                 }
             } else {
-                return [
+                $result = [
                     'key' => trim($keys[0]),
                     'value' => trim($keys[1], ' "'),
                 ];
             }
         }
 
-        return null;
+        return $result;
     }
 }
