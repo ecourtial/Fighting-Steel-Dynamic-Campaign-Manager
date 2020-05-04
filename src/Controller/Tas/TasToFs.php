@@ -10,9 +10,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Tas;
 
-use App\Core\Tas\Scenario\ScenarioRepository;
-use App\NameSwitcher\Dictionary\DictionaryFactory;
-use App\NameSwitcher\ScenarioProcessor;
+use App\NameSwitcher\ScenarioManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -21,20 +19,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class TasToFs extends AbstractController
 {
     private RequestStack $requestStack;
-    private ScenarioProcessor $scenarioProcessor;
-    private DictionaryFactory $dictionaryFactory;
-    private ScenarioRepository $scenarioRepository;
+    private ScenarioManager $scenarioManager;
 
     public function __construct(
         RequestStack $requestStack,
-        ScenarioProcessor $scenarioProcessor,
-        DictionaryFactory $dictionaryFactory,
-        ScenarioRepository $scenarioRepository
+        ScenarioManager $scenarioManager
     ) {
         $this->requestStack = $requestStack;
-        $this->scenarioProcessor = $scenarioProcessor;
-        $this->dictionaryFactory = $dictionaryFactory;
-        $this->scenarioRepository = $scenarioRepository;
+        $this->scenarioManager = $scenarioManager;
     }
 
     /** @Route("/tas/tas-to", name="tasToFs", methods={"POST"}) */
@@ -46,12 +38,7 @@ class TasToFs extends AbstractController
 
         if (is_string($scenarioKey) && is_string($oneShip) && is_string($switchLevel)) {
             try {
-                $scenario = $this->scenarioRepository->getOneWillAllData($scenarioKey);
-                $this->scenarioProcessor->convertFromTasToFs(
-                    $oneShip,
-                    $this->dictionaryFactory->getDictionary($scenario->getDictionaryPath()),
-                    $scenario->getFsShips()
-                );
+                $this->scenarioManager->fromTasToFs($scenarioKey, $oneShip, $switchLevel);
                 $errors = [];
             } catch (\Throwable $exception) {
                 $errors = [$exception->getMessage()];

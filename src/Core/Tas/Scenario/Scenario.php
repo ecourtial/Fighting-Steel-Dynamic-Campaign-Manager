@@ -44,7 +44,7 @@ class Scenario
     {
         $this->name = $name;
         $this->fullPath = $fullPath;
-        $this->shipDataFile = $shipDataFile;
+        $this->shipDataFile = $this->fullPath . DIRECTORY_SEPARATOR . $shipDataFile;
     }
 
     public function getName(): string

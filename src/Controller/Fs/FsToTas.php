@@ -10,25 +10,25 @@ declare(strict_types=1);
 
 namespace App\Controller\Fs;
 
-use App\NameSwitcher\ScenarioProcessor;
+use App\NameSwitcher\ScenarioManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FsToTas extends AbstractController
 {
-    private ScenarioProcessor $scenarioProcessor;
+    private ScenarioManager $scenarioManager;
 
-    public function __construct(ScenarioProcessor $scenarioProcessor)
+    public function __construct(ScenarioManager $scenarioManager)
     {
-        $this->scenarioProcessor = $scenarioProcessor;
+        $this->scenarioManager = $scenarioManager;
     }
 
     /** @Route("/fs/fs-to-tas", name="fsToTas", methods={"POST"}) */
     public function __invoke(): JsonResponse
     {
         try {
-            $this->scenarioProcessor->convertFromFsToTas();
+            $this->scenarioManager->fromFsToTas();
             $errors = [];
         } catch (\Throwable $exception) {
             $errors = [$exception->getMessage()];

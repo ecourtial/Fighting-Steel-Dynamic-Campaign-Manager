@@ -27,8 +27,6 @@ class ScenarioProcessor
     private FleetLevelExperienceDetector $levelExperienceDetector;
     private SideDetector $sideDetector;
     private IniReader $iniReader;
-    private string $fsScenarioPath;
-    private string $fsScenarioFolder;
 
     public function __construct(
         SwitcherFactory $switcherFactory,
@@ -36,18 +34,14 @@ class ScenarioProcessor
         ScenarioUpdater $scenarioUpdater,
         FleetLevelExperienceDetector $levelExperienceDetector,
         SideDetector $sideDetector,
-        IniReader $iniReader,
-        string $fsDirectory
+        IniReader $iniReader
     ) {
         $this->switcherFactory = $switcherFactory;
         $this->correspondenceWriter = $correspondenceWriter;
         $this->scenarioUpdater = $scenarioUpdater;
         $this->levelExperienceDetector = $levelExperienceDetector;
         $this->iniReader = $iniReader;
-
         $this->sideDetector = $sideDetector;
-        $this->fsScenarioFolder = $fsDirectory . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
-        $this->fsScenarioPath = $this->fsScenarioFolder . 'A_TAS_Scenario.scn';
     }
 
     /**
@@ -60,9 +54,11 @@ class ScenarioProcessor
         string $oneShip,
         Dictionary $dictionary,
         array $scenarioShips,
+        string $fsScenariosFolder,
+        string $fsScenarioPath,
         ?string $switchLevel = null
     ): void {
-        $this->backupFsScenario();
+        $this->backupFsScenario($fsScenariosFolder, $fsScenarioPath);
         $side = $this->sideDetector->detectSide($scenarioShips, $oneShip); // Important to run before the switch
 
         if (null === $switchLevel) {
@@ -78,16 +74,16 @@ class ScenarioProcessor
         );
 
         $this->correspondenceWriter->output($correspondence);
-        $this->scenarioUpdater->updateBeforeFs($correspondence, $this->fsScenarioPath);
+        $this->scenarioUpdater->updateBeforeFs($correspondence, $fsScenarioPath);
     }
 
-    public function convertFromFsToTas(): void
+    public function convertFromFsToTas(string $fsScenariosFolder, string $fsScenarioPath): void
     {
         $content = [];
-        foreach ($this->iniReader->getData($this->fsScenarioFolder . 'correspondence.ini') as $entry) {
+        foreach ($this->iniReader->getData($fsScenariosFolder . 'correspondence.ini') as $entry) {
             $content[$entry['key']] = $entry['value'];
         }
-        $this->scenarioUpdater->updateAfterFs($content, $this->fsScenarioPath);
+        $this->scenarioUpdater->updateAfterFs($content, $fsScenarioPath);
     }
 
     /**
@@ -109,13 +105,13 @@ class ScenarioProcessor
         }
     }
 
-    private function backupFsScenario(): void
+    private function backupFsScenario(string $fsScenariosFolder, string $fsScenarioPath): void
     {
         $date = (new \DateTime())->format('Y-m-d-H-i-s');
-        $dest = $this->fsScenarioFolder . 'Backup' . DIRECTORY_SEPARATOR . $date . '.scn.bak';
+        $dest = $fsScenariosFolder . 'Backup' . DIRECTORY_SEPARATOR . $date . '.scn.bak';
 
         try {
-            copy($this->fsScenarioPath, $dest);
+            copy($fsScenarioPath, $dest);
         } catch (\Throwable $exception) {
             throw new CoreException('Impossible to backup the FS scenario: ' . $exception->getMessage());
         }

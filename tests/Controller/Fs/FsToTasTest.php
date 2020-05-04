@@ -8,22 +8,24 @@ declare(strict_types=1);
  * @licence    MIT
  */
 
+namespace App\Tests\Controller\Fs;
+
 use App\Controller\Fs\FsToTas;
-use App\NameSwitcher\ScenarioProcessor;
+use App\NameSwitcher\ScenarioManager;
 use App\Tests\Controller\ResponseTrait;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class ScenarioValidationTest extends TestCase
+class FsToTasTest extends TestCase
 {
     use ResponseTrait;
 
     public function testInvoke(): void
     {
-        [$scenarioProcessor] = $this->getMocks();
-        $scenarioProcessor->expects(static::once())->method('convertFromFsToTas');
+        [$scenarioManager] = $this->getMocks();
+        $scenarioManager->expects(static::once())->method('fromFsToTas');
 
-        $controller = new FsToTas($scenarioProcessor);
+        $controller = new FsToTas($scenarioManager);
         $response = $controller();
         $content = (\json_decode($response->getContent()));
 
@@ -34,12 +36,12 @@ class ScenarioValidationTest extends TestCase
 
     public function testError(): void
     {
-        [$scenarioProcessor] = $this->getMocks();
-        $scenarioProcessor->expects(static::once())->method('convertFromFsToTas')->willThrowException(
+        [$scenarioManager] = $this->getMocks();
+        $scenarioManager->expects(static::once())->method('fromFsToTas')->willThrowException(
             new \Exception('Oh sooorrrryyy')
         );
 
-        $controller = new FsToTas($scenarioProcessor);
+        $controller = new FsToTas($scenarioManager);
         $response = $controller();
         $content = (\json_decode($response->getContent()));
 
@@ -51,7 +53,7 @@ class ScenarioValidationTest extends TestCase
     private function getMocks(): array
     {
         return [
-            $this->createMock(ScenarioProcessor::class),
+            $this->createMock(ScenarioManager::class),
         ];
     }
 }

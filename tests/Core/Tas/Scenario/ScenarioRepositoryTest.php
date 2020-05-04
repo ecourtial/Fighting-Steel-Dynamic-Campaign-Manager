@@ -43,11 +43,12 @@ class ScenarioRepositoryTest extends TestCase
     public function testGetAllNormal(): void
     {
         $scenarios = static::$scenarioRepository->getAll(false);
+        $folder = $_ENV['TAS_LOCATION'] . DIRECTORY_SEPARATOR . 'Bad GoebenReminiscence' . DIRECTORY_SEPARATOR;
 
         static::assertTrue(array_key_exists('Bad GoebenReminiscence', $scenarios));
         static::assertInstanceOf(Scenario::class, $scenarios['Bad GoebenReminiscence']);
         static::assertEquals('Bad GoebenReminiscence', $scenarios['Bad GoebenReminiscence']->getName());
-        static::assertEquals('GR.scn', $scenarios['Bad GoebenReminiscence']->getShipDataFile());
+        static::assertEquals($folder . 'GR.scn', $scenarios['Bad GoebenReminiscence']->getShipDataFile());
 
         static::assertTrue(array_key_exists('IncompleteScenarioWithNotTasShipFile', $scenarios));
         static::assertInstanceOf(Scenario::class, $scenarios['IncompleteScenarioWithNotTasShipFile']);

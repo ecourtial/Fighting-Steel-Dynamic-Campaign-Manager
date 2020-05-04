@@ -30,7 +30,7 @@ class ScenarioProcessorTest extends TestCase
 {
     use GeneratorTrait;
 
-    private $dico;
+    private Dictionary $dico;
     private array $ships;
 
     public function setUp(): void
@@ -86,15 +86,22 @@ class ScenarioProcessorTest extends TestCase
             $scenarioUpdater,
             $fleetLevelDetector,
             $sideDetector,
-            $iniReader,
-            $_ENV['FS_LOCATION']
+            $iniReader
         );
 
         copy(
             $scenarioPath . 'Sample' . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn',
             $dest
         );
-        $scenarioProcessor->convertFromTasToFs('Andrea Doria', $this->dico, $this->ships, $level);
+
+        $scenarioProcessor->convertFromTasToFs(
+            'Andrea Doria',
+            $this->dico,
+            $this->ships,
+            $scenarioPath,
+            $dest,
+            $level
+        );
         unlink($dest);
     }
 
@@ -126,12 +133,14 @@ class ScenarioProcessorTest extends TestCase
             $scenarioUpdater,
             $fleetLevelDetector,
             $sideDetector,
-            $iniReader,
-            $_ENV['FS_LOCATION']
+            $iniReader
         );
 
+        $scenarioPath = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
+        $dest = $scenarioPath . 'A_TAS_Scenario.scn';
+
         try {
-            $scenarioProcessor->convertFromTasToFs('ah', $this->dico, $this->ships);
+            $scenarioProcessor->convertFromTasToFs('ah', $this->dico, $this->ships, $scenarioPath, $dest);
             static::fail('Since the FS folder is a dummy one, an error was expected');
         } catch (CoreException $exception) {
             static::assertEquals(
@@ -165,10 +174,13 @@ class ScenarioProcessorTest extends TestCase
             $scenarioUpdater,
             $fleetLevelDetector,
             $sideDetector,
-            $iniReader,
-            $_ENV['FS_LOCATION']
+            $iniReader
         );
-        $scenarioProcessor->convertFromFsToTas();
+
+        $scenarioPath = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
+        $dest = $scenarioPath . 'A_TAS_Scenario.scn';
+
+        $scenarioProcessor->convertFromFsToTas($scenarioPath, $dest);
     }
 
     private function getMocks(): array

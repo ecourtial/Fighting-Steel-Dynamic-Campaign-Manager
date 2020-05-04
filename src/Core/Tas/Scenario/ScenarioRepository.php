@@ -56,6 +56,7 @@ class ScenarioRepository
                 is_dir($scenarioFullPath)
                 && preg_match('/^[a-zA-Z0-9 ]*$/', $element)
                 && 0 === preg_match(Savegame::PATH_REGEX, $element)
+                && 'Autosave' !== $element
             ) {
                 $exploded = explode(DIRECTORY_SEPARATOR, $element);
                 $scenarioKey = array_pop($exploded);
@@ -100,7 +101,7 @@ class ScenarioRepository
     {
         $scenario = $this->getOne($name);
         $scenario->setFsShips(
-            $this->fsShipExtractor->extract($scenario->getFullPath() . DIRECTORY_SEPARATOR . 'GR.scn', 'CLASS')
+            $this->fsShipExtractor->extract($scenario->getShipDataFile(), 'CLASS')
         );
         $scenario->setTasShips('Axis', $this->tasShipExtractor->extract($scenario, 'Axis'));
         $scenario->setTasShips('Allied', $this->tasShipExtractor->extract($scenario, 'Allied'));
