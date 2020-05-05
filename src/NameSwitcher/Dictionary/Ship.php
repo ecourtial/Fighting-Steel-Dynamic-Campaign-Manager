@@ -19,7 +19,7 @@ class Ship
 {
     use HydrateTrait;
 
-    public const SHORT_NAME_MAX_LENGTH = 10;
+    public const SHORT_NAME_MAX_LENGTH = 11;
 
     /** @var string[] */
     public const FIELDS_NAME =

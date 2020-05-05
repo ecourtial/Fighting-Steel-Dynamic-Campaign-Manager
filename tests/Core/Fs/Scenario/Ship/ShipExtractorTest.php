@@ -91,7 +91,7 @@ class ShipExtractorTest extends TestCase
             static::fail("Since the ship short name 'La Bombarde' is too long, an exception was expected");
         } catch (InvalidShipDataException $exception) {
             static::assertEquals(
-                "FS Short name is too long: 'La Bombarde'",
+                "FS Short name is too long: 'La Bombardeu'",
                 $exception->getMessage()
             );
         }
