@@ -71,6 +71,8 @@ class ClassSwitcher extends BasicSwitcher
         $newClassName = $this->truncate($class);
         $newClassName = $newClassName . '#' . $this->classesQty[$class];
 
+        $dictionary->validateShipExistsInDictionary($fsShip->getName());
+
         return new Ship(
             $currentName,
             $dictionary->getShipsList()[$currentName]->getFsName(),

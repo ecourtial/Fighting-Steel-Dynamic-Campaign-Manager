@@ -13,6 +13,7 @@ use App\Core\Fs\FsShipInterface;
 use App\Core\Fs\Scenario\Ship\Ship as FsShip;
 use App\NameSwitcher\Dictionary\Dictionary;
 use App\NameSwitcher\Dictionary\Ship as DictionaryShip;
+use App\NameSwitcher\Exception\NoShipException;
 use App\NameSwitcher\Switcher\ClassSwitcher;
 use App\NameSwitcher\Transformer\Ship;
 use PHPUnit\Framework\TestCase;
@@ -135,5 +136,24 @@ class ClassSwitcherTest extends TestCase
             new FsShip(['NAME' => 'Richelieu', 'SHORTNAME' => 'Richelieu', 'TYPE' => 'BB', 'CLASS' => 'Richelieu']),
             $dico
         );
+    }
+
+    public function testShipIsNotInDictionary(): void
+    {
+        $dico = $this->getMockBuilder(Dictionary::class)->disableOriginalConstructor()->getMock();
+        $dico->expects(static::once())->method('validateShipExistsInDictionary')->with('Richelieu')
+            ->willThrowException(new NoShipException('Whatever'));
+
+        $ships = [
+            'Richelieu' => (new FsShip(['NAME' => 'Richelieu', 'SHORTNAME' => 'Richelieu', 'TYPE' => 'BB', 'CLASS' => 'Richelieu']))->setSide('Blue'),
+        ];
+
+        $switcher = new ClassSwitcher();
+        try {
+            $switcher->switch($dico, $ships, 'Red');
+            static::fail('Since the ship is not in the dictionary, an exception was expected');
+        } catch (NoShipException $exception) {
+            static::assertEquals('Whatever', $exception->getMessage());
+        }
     }
 }

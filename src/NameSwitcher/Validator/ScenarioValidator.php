@@ -21,6 +21,7 @@ use App\Core\Tas\Scenario\Scenario;
 use App\Core\Tas\Scenario\ScenarioRepository;
 use App\NameSwitcher\Dictionary\Dictionary;
 use App\NameSwitcher\Dictionary\DictionaryFactory;
+use App\NameSwitcher\Exception\NoShipException;
 
 class ScenarioValidator
 {
@@ -85,12 +86,9 @@ class ScenarioValidator
 
         foreach (Scenario::SIDES as $side) {
             foreach ($scenario->getTasShips($side) as $ship) {
-                if (
-                    false === array_key_exists(
-                        $ship->getName(),
-                        $dictionary->getShipsList()
-                    )
-                ) {
+                try {
+                    $dictionary->validateShipExistsInDictionary($ship->getName());
+                } catch (NoShipException $exception) {
                     $errors[] = "Tas Ship '{$ship->getName()}' is not present in the dictionary file";
                 }
             }

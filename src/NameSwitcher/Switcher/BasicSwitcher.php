@@ -41,6 +41,8 @@ class BasicSwitcher implements SwitcherInterface
      */
     protected function createBasicSwitch(Dictionary $dictionary, FsShipInterface $fsShip): Ship
     {
+        $dictionary->validateShipExistsInDictionary($fsShip->getName());
+
         return new Ship(
             $fsShip->getName(),
             $dictionary->getShipsList()[$fsShip->getName()]->getFsName(),
