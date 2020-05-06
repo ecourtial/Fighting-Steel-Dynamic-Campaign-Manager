@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace App\Controller\Fs;
 
 use App\NameSwitcher\ScenarioManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,10 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class FsToTas extends AbstractController
 {
     private ScenarioManager $scenarioManager;
+    private LoggerInterface $logger;
 
-    public function __construct(ScenarioManager $scenarioManager)
+    public function __construct(ScenarioManager $scenarioManager, LoggerInterface $logger)
     {
         $this->scenarioManager = $scenarioManager;
+        $this->logger = $logger;
     }
 
     /** @Route("/fs/fs-to-tas", name="fsToTas", methods={"POST"}) */
@@ -32,6 +35,7 @@ class FsToTas extends AbstractController
             $errors = [];
         } catch (\Throwable $exception) {
             $errors = [$exception->getMessage()];
+            $this->logger->error($exception->getMessage() . ': ' . $exception->getTraceAsString());
         }
 
         return new JsonResponse($errors);

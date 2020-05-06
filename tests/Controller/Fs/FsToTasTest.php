@@ -14,6 +14,7 @@ use App\Controller\Fs\FsToTas;
 use App\NameSwitcher\ScenarioManager;
 use App\Tests\Controller\ResponseTrait;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\Test\TestLogger;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FsToTasTest extends TestCase
@@ -22,10 +23,10 @@ class FsToTasTest extends TestCase
 
     public function testInvoke(): void
     {
-        [$scenarioManager] = $this->getMocks();
+        [$scenarioManager, $logger] = $this->getMocks();
         $scenarioManager->expects(static::once())->method('fromFsToTas');
 
-        $controller = new FsToTas($scenarioManager);
+        $controller = new FsToTas($scenarioManager, $logger);
         $response = $controller();
         $content = (\json_decode($response->getContent()));
 
@@ -36,24 +37,26 @@ class FsToTasTest extends TestCase
 
     public function testError(): void
     {
-        [$scenarioManager] = $this->getMocks();
+        [$scenarioManager, $logger] = $this->getMocks();
         $scenarioManager->expects(static::once())->method('fromFsToTas')->willThrowException(
             new \Exception('Oh sooorrrryyy')
         );
 
-        $controller = new FsToTas($scenarioManager);
+        $controller = new FsToTas($scenarioManager, $logger);
         $response = $controller();
         $content = (\json_decode($response->getContent()));
 
         static::assertInstanceOf(JsonResponse::class, $response);
         static::assertEquals(['Oh sooorrrryyy'], $content);
         $this->checkResponse($response);
+        static::assertTrue($logger->hasErrorRecords());
     }
 
     private function getMocks(): array
     {
         return [
             $this->createMock(ScenarioManager::class),
+            new TestLogger(),
         ];
     }
 }

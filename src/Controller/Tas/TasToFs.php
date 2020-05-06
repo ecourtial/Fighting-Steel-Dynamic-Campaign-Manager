@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace App\Controller\Tas;
 
 use App\NameSwitcher\ScenarioManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -20,13 +21,16 @@ class TasToFs extends AbstractController
 {
     private RequestStack $requestStack;
     private ScenarioManager $scenarioManager;
+    private LoggerInterface $logger;
 
     public function __construct(
         RequestStack $requestStack,
+        LoggerInterface $logger,
         ScenarioManager $scenarioManager
     ) {
         $this->requestStack = $requestStack;
         $this->scenarioManager = $scenarioManager;
+        $this->logger = $logger;
     }
 
     /** @Route("/tas/tas-to", name="tasToFs", methods={"POST"}) */
@@ -42,6 +46,7 @@ class TasToFs extends AbstractController
                 $errors = [];
             } catch (\Throwable $exception) {
                 $errors = [$exception->getMessage()];
+                $this->logger->error($exception->getMessage() . ': ' . $exception->getTraceAsString());
             }
         } else {
             $errors = ['Invalid request data!'];

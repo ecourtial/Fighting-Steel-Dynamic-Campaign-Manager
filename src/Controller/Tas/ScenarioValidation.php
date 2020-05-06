@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace App\Controller\Tas;
 
 use App\NameSwitcher\Validator\ScenarioValidator;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -20,10 +21,15 @@ class ScenarioValidation extends AbstractController
 {
     private RequestStack $requestStack;
     private ScenarioValidator $scenarioValidator;
+    private LoggerInterface $logger;
 
-    public function __construct(RequestStack $requestStack, ScenarioValidator $scenarioValidator)
-    {
+    public function __construct(
+        RequestStack $requestStack,
+        LoggerInterface $logger,
+        ScenarioValidator $scenarioValidator
+    ) {
         $this->requestStack = $requestStack;
+        $this->logger = $logger;
         $this->scenarioValidator = $scenarioValidator;
     }
 
@@ -37,6 +43,7 @@ class ScenarioValidation extends AbstractController
                 $errors = $this->scenarioValidator->validate($scenarioKey);
             } catch (\Throwable $exception) {
                 $errors = [$exception->getMessage()];
+                $this->logger->error($exception->getMessage() . ': ' . $exception->getTraceAsString());
             }
         } else {
             $errors = ['Missing scenario key'];

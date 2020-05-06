@@ -14,6 +14,7 @@ use App\Controller\Tas\ScenarioValidation;
 use App\NameSwitcher\Validator\ScenarioValidator;
 use App\Tests\Controller\ResponseTrait;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\Test\TestLogger;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -24,13 +25,13 @@ class ScenarioValidationTest extends TestCase
 
     public function testInvoke(): void
     {
-        [$requestStack, $request, $scenarioValidator] = $this->getMocks();
+        [$requestStack, $request, $logger, $scenarioValidator] = $this->getMocks();
 
         $requestStack->expects(static::once())->method('getCurrentRequest')->willReturn($request);
         $request->expects(static::at(0))->method('get')->with('scenario', null)->willReturn('UnScenario');
         $scenarioValidator->expects(static::once())->method('validate')->with('UnScenario');
 
-        $controller = new ScenarioValidation($requestStack, $scenarioValidator);
+        $controller = new ScenarioValidation($requestStack, $logger, $scenarioValidator);
         $response = $controller();
         $content = (\json_decode($response->getContent()));
 
@@ -41,7 +42,7 @@ class ScenarioValidationTest extends TestCase
 
     public function testError(): void
     {
-        [$requestStack, $request, $scenarioValidator] = $this->getMocks();
+        [$requestStack, $request, $logger, $scenarioValidator] = $this->getMocks();
 
         $requestStack->expects(static::once())->method('getCurrentRequest')->willReturn($request);
         $request->expects(static::at(0))->method('get')->with('scenario', null)->willReturn('UnScenario');
@@ -49,23 +50,24 @@ class ScenarioValidationTest extends TestCase
             new \Exception('Oh sooorrrryyy')
         );
 
-        $controller = new ScenarioValidation($requestStack, $scenarioValidator);
+        $controller = new ScenarioValidation($requestStack, $logger, $scenarioValidator);
         $response = $controller();
         $content = (\json_decode($response->getContent()));
 
         static::assertInstanceOf(JsonResponse::class, $response);
         static::assertEquals(['Oh sooorrrryyy'], $content);
         $this->checkResponse($response);
+        static::assertTrue($logger->hasErrorRecords());
     }
 
     public function testInvalidRequest(): void
     {
-        [$requestStack, $request, $scenarioValidator] = $this->getMocks();
+        [$requestStack, $request, $logger, $scenarioValidator] = $this->getMocks();
 
         $requestStack->expects(static::once())->method('getCurrentRequest')->willReturn($request);
         $request->expects(static::at(0))->method('get')->with('scenario', null)->willReturn(null);
 
-        $controller = new ScenarioValidation($requestStack, $scenarioValidator);
+        $controller = new ScenarioValidation($requestStack, $logger, $scenarioValidator);
         $response = $controller();
         $content = (\json_decode($response->getContent()));
 
@@ -79,6 +81,7 @@ class ScenarioValidationTest extends TestCase
         return [
             $this->createMock(RequestStack::class),
             $this->createMock(Request::class),
+            new TestLogger(),
             $this->createMock(ScenarioValidator::class),
         ];
     }
