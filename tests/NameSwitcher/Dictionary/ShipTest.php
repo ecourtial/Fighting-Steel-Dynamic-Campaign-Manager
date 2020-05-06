@@ -120,16 +120,13 @@ class ShipTest extends TestCase
     public function testInvalidShortName(): void
     {
         $data = static::CSV_DATA;
-
         $data['FsShortName'] = '12345678900';
-        new Ship($data);
 
         try {
-            $data['FsShortName'] = '123456789001';
             new Ship($data);
             static::fail('Since the short name is too long, an exception was expected.');
         } catch (InvalidShipDataException $exception) {
-            static::assertEquals("FS Short name is too long: '123456789001'", $exception->getMessage());
+            static::assertEquals("FS Short name is too long: '12345678900'", $exception->getMessage());
         }
     }
 

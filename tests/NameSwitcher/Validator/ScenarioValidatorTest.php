@@ -75,7 +75,7 @@ class ScenarioValidatorTest extends TestCase
     {
         $errors = static::$scenarioValidator->validate('Bad GoebenReminiscence');
 
-        static::assertEquals(["FS Short name is too long: 'La Bombardeu'"], $errors);
+        static::assertEquals(["FS Short name is too long: 'La Bombarde'"], $errors);
     }
 
     public function testTasShipMissingInFsFile(): void
