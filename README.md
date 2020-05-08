@@ -24,16 +24,4 @@ Development still in progress.
 * Infection
 * PHPStan with strict rules
 
-## Changelog
-
-## 0.6.0
-* Add a lot of classes to parse TAS Savegames and edit the ships files (fleets)
-* Add a component to manage coordinates (latitude, longitude)
-* Some refacto + cleanup
-
-### 0.5.0
-* Changes on the Scenario processor
-* Basic web interface
-
-### 0.4.0
-* NameSwitcher is completed
+[Changelog](changelog.MD)
