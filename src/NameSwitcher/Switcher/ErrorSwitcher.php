@@ -63,6 +63,8 @@ class ErrorSwitcher extends ClassSwitcher
         $newClassName = $this->truncate($this->classCorrespondence[$class]);
         $newClassName = $newClassName . '#' . $this->classesQty[$this->classCorrespondence[$class]];
 
+        $dictionary->validateShipExistsInDictionary($fsShip->getName());
+
         return new Ship(
             $currentName,
             $dictionary->getShipsList()[$currentName]->getFsName(),

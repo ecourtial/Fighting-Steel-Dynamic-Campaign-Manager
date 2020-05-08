@@ -30,6 +30,19 @@ class Dictionary
         return $this->dictionary;
     }
 
+    /** This method is here to circumvent a bad choice in the beginning of the project */
+    public function validateShipExistsInDictionary(string $name): void
+    {
+        if (
+            false === array_key_exists(
+                $name,
+                $this->dictionary
+            )
+        ) {
+            throw new NoShipException("Ship '{$name}' is not in the dictionary");
+        }
+    }
+
     /**
      * @param string[] $criteria
      *

@@ -7,7 +7,7 @@
 [![Infection MSI](https://badge.stryker-mutator.io/github.com/ecourtial/Fighting-Steel-Dynamic-Campaign-Manager/master)](https://infection.github.io)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/ecourtial/Fighting-Steel-Dynamic-Campaign-Manager/graphs/commit-activity)
 [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/ecourtial/Fighting-Steel-Dynamic-Campaign-Manager)
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/ecourtial/Fighting-Steel-Dynamic-Campaign-Manager/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/ecourtial/Fighting-Steel-Dynamic-Campaign-Manager)](https://github.com/ecourtial/Fighting-Steel-Dynamic-Campaign-Manager/blob/master/LICENSE)
 
 
 ## Description :notebook:
