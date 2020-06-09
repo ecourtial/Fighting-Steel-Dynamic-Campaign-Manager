@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "597e4a9eb42fbffbbeb6ec199f892096",
+    "content-hash": "0e9e8eb88c1995d7a8aa24f4bd584ebf",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -4777,16 +4777,16 @@
         },
         {
             "name": "wizaplace/php-etl",
-            "version": "dev-master",
+            "version": "1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wizaplace/php-etl.git",
-                "reference": "47089e40f3aec7866679d51e893885e019c30a26"
+                "reference": "afef3db8cc6471c19e41005bdbeafe10096fd400"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wizaplace/php-etl/zipball/47089e40f3aec7866679d51e893885e019c30a26",
-                "reference": "47089e40f3aec7866679d51e893885e019c30a26",
+                "url": "https://api.github.com/repos/wizaplace/php-etl/zipball/afef3db8cc6471c19e41005bdbeafe10096fd400",
+                "reference": "afef3db8cc6471c19e41005bdbeafe10096fd400",
                 "shasum": ""
             },
             "require": {
@@ -4795,7 +4795,7 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "infection/infection": "^0.16.2",
+                "infection/infection": "^0.15.3",
                 "phpstan/extension-installer": "^1.0",
                 "phpstan/phpstan": "^0.12.18",
                 "phpstan/phpstan-deprecation-rules": "^0.12.2",
@@ -4809,17 +4809,13 @@
                     "Wizaplace\\Etl\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Wizaplace DevTeam ",
+                    "name": "Wizaplace DevTeam",
                     "email": "dev@wizacha.com"
                 },
                 {
@@ -4838,11 +4834,7 @@
                 "transform",
                 "transformation"
             ],
-            "support": {
-                "source": "https://github.com/wizaplace/php-etl/tree/master",
-                "issues": "https://github.com/wizaplace/php-etl/issues"
-            },
-            "time": "2020-04-14T08:48:35+00:00"
+            "time": "2020-06-04T12:36:30+00:00"
         }
     ],
     "packages-dev": [
@@ -8077,8 +8069,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "prairiewest/phpconvertdmstodecimal": 20,
-        "wizaplace/php-etl": 20
+        "prairiewest/phpconvertdmstodecimal": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
