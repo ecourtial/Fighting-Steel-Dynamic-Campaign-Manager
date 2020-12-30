@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\ScenarioGenerator;
 
+use App\Core\Tas\Scenario\Scenario;
+
 interface ScenarioEnv
 {
-    public const GB = 'GB';
-    public const GE = 'GE';
-    public const FR = 'FR';
-    public const IT = 'IT';
-    public const JP = 'JP';
-    public const US = 'US';
+    // Correspondence in the FSP dictionary
+    public const GB = 'RN';
+    public const GE = 'KM';
+    public const FR = 'MN';
+    public const IT = 'RM';
+    public const JP = 'IJN';
+    public const US = 'USN';
 
     public const AIR_CONTROL = [
         2 => 'None',
@@ -77,7 +80,7 @@ interface ScenarioEnv
         9 => 'September',
         10 => 'October',
         11 => 'November',
-        12 => 'December',
+        12 => 'December'
     ];
 
     public const SELECTOR = [
@@ -91,6 +94,8 @@ interface ScenarioEnv
                         1939 => [9, 10, 11, 12],
                         1940 => [1, 2, 3, 4, 5],
                     ],
+                    Scenario::ALLIED_SIDE => [self::GB, self::FR],
+                    Scenario::AXIS_SIDE => [self::GE],
                 ],
                 // EN vs GE
                 1 => [
@@ -99,6 +104,8 @@ interface ScenarioEnv
                         1940 => [6, 7, 8, 9, 10, 11, 12],
                         1941 => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
                     ],
+                    Scenario::ALLIED_SIDE => [self::GB],
+                    Scenario::AXIS_SIDE => [self::GE],
                 ],
                 // EN and US vs GE
                 2 => [
@@ -107,6 +114,8 @@ interface ScenarioEnv
                         1941 => [12],
                         1942 => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     ],
+                    Scenario::ALLIED_SIDE => [self::GB, self::US],
+                    Scenario::AXIS_SIDE => [self::GE],
                 ],
                 // EN, US and FR vs GE
                 3 => [
@@ -117,6 +126,8 @@ interface ScenarioEnv
                         1944 => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                         1945 => [1, 2, 3, 4, 5],
                     ],
+                    Scenario::ALLIED_SIDE => [self::GB, self::US, self::FR],
+                    Scenario::AXIS_SIDE => [self::GE],
                 ],
             ],
         ],
@@ -129,6 +140,8 @@ interface ScenarioEnv
                     'years' => [
                         1940 => [6],
                     ],
+                    Scenario::ALLIED_SIDE => [self::GB, self::FR],
+                    Scenario::AXIS_SIDE => [self::IT],
                 ],
                 // EN vs IT
                 1 => [
@@ -137,6 +150,8 @@ interface ScenarioEnv
                         1940 => [7, 8, 9, 10, 11, 12],
                         1941 => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
                     ],
+                    Scenario::ALLIED_SIDE => [self::GB],
+                    Scenario::AXIS_SIDE => [self::IT],
                 ],
                 // EN and US vs IT
                 2 => [
@@ -145,6 +160,8 @@ interface ScenarioEnv
                         1941 => [12],
                         1942 => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     ],
+                    Scenario::ALLIED_SIDE => [self::GB, self::US],
+                    Scenario::AXIS_SIDE => [self::IT],
                 ],
                 // ENG, US and FR vs IT
                 3 => [
@@ -153,19 +170,23 @@ interface ScenarioEnv
                         1942 => [11, 12],
                         1943 => [1, 2, 3, 4, 5, 6, 7, 8, 9],
                     ],
+                    Scenario::ALLIED_SIDE => [self::GB, self::US, self::FR],
+                    Scenario::AXIS_SIDE => [self::IT],
                 ],
             ],
         ],
         self::PACIFIC_THEATER => [
             'name' => self::PACIFIC_THEATER,
             'periods' => [
-                // EN and US  vs JA
+                // EN and US vs JA
                 0 => [
                     'name' => 'December 1941 to october 1942',
                     'years' => [
                         1941 => [12],
                         1942 => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     ],
+                    Scenario::ALLIED_SIDE => [self::GB, self::US],
+                    Scenario::AXIS_SIDE => [self::JP],
                 ],
                 // EN, US and FR vs JA
                 1 => [
@@ -176,6 +197,8 @@ interface ScenarioEnv
                         1944 => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                         1945 => [1, 2, 3, 4, 5, 6, 7, 8, 9],
                     ],
+                    Scenario::ALLIED_SIDE => [self::GB, self::US, self::FR],
+                    Scenario::AXIS_SIDE => [self::JP],
                 ],
             ],
         ],

@@ -6,11 +6,8 @@ namespace App\ScenarioGenerator;
 
 class ContextGenerator
 {
-    private const DATE_PATTERN = 'Y-m-d-H-i-s';
-
-    public function getHeaderData(int $month, int $year): string
+    public function getHeaderData(int $month, int $year, string $scenarioName): string
     {
-        $scenarioName = 'randomScenar' . date(static::DATE_PATTERN);
         $hour = $this->getHour();
         $minutes = $this->getMinutes();
         $monthName = ScenarioEnv::MONTHS[$month];
