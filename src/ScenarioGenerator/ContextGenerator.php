@@ -79,7 +79,6 @@ class ContextGenerator
         RED_FORCE_TYPE=1
         MOVIE=0
         [SCENARIOINFO]
-        DIVISIONCNT=4
         EOT;
     }
 

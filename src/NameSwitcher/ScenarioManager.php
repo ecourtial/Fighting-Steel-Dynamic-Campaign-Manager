@@ -39,7 +39,7 @@ class ScenarioManager
         $this->scenarioProcessor->convertFromTasToFs(
             $oneShip,
             $this->dictionaryFactory->getDictionary($scenario->getDictionaryPath()),
-            $this->shipExtractor->extract($this->fsScenarioPath, 'NIGHTTRAINING'),
+            $this->shipExtractor->extract($this->fsScenarioPath, 'RADARTYPE'),
             $this->fsScenariosFolder,
             $this->fsScenarioPath,
             $switchLevel

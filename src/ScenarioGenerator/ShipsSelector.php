@@ -17,8 +17,12 @@ class ShipsSelector
     }
 
     /** @return string[] */
-    public function getShips(string $code, int $period, array $shipQuantities, bool $mixedNavies): array
-    {
+    public function getShips(
+        string $code,
+        int $period,
+        ShipQuantity $shipQuantity,
+        bool $mixedNavies
+    ): array {
         $allied = ScenarioEnv::SELECTOR[$code]['periods'][$period][Scenario::ALLIED_SIDE];
         $axis = ScenarioEnv::SELECTOR[$code]['periods'][$period][Scenario::AXIS_SIDE];
 
@@ -31,18 +35,15 @@ class ShipsSelector
             $axis = [array_rand($axis)];
         }
 
-        $alliedBigShipCount = $this->getBigShipCount($shipQuantities[Scenario::ALLIED_SIDE]);
-        $axisBigShipCount = $this->getBigShipCount($shipQuantities[Scenario::AXIS_SIDE]);
-
         return [
             Scenario::ALLIED_SIDE => $this->selectShips(
-                $alliedBigShipCount,
-                $shipQuantities[Scenario::ALLIED_SIDE] - $alliedBigShipCount,
+                $shipQuantity->getAlliedBig(),
+                $shipQuantity->getAlliedTotal() - $shipQuantity->getAlliedBig(),
                 $allied
             ),
             Scenario::AXIS_SIDE => $this->selectShips(
-                $axisBigShipCount,
-                $shipQuantities[Scenario::AXIS_SIDE] - $axisBigShipCount,
+                $shipQuantity->getAxisBig(),
+                $shipQuantity->getAxisTotal() - $shipQuantity->getAxisBig(),
                 $axis
             ),
         ];
@@ -88,27 +89,6 @@ class ShipsSelector
         }
 
         return $ships;
-    }
-
-    private function getBigShipCount(int $shipQuantity): int
-    {
-        switch ($shipQuantity) {
-            case 2:
-                return 2;
-            case 3:
-                return array_rand([1, 3]); // 1 OR 3
-            case 4:
-                return 1;
-            case 5:
-                return array_rand([1, 2]);
-            case 6:
-            case 7:
-                return array_rand([2, 3]);
-            case 8:
-                return random_int(2, 4); // 2 to 4
-            default:
-                throw new \InvalidArgumentException("Unsupported ship qty: {$shipQuantity}");
-        }
     }
 
     /** @return string[][][] */

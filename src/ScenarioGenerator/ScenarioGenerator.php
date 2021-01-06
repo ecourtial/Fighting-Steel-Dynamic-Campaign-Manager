@@ -4,22 +4,30 @@ declare(strict_types=1);
 
 namespace App\ScenarioGenerator;
 
-use App\Core\Tas\Scenario\Scenario;
+use App\Core\File\TextFileWriter;
 
 class ScenarioGenerator
 {
     private const DATE_PATTERN = 'Y-m-d-H-i-s';
 
     private ContextGenerator $contextGenerator;
-    private ShipsSelector $shipsSelector;
+    private BodyGenerator $bodyGenerator;
+    private TextFileWriter $fileWriter;
+    private string $fsScenarioDirectory;
 
-    public function __construct(ContextGenerator $contextGenerator, ShipsSelector $shipsSelector)
-    {
+    public function __construct(
+        ContextGenerator $contextGenerator,
+        BodyGenerator $bodyGenerator,
+        TextFileWriter $fileWriter,
+        string $fsDirectory
+    ) {
         $this->contextGenerator = $contextGenerator;
-        $this->shipsSelector = $shipsSelector;
+        $this->bodyGenerator = $bodyGenerator;
+        $this->fileWriter = $fileWriter;
+        $this->fsScenarioDirectory = $fsDirectory . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
     }
 
-    public function generate(string $code, int $period, bool $mixedNavies)
+    public function generate(string $code, int $period, bool $mixedNavies): void
     {
         if (false === array_key_exists($code, ScenarioEnv::SELECTOR)) {
             throw new \InvalidArgumentException("The theater '{$code}' does not exist.");
@@ -32,18 +40,12 @@ class ScenarioGenerator
         $scenarioName = 'randomScenar' . date(static::DATE_PATTERN);
         $year = $this->getYear($code, $period);
         $month = $this->getMonth($code, $period, $year);
-        $ships = $this->shipsSelector->getShips($code, $period, $this->getShipsQuantities(), $mixedNavies);
-        $header = $this->contextGenerator->getHeaderData($year, $month, $scenarioName);
 
-        // Use external class to create the content before...
-        // Reminder : according to the country, the year, replace the radar setting in the ship
-        //$this->outputData($header, $ships);
-    }
-
-    /** @return int[] */
-    private function getShipsQuantities(): array
-    {
-        return [Scenario::ALLIED_SIDE => \random_int(2, 8), Scenario::AXIS_SIDE => \random_int(2, 8)];
+        $this->fileWriter->writeMultilineFromString(
+            '',
+            $this->contextGenerator->getHeaderData($year, $month, $scenarioName) . PHP_EOL . PHP_EOL
+                . $this->bodyGenerator->getBody($code, $period, $year, $mixedNavies)
+        );
     }
 
     private function getYear(string $code, int $period): int

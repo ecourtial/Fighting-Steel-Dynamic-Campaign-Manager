@@ -43,7 +43,7 @@ class ScenarioManagerTest extends TestCase
         $dummyDico = $this->getMockBuilder(Dictionary::class)->disableOriginalConstructor()->getMock();
         $dicoFactory->expects(static::once())->method('getDictionary')->with($dico)->willReturn($dummyDico);
         $scenarioRepo->expects(static::once())->method('getOneWillAllData')->with($key)->willReturn($dummyScenar);
-        $shipExtractor->expects(static::once())->method('extract')->with($path, 'NIGHTTRAINING')->willReturn($ships);
+        $shipExtractor->expects(static::once())->method('extract')->with($path, 'RADARTYPE')->willReturn($ships);
 
         $scenarioProcessor->expects(static::once())->method('convertFromTasToFs')->with(
             $oneShip,

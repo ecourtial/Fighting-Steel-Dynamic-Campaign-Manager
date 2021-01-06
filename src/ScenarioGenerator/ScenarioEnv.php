@@ -28,6 +28,7 @@ interface ScenarioEnv
         3 => 'Intercept',
     ];
 
+    // LEVELS
     public const WIND_SPEED_MIN = 1;
     public const WIND_SPEED_MAX = 40;
 
@@ -46,10 +47,7 @@ interface ScenarioEnv
     public const RADAR_CONDITION_MIN = 0;
     public const RADAR_CONDITION_MAX = 100;
 
-    public const ATLANTIC_THEATER = 'Atlantic';
-    public const MEDITERRANEAN_THEATER = 'Mediterranean';
-    public const PACIFIC_THEATER = 'Pacific';
-
+    // TIME
     public const DAY_24_HOURS_CLOCK_MIN = 0;
     public const DAY_24_HOURS_CLOCK_MAX = 23;
 
@@ -82,6 +80,11 @@ interface ScenarioEnv
         11 => 'November',
         12 => 'December'
     ];
+
+    // THEATERS
+    public const ATLANTIC_THEATER = 'Atlantic';
+    public const MEDITERRANEAN_THEATER = 'Mediterranean';
+    public const PACIFIC_THEATER = 'Pacific';
 
     public const SELECTOR = [
         self::ATLANTIC_THEATER => [
