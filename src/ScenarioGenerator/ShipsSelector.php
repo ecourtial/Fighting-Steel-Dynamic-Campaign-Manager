@@ -9,6 +9,8 @@ use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
 
 class ShipsSelector
 {
+    public const BIG_SHIPS_TYPES = ['BB', 'BC', 'CA', 'CL'];
+
     private CsvExtractor $csvExtractor;
 
     public function __construct(CsvExtractor $csvExtractor)
@@ -38,12 +40,12 @@ class ShipsSelector
         return [
             Scenario::ALLIED_SIDE => $this->selectShips(
                 $shipQuantity->getAlliedBig(),
-                $shipQuantity->getAlliedTotal() - $shipQuantity->getAlliedBig(),
+                $shipQuantity->getAlliedSmall(),
                 $allied
             ),
             Scenario::AXIS_SIDE => $this->selectShips(
                 $shipQuantity->getAxisBig(),
-                $shipQuantity->getAxisTotal() - $shipQuantity->getAxisBig(),
+                $shipQuantity->getAxisSmall(),
                 $axis
             ),
         ];
@@ -57,7 +59,7 @@ class ShipsSelector
         // 1- Extract big ships
         for ($count = 0; $count < $bigShipCount; $count++) {
             $side = array_rand($sides);
-            $type = array_rand(['BB', 'BC', 'CA', 'CL']);
+            $type = array_rand(static::BIG_SHIPS_TYPES);
 
             /**
              * The Regia Marina did not have any BC
@@ -122,7 +124,7 @@ class ShipsSelector
                     $ships[$navy][$type] = [];
                 }
 
-                $ships[$navy][$type][$name] = ['name' => $name, 'class' => $class];
+                $ships[$navy][$type][$name] = ['name' => $name, 'class' => $class, 'type' => $type];
             }
         }
 

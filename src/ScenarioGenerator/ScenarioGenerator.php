@@ -27,7 +27,7 @@ class ScenarioGenerator
         $this->fsScenarioDirectory = $fsDirectory . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
     }
 
-    public function generate(string $code, int $period, bool $mixedNavies): void
+    public function generate(string $code, int $period, bool $mixedNavies): string
     {
         if (false === array_key_exists($code, ScenarioEnv::SELECTOR)) {
             throw new \InvalidArgumentException("The theater '{$code}' does not exist.");
@@ -46,6 +46,8 @@ class ScenarioGenerator
             $this->contextGenerator->getHeaderData($year, $month, $scenarioName) . PHP_EOL . PHP_EOL
                 . $this->bodyGenerator->getBody($code, $period, $year, $mixedNavies)
         );
+
+        return $scenarioName;
     }
 
     private function getYear(string $code, int $period): int

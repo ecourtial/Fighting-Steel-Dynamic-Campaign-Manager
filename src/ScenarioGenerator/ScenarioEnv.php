@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\ScenarioGenerator;
 
 use App\Core\Tas\Scenario\Scenario;
+use App\Core\Fs\Scenario\Ship\Ship;
 
 interface ScenarioEnv
 {
@@ -46,6 +47,58 @@ interface ScenarioEnv
 
     public const RADAR_CONDITION_MIN = 0;
     public const RADAR_CONDITION_MAX = 100;
+
+    public const RADAR_LEVELS = [
+        1939 => [
+            self::GB => [Ship::RADAR_LEVEL_NONE],
+            self::FR => [Ship::RADAR_LEVEL_NONE],
+            self::GE => [Ship::RADAR_LEVEL_NONE, Ship::RADAR_LEVEL_POOR],
+        ],
+        1940 => [
+            self::GB => [Ship::RADAR_LEVEL_NONE, Ship::RADAR_LEVEL_POOR],
+            self::FR => [Ship::RADAR_LEVEL_NONE],
+            self::GE => [Ship::RADAR_LEVEL_NONE, Ship::RADAR_LEVEL_POOR],
+            self::IT => [Ship::RADAR_LEVEL_NONE],
+        ],
+        1941 => [
+            self::GB => [Ship::RADAR_LEVEL_POOR],
+            self::FR => [Ship::RADAR_LEVEL_NONE, Ship::RADAR_LEVEL_POOR],
+            self::GE => [Ship::RADAR_LEVEL_POOR],
+            self::IT => [Ship::RADAR_LEVEL_NONE],
+            self::JP => [Ship::RADAR_LEVEL_NONE, Ship::RADAR_LEVEL_POOR],
+            self::US => [Ship::RADAR_LEVEL_NONE, Ship::RADAR_LEVEL_POOR],
+        ],
+        1942 => [
+            self::GB => [Ship::RADAR_LEVEL_AVERAGE],
+            self::FR => [Ship::RADAR_LEVEL_NONE, Ship::RADAR_LEVEL_POOR],
+            self::GE => [Ship::RADAR_LEVEL_AVERAGE],
+            self::IT => [Ship::RADAR_LEVEL_NONE, Ship::RADAR_LEVEL_POOR],
+            self::JP => [Ship::RADAR_LEVEL_POOR, Ship::RADAR_LEVEL_AVERAGE],
+            self::US => [Ship::RADAR_LEVEL_AVERAGE],
+        ],
+        1943 => [
+            self::GB => [Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD, Ship::RADAR_LEVEL_EXCELLENT],
+            self::FR => [Ship::RADAR_LEVEL_POOR, Ship::RADAR_LEVEL_AVERAGE],
+            self::GE => [Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD],
+            self::IT => [Ship::RADAR_LEVEL_NONE, Ship::RADAR_LEVEL_POOR],
+            self::JP => [Ship::RADAR_LEVEL_POOR, Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD],
+            self::US => [Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD, Ship::RADAR_LEVEL_EXCELLENT],
+        ],
+        1944 => [
+            self::GB => [Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD, Ship::RADAR_LEVEL_EXCELLENT],
+            self::FR => [Ship::RADAR_LEVEL_POOR, Ship::RADAR_LEVEL_AVERAGE],
+            self::GE => [Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD],
+            self::JP => [Ship::RADAR_LEVEL_POOR, Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD],
+            self::US => [Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD, Ship::RADAR_LEVEL_EXCELLENT],
+        ],
+        1945 => [
+            self::GB => [Ship::RADAR_LEVEL_GOOD, Ship::RADAR_LEVEL_EXCELLENT, Ship::RADAR_LEVEL_SUPERB],
+            self::FR => [Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD],
+            self::GE => [Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD],
+            self::JP => [Ship::RADAR_LEVEL_POOR, Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD],
+            self::US => [Ship::RADAR_LEVEL_GOOD, Ship::RADAR_LEVEL_EXCELLENT, Ship::RADAR_LEVEL_SUPERB],
+        ]
+    ];
 
     // TIME
     public const DAY_24_HOURS_CLOCK_MIN = 0;

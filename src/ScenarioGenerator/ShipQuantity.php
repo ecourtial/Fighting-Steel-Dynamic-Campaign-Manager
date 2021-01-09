@@ -7,12 +7,12 @@ namespace App\ScenarioGenerator;
 
 class ShipQuantity
 {
-    private int $total;
-    private int $big;
     private int $alliedTotal;
     private int $axisTotal;
     private int $alliedBig;
     private int $axisBig;
+    private int $alliedSmall;
+    private int $axisSmall;
 
     public function __construct(int $alliedTotal, int $axisTotal, int $alliedBig, int $axisBig)
     {
@@ -20,16 +20,8 @@ class ShipQuantity
         $this->axisTotal = $axisTotal;
         $this->alliedBig = $alliedBig;
         $this->axisBig = $axisBig;
-    }
-
-    public function getTotal(): int
-    {
-        return $this->total;
-    }
-
-    public function getBig(): int
-    {
-        return $this->big;
+        $this->alliedSmall = $alliedTotal - $alliedBig;
+        $this->axisSmall = $axisTotal - $axisBig;
     }
 
     public function getAlliedTotal(): int
@@ -50,5 +42,15 @@ class ShipQuantity
     public function getAxisBig(): int
     {
         return $this->axisBig;
+    }
+
+    public function getAlliedSmall(): int
+    {
+        return $this->alliedSmall;
+    }
+
+    public function getAxisSmall(): int
+    {
+        return $this->axisSmall;
     }
 }
