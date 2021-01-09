@@ -42,7 +42,7 @@ class ScenarioGenerator
         $month = $this->getMonth($code, $period, $year);
 
         $this->fileWriter->writeMultilineFromString(
-            '',
+            $this->fsScenarioDirectory . $scenarioName . '.scn',
             $this->contextGenerator->getHeaderData($year, $month, $scenarioName) . PHP_EOL . PHP_EOL
                 . $this->bodyGenerator->getBody($code, $period, $year, $mixedNavies)
         );

@@ -64,10 +64,15 @@ class ShipsSelector
             /**
              * The Regia Marina did not have any BC
              * OR
+             * In the game, the french do not have CL
+             * OR
              * No more BC available (very few in the game)
              */
             if (false === array_key_exists($type, $ships[$side])) {
-                $type = array_rand(['BB', 'CA', 'CL']);
+                $tmpTypes = static::BIG_SHIPS_TYPES;
+                $tmpTypes = array_flip($tmpTypes);
+                unset($tmpTypes[$type]);
+                $type = array_flip($tmpTypes);
             }
 
             if (false === array_key_exists($side, $ships)) {
