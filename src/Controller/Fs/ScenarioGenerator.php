@@ -44,7 +44,7 @@ class ScenarioGenerator extends AbstractController
             );
             $data = ["The scenario with the following name has been generated : '$scenarioName'"];
         } catch (\Throwable $exception) {
-            $data = [$exception->getMessage(), $exception->getTraceAsString()];
+            $data = [$exception->getMessage(), $exception->getTrace()];
         }
 
         return new JsonResponse($data);

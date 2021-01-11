@@ -72,8 +72,8 @@ class BodyGenerator
         $divisionCount = $alliedDivisionCount + $axisDivisionCount;
         $body = "DIVISIONCNT=$divisionCount" . PHP_EOL . PHP_EOL;
 
-        $body .= $this->getDivisions($year, $shipQuantity, Scenario::ALLIED_SIDE, $ships, array_rand(static::DIVISION_HEADING));
-        $body .= $this->getDivisions($year, $shipQuantity, Scenario::AXIS_SIDE, $ships, array_rand(static::DIVISION_HEADING));
+        $body .= $this->getDivisions($year, $shipQuantity, Scenario::ALLIED_SIDE, $ships, static::DIVISION_HEADING[array_rand(static::DIVISION_HEADING)]);
+        $body .= $this->getDivisions($year, $shipQuantity, Scenario::AXIS_SIDE, $ships, static::DIVISION_HEADING[array_rand(static::DIVISION_HEADING)]);
 
         return $body;
     }
@@ -135,16 +135,16 @@ class BodyGenerator
         int $shipCount
     ): string {
         return <<<EOT
-            [DIVISION$divId]
-            DIVISIONNAME=Division $divId
-            SIDE=$sideColor
-            FORMATION=Column
-            FORMATIONHEADING=$formationHeading
-            FORMATIONSPACING=$formationSpacing
-            SPEED=16
-            SHIPCNT=$shipCount
-            FLAGSHIPINDEX=0
-            ENCUMBERED=0
+        [DIVISION$divId]
+        DIVISIONNAME=Division $divId
+        SIDE=$sideColor
+        FORMATION=Column
+        FORMATIONHEADING=$formationHeading
+        FORMATIONSPACING=$formationSpacing
+        SPEED=16
+        SHIPCNT=$shipCount
+        FLAGSHIPINDEX=0
+        ENCUMBERED=0
         EOT;
     }
 
@@ -159,13 +159,15 @@ class BodyGenerator
         $shipCount = -1;
         $divisionData = '';
 
-        foreach ($ships as $navy => $types) {
-            foreach ($types as $type => $elements) {
-                if (false === in_array($type, $authorizedTypes, true)) {
-                    continue;
-                }
+        foreach ($ships as $currentSide => $naviesOfThisSide) {
+            foreach ($naviesOfThisSide as $navy => $shipsForThisNavy) {
+                foreach ($shipsForThisNavy as $ship) {
+                    $type = $ship['type'];
 
-                foreach ($elements as $ship) {
+                    if (false === in_array($type, $authorizedTypes, true)) {
+                        continue;
+                    }
+
                     $shipCount++;
                     $shipData = "[DIVISION${divisionCount}SHIP{$shipCount}]" . PHP_EOL;
 
@@ -175,7 +177,7 @@ class BodyGenerator
                             . DIRECTORY_SEPARATOR . str_replace(' ', '', $ship['class']) . '.txt'
                         ) as $line
                     ) {
-                        $shipData .= "[DIVISION${divisionCount}SHIP{$shipCount}]";
+                        //$line = trim($line);
                         $shipData .= $this->decorateLine($line, $ship, $navy, $year, $side, $divisionsHeading);
                     }
 
@@ -210,16 +212,17 @@ class BodyGenerator
                 $line = 'SHORTNAME=' .  substr($ship['name'], 0, 10);
                 break;
             case 'CREWQUALITY':
-                $line = 'CREWQUALITY=' .  array_rand(Ship::CREW_QUALITY);
+                $line = 'CREWQUALITY=' .  Ship::CREW_QUALITY[array_rand(Ship::CREW_QUALITY)];
                 break;
             case 'CREWFATIGUE':
-                $line = 'CREWFATIGUE=' .  array_rand(Ship::CREW_FATIGUE_LEVEL);
+                $line = 'CREWFATIGUE=' .  Ship::CREW_FATIGUE_LEVEL[array_rand(Ship::CREW_FATIGUE_LEVEL)];
                 break;
             case 'NIGHTTRAINING':
-                $line = 'NIGHTTRAINING=' .  array_rand(Ship::CREW_NIGHT_TRAINING);
+                $line = 'NIGHTTRAINING=' .  Ship::CREW_NIGHT_TRAINING[array_rand(Ship::CREW_NIGHT_TRAINING)];
                 break;
             case 'RADARTYPE':
-                $line = 'RADARTYPE=' .  array_rand(ScenarioEnv::RADAR_LEVELS[$year][$navy]);
+                $levels = ScenarioEnv::RADAR_LEVELS[$year][$navy];
+                $line = 'RADARTYPE=' .  $levels[array_rand($levels)];
                 break;
         }
 
@@ -302,14 +305,17 @@ class BodyGenerator
             case 2:
                 return 2;
             case 3:
-                return array_rand([1, 3]); // 1 OR 3
+                $values = [1, 3];
+                return $values[array_rand($values)]; // 1 OR 3
             case 4:
                 return 1;
             case 5:
-                return array_rand([1, 2]);
+                $values = [1, 2];
+                return $values[array_rand($values)]; // 1 OR 2
             case 6:
             case 7:
-                return array_rand([2, 3]);
+                $values = [2, 3];
+                return $values[array_rand($values)]; // 2 OR 3
             case 8:
                 return random_int(2, 4); // 2 to 4
             default:

@@ -35,8 +35,8 @@ class ShipsSelector
 
         // Only one navy per side
         if (false === $mixedNavies) {
-            $allied = [array_rand($allied)];
-            $axis = [array_rand($axis)];
+            $allied = [$allied[array_rand($allied)]];
+            $axis = [$axis[array_rand($axis)]];
         }
 
         return [
@@ -70,18 +70,21 @@ class ShipsSelector
              * OR
              * No more BC available (very few in the game)
              */
-            if (false === array_key_exists($type, $ships[$side])) {
+            if (false === array_key_exists($type, $shipDictionary[$side])) {
                 $tmpTypes = static::BIG_SHIPS_TYPES;
                 $tmpTypes = array_flip($tmpTypes);
                 unset($tmpTypes[$type]);
-                $type = array_flip($tmpTypes);
+                $flipped = array_flip($tmpTypes);
+                $type = $flipped[array_rand($flipped)];
             }
 
             if (false === array_key_exists($side, $ships)) {
                 $ships[$side] = [];
             }
 
-            $ship = array_rand($shipDictionary[$side][$type]);
+            $shipSubset = $shipDictionary[$side][$type];
+            $ship = $shipSubset[array_rand($shipSubset)];
+
             $ships[$side][] = $ship;
             unset($shipDictionary[$side][$type][$ship['name']]);
             if ([] === $shipDictionary[$side][$type]) {
@@ -91,8 +94,9 @@ class ShipsSelector
 
         // 2- Extract DDs
         for ($count = 0; $count < $destroyerCount; $count++) {
-            $side = array_rand($sides);
-            $ship = array_rand($shipDictionary[$side]['DD']);
+            $side = $sides[array_rand($sides)];
+            $shipSubset = $shipDictionary[$side]['DD'];
+            $ship = $shipSubset[array_rand($shipSubset)];
             $ships[$side][] = $ship;
             unset($shipDictionary[$side]['DD'][$ship['name']]);
         }

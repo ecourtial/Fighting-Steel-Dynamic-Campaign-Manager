@@ -57,6 +57,8 @@ class ScenarioGenerator
 
     private function getMonth(string $code, int $period, int $year): int
     {
-        return array_rand(ScenarioEnv::SELECTOR[$code]['periods'][$period]['years'][$year]);
+        $months = ScenarioEnv::SELECTOR[$code]['periods'][$period]['years'][$year];
+
+        return $months[array_rand($months)];
     }
 }

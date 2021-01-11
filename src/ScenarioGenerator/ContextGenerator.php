@@ -138,11 +138,11 @@ class ContextGenerator
 
     private function getAirControl(): int
     {
-        return array_rand(array_keys(ScenarioEnv::AIR_CONTROL));
+        return array_rand(ScenarioEnv::AIR_CONTROL);
     }
 
     private function getBattleType(): int
     {
-        return array_rand(array_keys(ScenarioEnv::BATTLE_TYPE));
+        return array_rand(ScenarioEnv::BATTLE_TYPE);
     }
 }
