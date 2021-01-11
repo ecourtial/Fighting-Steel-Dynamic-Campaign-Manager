@@ -17,13 +17,14 @@ class BodyGenerator
 
     private ShipsSelector $shipsSelector;
     private TextFileReader $textFileReader;
-    private string $projectRootDir;
+    private string $shipsDir;
 
     public function __construct(ShipsSelector $shipsSelector, TextFileReader $textFileReader, string $projectRootDir)
     {
         $this->shipsSelector = $shipsSelector;
         $this->textFileReader = $textFileReader;
-        $this->projectRootDir = $projectRootDir;
+        $this->shipsDir = $projectRootDir . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Data' .
+            DIRECTORY_SEPARATOR . 'ships' . DIRECTORY_SEPARATOR;
     }
 
     public function getBody(
@@ -170,7 +171,7 @@ class BodyGenerator
 
                     foreach (
                         $this->textFileReader->getFileContent(
-                            $this->projectRootDir . DIRECTORY_SEPARATOR . $navy . DIRECTORY_SEPARATOR . $type
+                            $this->shipsDir . $navy . DIRECTORY_SEPARATOR . $type
                             . DIRECTORY_SEPARATOR . str_replace(' ', '', $ship['class']) . '.txt'
                         ) as $line
                     ) {

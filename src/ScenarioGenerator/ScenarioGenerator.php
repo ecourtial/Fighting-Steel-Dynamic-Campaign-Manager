@@ -43,7 +43,7 @@ class ScenarioGenerator
 
         $this->fileWriter->writeMultilineFromString(
             $this->fsScenarioDirectory . $scenarioName . '.scn',
-            $this->contextGenerator->getHeaderData($year, $month, $scenarioName) . PHP_EOL . PHP_EOL
+            $this->contextGenerator->getHeaderData($month, $year, $scenarioName) . PHP_EOL . PHP_EOL
                 . $this->bodyGenerator->getBody($code, $period, $year, $mixedNavies)
         );
 
@@ -52,7 +52,7 @@ class ScenarioGenerator
 
     private function getYear(string $code, int $period): int
     {
-        return array_rand(array_keys(ScenarioEnv::SELECTOR[$code]['periods'][$period]['years']));
+        return array_rand(ScenarioEnv::SELECTOR[$code]['periods'][$period]['years']);
     }
 
     private function getMonth(string $code, int $period, int $year): int

@@ -12,10 +12,12 @@ class ShipsSelector
     public const BIG_SHIPS_TYPES = ['BB', 'BC', 'CA', 'CL'];
 
     private CsvExtractor $csvExtractor;
+    private string $dataDir;
 
-    public function __construct(CsvExtractor $csvExtractor)
+    public function __construct(CsvExtractor $csvExtractor, string $projectRootDir)
     {
         $this->csvExtractor = $csvExtractor;
+        $this->dataDir = $projectRootDir . DIRECTORY_SEPARATOR . 'src'. DIRECTORY_SEPARATOR . 'Data' . DIRECTORY_SEPARATOR;
     }
 
     /** @return string[] */
@@ -58,8 +60,8 @@ class ShipsSelector
 
         // 1- Extract big ships
         for ($count = 0; $count < $bigShipCount; $count++) {
-            $side = array_rand($sides);
-            $type = array_rand(static::BIG_SHIPS_TYPES);
+            $side = $sides[array_rand($sides)];
+            $type = static::BIG_SHIPS_TYPES[array_rand(static::BIG_SHIPS_TYPES)];
 
             /**
              * The Regia Marina did not have any BC
@@ -108,7 +110,7 @@ class ShipsSelector
         }
 
         $this->csvExtractor
-            ->input('Data' . DIRECTORY_SEPARATOR . 'FSP10.3_Ship_List.csv')
+            ->input($this->dataDir . 'FSP10.3_Ship_List.csv')
             ->options(['delimiter' => ';', 'throwError' => true]);
 
         foreach ($this->csvExtractor->extract() as $row) {
