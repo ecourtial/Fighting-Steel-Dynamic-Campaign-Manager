@@ -42,11 +42,12 @@ class ScenarioGenerator extends AbstractController
                 (int) $this->requestStack->getCurrentRequest()->get('period', null),
                 (bool) $this->requestStack->getCurrentRequest()->get('mixedNavies', null),
             );
-            $data = ["The scenario with the following name has been generated : '$scenarioName'"];
+            $message = "The scenario with the following name has been generated : '$scenarioName'";
         } catch (\Throwable $exception) {
-            $data = [$exception->getMessage(), $exception->getTrace()];
+            $message = 'An error occurred: ' . $exception->getMessage();
+            $this->logger->error($exception->getMessage() . ': ' . $exception->getTraceAsString());
         }
 
-        return new JsonResponse($data);
+        return new JsonResponse(['messages' => [$message]]);
     }
 }

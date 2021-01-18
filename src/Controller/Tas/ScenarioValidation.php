@@ -42,13 +42,13 @@ class ScenarioValidation extends AbstractController
             try {
                 $errors = $this->scenarioValidator->validate($scenarioKey);
             } catch (\Throwable $exception) {
-                $errors = [$exception->getMessage()];
+                $errors = ['An error occurred: ' . $exception->getMessage()];
                 $this->logger->error($exception->getMessage() . ': ' . $exception->getTraceAsString());
             }
         } else {
             $errors = ['Missing scenario key'];
         }
 
-        return new JsonResponse($errors);
+        return new JsonResponse(['messages' => $errors]);
     }
 }

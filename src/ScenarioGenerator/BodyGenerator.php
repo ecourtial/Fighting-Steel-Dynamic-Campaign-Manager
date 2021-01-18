@@ -87,6 +87,7 @@ class BodyGenerator
     ): string {
         static $divisionIndex = 0;
         $sideColor = $side === Scenario::ALLIED_SIDE ? 'Blue' : 'Red';
+        static $divisionCount = 0;
         $divisions = '';
 
         // Division with big ships
@@ -102,13 +103,23 @@ class BodyGenerator
 
         // Generate division content
         $divisions .= $this->getDivisionShips(
-            0,
+            $divisionCount,
             $ships,
             ShipsSelector::BIG_SHIPS_TYPES,
             $side,
             $divisionsHeading,
             $year
         );
+
+        // If we do not need small ships let's stop
+        if (
+            Scenario::ALLIED_SIDE === $side && $shipQuantity->getAlliedSmall() === 0
+            || Scenario::AXIS_SIDE === $side && $shipQuantity->getAxisSmall() === 0
+        ) {
+            return $divisions;
+        }
+
+        $divisionCount++;
 
         // Division with small ships
         $divisions .= $this->getDivisionData(
@@ -122,7 +133,8 @@ class BodyGenerator
         $divisionIndex++;
 
         // Generate division content
-        $divisions .= $this->getDivisionShips(1, $ships, ['DD'], $side, $divisionsHeading, $year);
+        $divisions .= $this->getDivisionShips($divisionCount, $ships, ['DD'], $side, $divisionsHeading, $year);
+        $divisionCount++;
 
         return $divisions;
     }
@@ -160,6 +172,10 @@ class BodyGenerator
         $divisionData = '';
 
         foreach ($ships as $currentSide => $naviesOfThisSide) {
+            if ($side !== $currentSide) {
+                continue;
+            }
+
             foreach ($naviesOfThisSide as $navy => $shipsForThisNavy) {
                 foreach ($shipsForThisNavy as $ship) {
                     $type = $ship['type'];
@@ -177,7 +193,6 @@ class BodyGenerator
                             . DIRECTORY_SEPARATOR . str_replace(' ', '', $ship['class']) . '.txt'
                         ) as $line
                     ) {
-                        //$line = trim($line);
                         $shipData .= $this->decorateLine($line, $ship, $navy, $year, $side, $divisionsHeading);
                     }
 
@@ -196,17 +211,17 @@ class BodyGenerator
             return $line;
         }
 
-        [$x, $z] = $this->getShipLocation($divisionsHeading, $side);
-
         switch ($lineArray[0]) {
             case 'XPOSITION':
-                $line = 'XPOSITION=' .  $x;
+                $line = 'XPOSITION=' .  $this->getShipLocation($divisionsHeading, $side, $ship['name'])['x'];
                 break;
             case 'ZPOSITION':
-                $line = 'ZPOSITION=' .  $z;
+                $line = 'ZPOSITION=' .  $this->getShipLocation($divisionsHeading, $side, $ship['name'])['z'];
                 break;
             case 'NAME':
                 $line = 'NAME=' .  $ship['name'];
+                // First call to generate
+                $this->getShipLocation($divisionsHeading, $side, $ship['name']);
                 break;
             case 'SHORTNAME':
                 $line = 'SHORTNAME=' .  substr($ship['name'], 0, 10);
@@ -229,12 +244,18 @@ class BodyGenerator
         return $line . PHP_EOL;
     }
 
-    private function getShipLocation(int $divisionsHeading, string $side): array
+    private function getShipLocation(int $divisionsHeading, string $side, string $shipName): array
     {
         static $x = 0;
         static $z = 0;
         static $previousSide = '';
         static $previousHeading = 0;
+        static $coords = [];
+
+        if (true === array_key_exists($shipName, $coords)) {
+            return $coords[$shipName];
+        }
+
 
         if ($previousSide === '' && $side === Scenario::ALLIED_SIDE) {
             // First iteration (for the allied ships)
@@ -250,7 +271,9 @@ class BodyGenerator
             [$x, $z] = $this->getUpdatedCoordinates($divisionsHeading, $x, $z);
         }
 
-        return [$x, $z];
+        $coords[$shipName] = ['x' => $x, 'z' => $z];
+
+        return $coords[$shipName];
     }
 
     private function getUpdatedCoordinates(int $divisionsHeading, int $x, int $z): array

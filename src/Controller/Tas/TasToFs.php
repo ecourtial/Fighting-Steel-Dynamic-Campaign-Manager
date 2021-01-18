@@ -43,15 +43,15 @@ class TasToFs extends AbstractController
         if (is_string($scenarioKey) && is_string($oneShip) && is_string($switchLevel)) {
             try {
                 $this->scenarioManager->fromTasToFs($scenarioKey, $oneShip, $switchLevel);
-                $errors = [];
+                $message = 'Translation from TAS to FS completed.';
             } catch (\Throwable $exception) {
-                $errors = [$exception->getMessage()];
+                $message = 'An error occurred: ' . $exception->getMessage();
                 $this->logger->error($exception->getMessage() . ': ' . $exception->getTraceAsString());
             }
         } else {
-            $errors = ['Invalid request data!'];
+            $message = 'Invalid request data!';
         }
 
-        return new JsonResponse($errors);
+        return new JsonResponse(['messages' => [$message]]);
     }
 }

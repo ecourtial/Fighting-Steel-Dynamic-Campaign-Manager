@@ -32,12 +32,12 @@ class FsToTas extends AbstractController
     {
         try {
             $this->scenarioManager->fromFsToTas();
-            $errors = [];
+            $message = 'Translation from FS to TAS completed.';
         } catch (\Throwable $exception) {
-            $errors = [$exception->getMessage()];
+            $message = 'An error occurred: ' . $exception->getMessage();
             $this->logger->error($exception->getMessage() . ': ' . $exception->getTraceAsString());
         }
 
-        return new JsonResponse($errors);
+        return new JsonResponse(['messages' => [$message]]);
     }
 }
