@@ -40,7 +40,7 @@ class DebugTest extends TestCase
             $debugController();
             static::fail('An exception was expected! No code should be executed here!');
         } catch (SecurityException $exception) {
-            static::assertEquals('Please make sur that no code is executed!', $exception->getMessage());
+            static::assertEquals('Please be sure that no code is executed!', $exception->getMessage());
         }
     }
 }

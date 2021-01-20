@@ -2,22 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\ScenarioGenerator;
+namespace App\ScenarioGenerator\Engine;
 
 use App\Core\Tas\Scenario\Scenario;
-use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
+
 
 class ShipsSelector
 {
     public const BIG_SHIPS_TYPES = ['BB', 'BC', 'CA', 'CL'];
+    public const DATA_SOURCE_DICTIONARY = 'FSP10.3_Ship_List.csv';
 
-    private CsvExtractor $csvExtractor;
-    private string $dataDir;
+    private DictionaryExtractor $dictionaryExtractor;
+    private string $dictionaryFile;
 
-    public function __construct(CsvExtractor $csvExtractor, string $projectRootDir)
+    public function __construct(DictionaryExtractor $dictionary, string $projectRootDir)
     {
-        $this->csvExtractor = $csvExtractor;
-        $this->dataDir = $projectRootDir . DIRECTORY_SEPARATOR . 'src'. DIRECTORY_SEPARATOR . 'Data' . DIRECTORY_SEPARATOR;
+        $this->dictionaryExtractor = $dictionary;
+        $this->dictionaryFile = $projectRootDir . DIRECTORY_SEPARATOR . 'src'
+            . DIRECTORY_SEPARATOR . 'Data' . DIRECTORY_SEPARATOR . static::DATA_SOURCE_DICTIONARY;
     }
 
     /** @return string[] */
@@ -55,7 +57,7 @@ class ShipsSelector
 
     private function selectShips(int $bigShipCount, int $destroyerCount, array $sides): array
     {
-        $shipDictionary = $this->getShipDictionary();
+        $shipDictionary = $this->dictionaryExtractor->getShipDictionary($this->dictionaryFile);
         $ships = [];
 
         // 1- Extract big ships
@@ -99,44 +101,6 @@ class ShipsSelector
             $ship = $shipSubset[array_rand($shipSubset)];
             $ships[$side][] = $ship;
             unset($shipDictionary[$side]['DD'][$ship['name']]);
-        }
-
-        return $ships;
-    }
-
-    /** @return string[][][] */
-    private function getShipDictionary(): array
-    {
-        static $ships = [];
-
-        if ([] !== $ships) {
-            return $ships;
-        }
-
-        $this->csvExtractor
-            ->input($this->dataDir . 'FSP10.3_Ship_List.csv')
-            ->options(['delimiter' => ';', 'throwError' => true]);
-
-        foreach ($this->csvExtractor->extract() as $row) {
-            /* @var \Wizaplace\Etl\Row $row */
-            $ship = $row->toArray();
-
-            if ('Yes' === $ship['AvailableForRandom']) {
-                $navy  = trim($ship['Navy']);
-                $type  = trim($ship['Type']);
-                $class = trim($ship['Class']);
-                $name  = trim($ship['Name']);
-
-                if (false === array_key_exists($navy, $ships)) {
-                    $ships[$navy] = [];
-                }
-
-                if (false === array_key_exists($type, $ships[$navy])) {
-                    $ships[$navy][$type] = [];
-                }
-
-                $ships[$navy][$type][$name] = ['name' => $name, 'class' => $class, 'type' => $type];
-            }
         }
 
         return $ships;

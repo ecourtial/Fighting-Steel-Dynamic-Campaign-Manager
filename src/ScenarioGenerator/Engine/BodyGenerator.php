@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ScenarioGenerator;
+namespace App\ScenarioGenerator\Engine;
 
 use App\Core\Fs\Scenario\Ship\Ship;
 use App\Core\Tas\Scenario\Scenario;
@@ -10,19 +10,21 @@ use App\Core\File\TextFileReader;
 
 class BodyGenerator
 {
-    public const DIVISION_SPACING = 500;
-    public const DIVISION_HEADING = [0, 90, 180, 270];
-    public const ALLIED_X = 40000;
-    public const ALLIED_Z = 40000;
-
     private ShipsSelector $shipsSelector;
     private TextFileReader $textFileReader;
     private string $shipsDir;
+    private CoordinatesCalculator $coordinatesCalculator;
 
-    public function __construct(ShipsSelector $shipsSelector, TextFileReader $textFileReader, string $projectRootDir)
-    {
+    public function __construct(
+        ShipsSelector $shipsSelector,
+        TextFileReader $textFileReader,
+        CoordinatesCalculator $coordinatesCalculator,
+        string $projectRootDir
+    ) {
         $this->shipsSelector = $shipsSelector;
         $this->textFileReader = $textFileReader;
+        $this->coordinatesCalculator = $coordinatesCalculator;
+
         $this->shipsDir = $projectRootDir . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Data' .
             DIRECTORY_SEPARATOR . 'ships' . DIRECTORY_SEPARATOR;
     }
@@ -72,8 +74,8 @@ class BodyGenerator
         $divisionCount = $alliedDivisionCount + $axisDivisionCount;
         $body = "DIVISIONCNT=$divisionCount" . PHP_EOL . PHP_EOL;
 
-        $body .= $this->getDivisions($year, $shipQuantity, Scenario::ALLIED_SIDE, $ships, static::DIVISION_HEADING[array_rand(static::DIVISION_HEADING)]);
-        $body .= $this->getDivisions($year, $shipQuantity, Scenario::AXIS_SIDE, $ships, static::DIVISION_HEADING[array_rand(static::DIVISION_HEADING)]);
+        $body .= $this->getDivisions($year, $shipQuantity, Scenario::ALLIED_SIDE, $ships);
+        $body .= $this->getDivisions($year, $shipQuantity, Scenario::AXIS_SIDE, $ships);
 
         return $body;
     }
@@ -82,20 +84,20 @@ class BodyGenerator
         int $year,
         ShipQuantity $shipQuantity,
         string $side,
-        array $ships,
-        int $divisionsHeading
+        array $ships
     ): string {
         static $divisionIndex = 0;
         $sideColor = $side === Scenario::ALLIED_SIDE ? 'Blue' : 'Red';
         static $divisionCount = 0;
         $divisions = '';
 
+        $divisionsHeading = CoordinatesCalculator::DIVISION_HEADING[array_rand(CoordinatesCalculator::DIVISION_HEADING)];
+
         // Division with big ships
         $divisions .= $this->getDivisionData(
             $divisionIndex,
             $sideColor,
             $divisionsHeading,
-            static::DIVISION_SPACING,
             $side === Scenario::ALLIED_SIDE ? $shipQuantity->getAlliedBig() : $shipQuantity->getAxisBig()
         ) . PHP_EOL;
 
@@ -126,7 +128,6 @@ class BodyGenerator
             $divisionIndex,
             $sideColor,
             $divisionsHeading,
-            static::DIVISION_SPACING,
             $side === Scenario::ALLIED_SIDE ? $shipQuantity->getAlliedSmall() : $shipQuantity->getAxisSmall()
         ) . PHP_EOL;
 
@@ -143,9 +144,10 @@ class BodyGenerator
         int $divId,
         string $sideColor,
         int $formationHeading,
-        int $formationSpacing,
         int $shipCount
     ): string {
+        $formationSpacing = CoordinatesCalculator::DIVISION_SPACING;
+
         return <<<EOT
         [DIVISION$divId]
         DIVISIONNAME=Division $divId
@@ -213,15 +215,13 @@ class BodyGenerator
 
         switch ($lineArray[0]) {
             case 'XPOSITION':
-                $line = 'XPOSITION=' .  $this->getShipLocation($divisionsHeading, $side, $ship['name'])['x'];
+                $line = 'XPOSITION=' .  $this->coordinatesCalculator->getShipLocation($divisionsHeading, $side, $ship['name'])['x'];
                 break;
             case 'ZPOSITION':
-                $line = 'ZPOSITION=' .  $this->getShipLocation($divisionsHeading, $side, $ship['name'])['z'];
+                $line = 'ZPOSITION=' . $this->coordinatesCalculator->getShipLocation($divisionsHeading, $side, $ship['name'])['z'];
                 break;
             case 'NAME':
                 $line = 'NAME=' .  $ship['name'];
-                // First call to generate
-                $this->getShipLocation($divisionsHeading, $side, $ship['name']);
                 break;
             case 'SHORTNAME':
                 $line = 'SHORTNAME=' .  substr($ship['name'], 0, 10);
@@ -239,87 +239,15 @@ class BodyGenerator
                 $levels = ScenarioEnv::RADAR_LEVELS[$year][$navy];
                 $line = 'RADARTYPE=' .  $levels[array_rand($levels)];
                 break;
+            case 'YARDSXPOSITION':
+                $line = 'YARDSXPOSITION=' . $this->coordinatesCalculator->getShipLocation($divisionsHeading, $side, $ship['name'])['x_y'];
+                break;
+            case 'YARDSZPOSITION':
+                $line = 'YARDSZPOSITION=' . $this->coordinatesCalculator->getShipLocation($divisionsHeading, $side, $ship['name'])['z_y'];
+                break;
         }
 
         return $line . PHP_EOL;
-    }
-
-    private function getShipLocation(int $divisionsHeading, string $side, string $shipName): array
-    {
-        static $x = 0;
-        static $z = 0;
-        static $previousSide = '';
-        static $previousHeading = 0;
-        static $coords = [];
-
-        if (true === array_key_exists($shipName, $coords)) {
-            return $coords[$shipName];
-        }
-
-
-        if ($previousSide === '' && $side === Scenario::ALLIED_SIDE) {
-            // First iteration (for the allied ships)
-            $x = static::ALLIED_X;
-            $z = static::ALLIED_Z;
-            $previousSide = Scenario::ALLIED_SIDE;
-            $previousHeading = $divisionsHeading; // Use to keep a local trace of the allied heading
-        } elseif ($side !== $previousSide) {
-            // First iteration for the axis ships
-            $previousSide = Scenario::AXIS_SIDE;
-            [$x, $z] = $this->generateAxisStartLocation($previousHeading, static::ALLIED_X, static::ALLIED_Z);
-        } else {
-            [$x, $z] = $this->getUpdatedCoordinates($divisionsHeading, $x, $z);
-        }
-
-        $coords[$shipName] = ['x' => $x, 'z' => $z];
-
-        return $coords[$shipName];
-    }
-
-    private function getUpdatedCoordinates(int $divisionsHeading, int $x, int $z): array
-    {
-        switch ($divisionsHeading) {
-            case 0:
-                $z -= static::DIVISION_SPACING;
-                break;
-            case 90:
-                $x -= static::DIVISION_SPACING;
-                break;
-            case 180:
-                $z += static::DIVISION_SPACING;
-                break;
-            case 270:
-                $x += static::DIVISION_SPACING;
-                break;
-            default:
-                throw new \InvalidArgumentException("Unknown division heading : '$divisionsHeading'");
-        }
-
-        return [$x, $z];
-    }
-
-    private function generateAxisStartLocation(int $alliedHeading, int $alliedX, int $alliedZ): array
-    {
-        $distance = random_int(13000, 27000);
-
-        switch ($alliedHeading) {
-            case 0:
-                $alliedZ += $distance;
-                break;
-            case 90:
-                $alliedX += $distance;
-                break;
-            case 180:
-                $alliedZ -= $distance;
-                break;
-            case 270:
-                $alliedX -= $distance;
-                break;
-            default:
-                throw new \InvalidArgumentException("Unknown division heading : '$alliedHeading'");
-        }
-
-        return [$alliedX, $alliedZ];
     }
 
     private function getBigShipCount(int $shipQuantity): int

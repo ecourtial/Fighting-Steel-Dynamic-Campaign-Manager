@@ -36,8 +36,8 @@ class HomeTest extends WebTestCase
 
         $controller = new Home($scenarioRepo);
         $response = $controller();
-        $content = \json_decode($response->getContent());
-        static::assertEquals(['Sorry captain!'], $content);
+        $content = \json_decode($response->getContent(), true);
+        static::assertEquals(['messages' => ['Sorry captain!']], $content);
         $this->checkResponse($response);
     }
 }

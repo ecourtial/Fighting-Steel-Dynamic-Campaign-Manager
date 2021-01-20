@@ -33,10 +33,10 @@ class ScenarioValidationTest extends TestCase
 
         $controller = new ScenarioValidation($requestStack, $logger, $scenarioValidator);
         $response = $controller();
-        $content = (\json_decode($response->getContent()));
+        $content = (\json_decode($response->getContent(), true));
 
         static::assertInstanceOf(JsonResponse::class, $response);
-        static::assertEquals([], $content);
+        static::assertEquals(['messages' => []], $content);
         $this->checkResponse($response);
     }
 
@@ -52,10 +52,10 @@ class ScenarioValidationTest extends TestCase
 
         $controller = new ScenarioValidation($requestStack, $logger, $scenarioValidator);
         $response = $controller();
-        $content = (\json_decode($response->getContent()));
+        $content = (\json_decode($response->getContent(),true));
 
         static::assertInstanceOf(JsonResponse::class, $response);
-        static::assertEquals(['Oh sooorrrryyy'], $content);
+        static::assertEquals(['messages' => ['An error occurred: Oh sooorrrryyy']], $content);
         $this->checkResponse($response);
         static::assertTrue($logger->hasErrorRecords());
     }
@@ -69,10 +69,10 @@ class ScenarioValidationTest extends TestCase
 
         $controller = new ScenarioValidation($requestStack, $logger, $scenarioValidator);
         $response = $controller();
-        $content = (\json_decode($response->getContent()));
+        $content = (\json_decode($response->getContent(), true));
 
         static::assertInstanceOf(JsonResponse::class, $response);
-        static::assertEquals(['Missing scenario key'], $content);
+        static::assertEquals(['messages' => ['Missing scenario key']], $content);
         $this->checkResponse($response);
     }
 

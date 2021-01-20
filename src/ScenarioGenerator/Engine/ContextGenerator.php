@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ScenarioGenerator;
+namespace App\ScenarioGenerator\Engine;
 
 class ContextGenerator
 {

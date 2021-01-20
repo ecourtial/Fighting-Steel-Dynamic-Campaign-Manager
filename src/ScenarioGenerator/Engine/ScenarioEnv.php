@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ScenarioGenerator;
+namespace App\ScenarioGenerator\Engine;
 
 use App\Core\Tas\Scenario\Scenario;
 use App\Core\Fs\Scenario\Ship\Ship;

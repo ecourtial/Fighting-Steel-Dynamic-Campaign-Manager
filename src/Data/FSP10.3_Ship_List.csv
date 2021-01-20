@@ -472,7 +472,7 @@ RN;BB;Royal Sovereign;Royal Oak;Yes
 RN;BB;Sovetskii Soyuz;Sovetskii Soyuz;No
 RN;BB;Sovetskii Soyuz;Sovetskaia Ukraina;No
 RN;BB;Sovetskii Soyuz;Sovetskaia Rossia;No
-RN;BB;Vanguard;Vanguard;Yes
+RN;BB;Vanguard;Vanguard;No
 MN;BC;Dunkerque;Dunkerque;Yes
 MN;BC;Dunkerque;Strasbourg;Yes
 RN;BC;Hood;Hood;Yes
@@ -777,10 +777,10 @@ RN;DD;QR Class;Raider;Yes
 RN;DD;QR Class;Redoubt;Yes
 RN;DD;QR Class;Relentless;Yes
 RN;DD;QR Class;Rotherham;Yes
-RN;DD;RN Sub;RN Sub 1;Yes
-RN;DD;RN Sub;RN Sub 2;Yes
-RN;DD;RN Sub;RN Sub 3;Yes
-RN;DD;RN Sub;RN Sub 4;Yes
+RN;DD;RN Sub;RN Sub 1;No
+RN;DD;RN Sub;RN Sub 2;No
+RN;DD;RN Sub;RN Sub 3;No
+RN;DD;RN Sub;RN Sub 4;No
 RN;DD;STUV Class;Saumarez;Yes
 RN;DD;STUV Class;Savage;Yes
 RN;DD;STUV Class;Success;Yes

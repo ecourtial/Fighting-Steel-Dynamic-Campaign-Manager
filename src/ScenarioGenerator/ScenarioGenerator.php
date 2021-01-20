@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\ScenarioGenerator;
 
 use App\Core\File\TextFileWriter;
+use App\ScenarioGenerator\Engine\ContextGenerator;
+use App\ScenarioGenerator\Engine\BodyGenerator;
+use App\ScenarioGenerator\Engine\ScenarioEnv;
 
 class ScenarioGenerator
 {
