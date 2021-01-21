@@ -88,7 +88,6 @@ class BodyGenerator
     ): string {
         static $divisionIndex = 0;
         $sideColor = $side === Scenario::ALLIED_SIDE ? 'Blue' : 'Red';
-        static $divisionCount = 0;
         $divisions = '';
 
         $divisionsHeading = CoordinatesCalculator::DIVISION_HEADING[array_rand(CoordinatesCalculator::DIVISION_HEADING)];
@@ -101,17 +100,17 @@ class BodyGenerator
             $side === Scenario::ALLIED_SIDE ? $shipQuantity->getAlliedBig() : $shipQuantity->getAxisBig()
         ) . PHP_EOL;
 
-        $divisionIndex++;
-
         // Generate division content
         $divisions .= $this->getDivisionShips(
-            $divisionCount,
+            $divisionIndex,
             $ships,
             ShipsSelector::BIG_SHIPS_TYPES,
             $side,
             $divisionsHeading,
             $year
         );
+
+        $divisionIndex++;
 
         // If we do not need small ships let's stop
         if (
@@ -121,8 +120,6 @@ class BodyGenerator
             return $divisions;
         }
 
-        $divisionCount++;
-
         // Division with small ships
         $divisions .= $this->getDivisionData(
             $divisionIndex,
@@ -131,11 +128,9 @@ class BodyGenerator
             $side === Scenario::ALLIED_SIDE ? $shipQuantity->getAlliedSmall() : $shipQuantity->getAxisSmall()
         ) . PHP_EOL;
 
-        $divisionIndex++;
-
         // Generate division content
-        $divisions .= $this->getDivisionShips($divisionCount, $ships, ['DD'], $side, $divisionsHeading, $year);
-        $divisionCount++;
+        $divisions .= $this->getDivisionShips($divisionIndex, $ships, ['DD'], $side, $divisionsHeading, $year);
+        $divisionIndex++;
 
         return $divisions;
     }
