@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\ScenarioGenerator\Engine;
 
+use _HumbugBox09702017065e\Symfony\Component\Console\Exception\LogicException;
 use App\Core\Tas\Scenario\Scenario;
 
 
@@ -63,7 +64,10 @@ class ShipsSelector
         // 1- Extract big ships
         for ($count = 0; $count < $bigShipCount; $count++) {
             $side = $sides[array_rand($sides)];
-            $type = static::BIG_SHIPS_TYPES[array_rand(static::BIG_SHIPS_TYPES)];
+
+            $types = static::BIG_SHIPS_TYPES;
+            $type = $types[array_rand($types)];
+
 
             /**
              * The Regia Marina did not have any BC
@@ -73,11 +77,20 @@ class ShipsSelector
              * No more BC available (very few in the game)
              */
             if (false === array_key_exists($type, $shipDictionary[$side])) {
-                $tmpTypes = static::BIG_SHIPS_TYPES;
-                $tmpTypes = array_flip($tmpTypes);
-                unset($tmpTypes[$type]);
-                $flipped = array_flip($tmpTypes);
-                $type = $flipped[array_rand($flipped)];
+                $type = null;
+                while (null === $type) {
+                    $tmpTypes = $types;
+                    $tmpTypes = array_flip($tmpTypes);
+                    unset($tmpTypes[$type]);
+                    $flipped = array_flip($tmpTypes);
+                    $type = $flipped[array_rand($flipped)];
+                    if (false === array_key_exists($type, $shipDictionary[$side])) {
+                        $type = null;
+                    }
+                }
+                if (null === $type) {
+                    throw new LogicException("Impossible to find any valid ship for the navy '$side'");
+                }
             }
 
             if (false === array_key_exists($side, $ships)) {
