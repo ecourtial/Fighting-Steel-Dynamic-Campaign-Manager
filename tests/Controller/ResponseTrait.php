@@ -14,9 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait ResponseTrait
 {
-    public function checkResponse(Response $response): void
+    public function checkResponse(Response $response, int $code): void
     {
-        static::assertEquals(200, $response->getStatusCode());
+        static::assertEquals($code, $response->getStatusCode());
         static::assertEquals(0, $response->getMaxAge());
         static::assertEquals(0, $response->getTtl());
     }

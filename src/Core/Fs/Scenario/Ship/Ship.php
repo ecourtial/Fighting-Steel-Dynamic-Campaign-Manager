@@ -29,6 +29,7 @@ class Ship implements FsShipInterface
     protected ?string $crewQuality;
     protected ?string $crewFatigue;
     protected ?string $nightTraining;
+    protected ?string $radarLevel;
 
     /** @var string[] */
     public const FIELDS_NAME =
@@ -40,7 +41,8 @@ class Ship implements FsShipInterface
         ];
 
     /** @var string[] */
-    public const BATTLE_FIELDS = ['CREWQUALITY', 'CREWFATIGUE', 'NIGHTTRAINING'];
+    public const BATTLE_FIELDS = ['CREWQUALITY', 'CREWFATIGUE', 'NIGHTTRAINING', 'RADARTYPE'];
+    public const LAST_BATTLE_FIELD_KEY = 'RADARTYPE';
 
     /** @var string[] */
     public const SHIP_TYPES = [
@@ -59,8 +61,26 @@ class Ship implements FsShipInterface
     public const LEVEL_VETERAN = 'Veteran';
     public const LEVEL_ELITE = 'Elite';
 
-    public const CREW_FATIGUE_LEVEL = ['Fresh', 'Normal', 'Tired'];
     public const CREW_QUALITY = [self::LEVEL_GREEN, self::LEVEL_AVERAGE, self::LEVEL_VETERAN, self::LEVEL_ELITE];
+
+    public const CREW_FATIGUE_LEVEL = ['Fatigued', 'Tired', 'Normal', 'Fresh'];
+    public const CREW_NIGHT_TRAINING = ['Poor', 'Average', 'Good', 'Expert'];
+
+    public const RADAR_LEVEL_NONE = 'None';
+    public const RADAR_LEVEL_POOR = 'Poor';
+    public const RADAR_LEVEL_AVERAGE = 'Average';
+    public const RADAR_LEVEL_GOOD = 'Good';
+    public const RADAR_LEVEL_EXCELLENT = 'Excellent';
+    public const RADAR_LEVEL_SUPERB = 'Superb';
+
+    public const RADAR_LEVEL = [
+        self::RADAR_LEVEL_NONE,
+        self::RADAR_LEVEL_POOR,
+        self::RADAR_LEVEL_AVERAGE,
+        self::RADAR_LEVEL_GOOD,
+        self::RADAR_LEVEL_EXCELLENT,
+        self::RADAR_LEVEL_SUPERB,
+    ];
 
     /** @param string[] $data */
     public function __construct(array $data)
@@ -166,7 +186,27 @@ class Ship implements FsShipInterface
 
     public function setNightTraining(string $nightTraining): self
     {
+        if (false === in_array($nightTraining, static::CREW_NIGHT_TRAINING, true)) {
+            throw new InvalidInputException("Unknown crew night training level: '{$nightTraining}'");
+        }
+
         $this->nightTraining = $nightTraining;
+
+        return $this;
+    }
+
+    public function getRadarLevel(): ?string
+    {
+        return $this->radarLevel;
+    }
+
+    public function setRadarLevel(string $radarLevel): self
+    {
+        if (false === in_array($radarLevel, static::RADAR_LEVEL, true)) {
+            throw new InvalidInputException("Unknown ship radar level: '{$radarLevel}'");
+        }
+
+        $this->radarLevel = $radarLevel;
 
         return $this;
     }

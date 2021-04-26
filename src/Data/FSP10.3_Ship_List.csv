@@ -1,0 +1,1267 @@
+Navy;Type;Class;Name;AvailableForRandom
+IJN;BB;Fuso;Fuso;Yes
+IJN;BB;Fuso;Yamashiro;Yes
+IJN;BB;Ise;Ise;Yes
+IJN;BB;Ise;Hyuga;Yes
+IJN;BB;Nagato;Nagato;Yes
+IJN;BB;Nagato;Mutsu;Yes
+IJN;BB;Yamato;Yamato;Yes
+IJN;BB;Yamato;Musashi;Yes
+IJN;BC;Kongo;Kongo;Yes
+IJN;BC;Kongo;Hiei;Yes
+IJN;BC;Kongo;Kirishima;Yes
+IJN;BC;Kongo;Haruna;Yes
+IJN;CA;Aoba;Aoba;Yes
+IJN;CA;Aoba;Kinugasa;Yes
+IJN;CA;Furutaka;Furutaka;Yes
+IJN;CA;Furutaka;Kako;Yes
+IJN;CA;IJN CV;IJN CV 1;No
+IJN;CA;IJN CV;IJN CV 2;No
+IJN;CA;IJN CV;IJN CV 3;No
+IJN;CA;IJN CV;IJN CV 4;No
+IJN;CA;IJN CV;IJN CV 5;No
+IJN;CA;IJN CV;IJN CV 6;No
+IJN;CA;Mogami;Mogami;Yes
+IJN;CA;Mogami;Mikuma;Yes
+IJN;CA;Mogami;Suzuya;Yes
+IJN;CA;Mogami;Kumano;Yes
+IJN;CA;Nachi;Nachi;Yes
+IJN;CA;Nachi;Ashigara;Yes
+IJN;CA;Nachi;Myoko;Yes
+IJN;CA;Nachi;Haguro;Yes
+IJN;CA;Takao;Takao;Yes
+IJN;CA;Takao;Atago;Yes
+IJN;CA;Takao;Maya;Yes
+IJN;CA;Takao;Chokai;Yes
+IJN;CA;Tone;Tone;Yes
+IJN;CA;Tone;Chikuma;Yes
+IJN;CL;Agano;Agano;Yes
+IJN;CL;Agano;Noshiro;Yes
+IJN;CL;Agano;Yahagi;Yes
+IJN;CL;Agano;Sakawa;Yes
+IJN;CL;IJN CVE;IJN CVE 1;No
+IJN;CL;IJN CVE;IJN CVE 2;No
+IJN;CL;IJN CVE;IJN CVE 3;No
+IJN;CL;IJN CVE;IJN CVE 4;No
+IJN;CL;IJN CVE;IJN CVE 5;No
+IJN;CL;IJN CVE;IJN CVE 6;No
+IJN;CL;IJN Q Ship;Q Ship 9;No
+IJN;CL;IJN Q Ship;Q Ship 10;No
+IJN;CL;IJN Q Ship;Q Ship 11;No
+IJN;CL;IJN Q Ship;Q Ship 12;No
+IJN;CL;Kitakami;Kitakami;Yes
+IJN;CL;Kitakami;Oi;Yes
+IJN;CL;Kuma;Kuma;Yes
+IJN;CL;Kuma;Tama;Yes
+IJN;CL;Kuma;Kiso;Yes
+IJN;CL;Nagara;Nagara;Yes
+IJN;CL;Nagara;Yuru;Yes
+IJN;CL;Nagara;Isuzu;Yes
+IJN;CL;Nagara;Natori;Yes
+IJN;CL;Nagara;Abukuma;Yes
+IJN;CL;Nagara;Kinu;Yes
+IJN;CL;Sendai;Sendai;Yes
+IJN;CL;Sendai;Jintsu;Yes
+IJN;CL;Sendai;Naka;Yes
+IJN;CL;Tenryu;Tenryu;Yes
+IJN;CL;Tenryu;Tatsuta;Yes
+IJN;CL;Yubari;Yubari;Yes
+IJN;DD;Akatsuki;Akatsuki;Yes
+IJN;DD;Akatsuki;Hibiki;Yes
+IJN;DD;Akatsuki;Ikazuchi;Yes
+IJN;DD;Akatsuki;Inazuma;Yes
+IJN;DD;Akitsuki;Akitsuki;Yes
+IJN;DD;Akitsuki;Terutsuki;Yes
+IJN;DD;Akitsuki;Suzutsuki;Yes
+IJN;DD;Akitsuki;Hatsusuki;Yes
+IJN;DD;Asashio;Asashio;Yes
+IJN;DD;Asashio;Oshio;Yes
+IJN;DD;Asashio;Michishio;Yes
+IJN;DD;Asashio;Arashio;Yes
+IJN;DD;Asashio;Natsugumo;Yes
+IJN;DD;Asashio;Yamagumo;Yes
+IJN;DD;Asashio;Minegumo;Yes
+IJN;DD;Asashio;Asagumo;Yes
+IJN;DD;Asashio;Arare;Yes
+IJN;DD;Asashio;Kisumi;Yes
+IJN;DD;Fubuki;Fubuki;Yes
+IJN;DD;Fubuki;Shinonome;Yes
+IJN;DD;Fubuki;Usugumo;Yes
+IJN;DD;Fubuki;Shirakumo;Yes
+IJN;DD;Fubuki;Isonami;Yes
+IJN;DD;Fubuki;Shirayuki;Yes
+IJN;DD;Fubuki;Hatsuyuki;Yes
+IJN;DD;Fubuki;Miyuki;Yes
+IJN;DD;Fubuki;Murakumo;Yes
+IJN;DD;Fubuki;Uranami;Yes
+IJN;DD;Fubuki;Shikinami;Yes
+IJN;DD;Fubuki;Ayanami;Yes
+IJN;DD;Fubuki;Asagiri;Yes
+IJN;DD;Fubuki;Sagiri;Yes
+IJN;DD;Fubuki;Yugiri;Yes
+IJN;DD;Fubuki;Amagiri;Yes
+IJN;DD;Fubuki;Oboro;Yes
+IJN;DD;Fubuki;Akebono;Yes
+IJN;DD;Fubuki;Sazanami;Yes
+IJN;DD;Fubuki;Ushio;Yes
+IJN;DD;Hatsuharu;Hatsuharu;Yes
+IJN;DD;Hatsuharu;Nenohi;Yes
+IJN;DD;Hatsuharu;Hatsushimo;Yes
+IJN;DD;Hatsuharu;Wakaba;Yes
+IJN;DD;Hatsuharu;Yugure;Yes
+IJN;DD;Hatsuharu;Ariake;Yes
+IJN;DD;IJN Sub;IJN Sub 1;No
+IJN;DD;IJN Sub;IJN Sub 2;No
+IJN;DD;IJN Sub;IJN Sub 3;No
+IJN;DD;IJN Sub;IJN Sub 4;No
+IJN;DD;Kagero;Kagero;Yes
+IJN;DD;Kagero;Kuroshio;Yes
+IJN;DD;Kagero;Oyashio;Yes
+IJN;DD;Kagero;Hatsukaze;Yes
+IJN;DD;Kagero;Natsushio;Yes
+IJN;DD;Kagero;Yukikaze;Yes
+IJN;DD;Kagero;Hayashio;Yes
+IJN;DD;Kagero;Maikaze;Yes
+IJN;DD;Kagero;Isokaze;Yes
+IJN;DD;Kagero;Shiranui;Yes
+IJN;DD;Kagero;Amatsukaze;Yes
+IJN;DD;Kagero;Tokitsukaze;Yes
+IJN;DD;Kagero;Urakaze;Yes
+IJN;DD;Kagero;Hamakaze;Yes
+IJN;DD;Kagero;Nowaki;Yes
+IJN;DD;Kagero;Arashi;Yes
+IJN;DD;Kagero;Hagikaze;Yes
+IJN;DD;Kagero;Tanikaze;Yes
+IJN;DD;Kamikaze;Kamikaze;Yes
+IJN;DD;Kamikaze;Asakaze;Yes
+IJN;DD;Kamikaze;Harukaze;Yes
+IJN;DD;Kamikaze;Matsukaze;Yes
+IJN;DD;Kamikaze;Hatakaze;Yes
+IJN;DD;Kamikaze;Oite;Yes
+IJN;DD;Kamikaze;Hayate;Yes
+IJN;DD;Kamikaze;Asanagi;Yes
+IJN;DD;Kamikaze;Yunagi;Yes
+IJN;DD;Matsu;Matsu;Yes
+IJN;DD;Matsu;Momo;Yes
+IJN;DD;Matsu;Take;Yes
+IJN;DD;Matsu;Ume;Yes
+IJN;DD;Matsu;Kuwa;Yes
+IJN;DD;Matsu;Maki;Yes
+IJN;DD;Matsu;Kiri;Yes
+IJN;DD;Matsu;Sugi;Yes
+IJN;DD;Matsu;Momi;Yes
+IJN;DD;Matsu;Hinoki;Yes
+IJN;DD;Minekaze;Minekaze;Yes
+IJN;DD;Minekaze;Sawakaze;Yes
+IJN;DD;Minekaze;Okikaze;Yes
+IJN;DD;Minekaze;Hakaze;Yes
+IJN;DD;Minekaze;Akikaze;Yes
+IJN;DD;Minekaze;Shiokaze;Yes
+IJN;DD;Minekaze;Yukaze;Yes
+IJN;DD;Minekaze;Hokaze;Yes
+IJN;DD;Minekaze;Tachikaze;Yes
+IJN;DD;Minekaze;Nokaze;Yes
+IJN;DD;Minekaze;Namikaze;Yes
+IJN;DD;Minekaze;Numakaze;Yes
+IJN;DD;Mutsuki;Mutsuki;Yes
+IJN;DD;Mutsuki;Kisaragi;Yes
+IJN;DD;Mutsuki;Yayoi;Yes
+IJN;DD;Mutsuki;Udzuki;Yes
+IJN;DD;Mutsuki;Satsuki;Yes
+IJN;DD;Mutsuki;Minadsuki;Yes
+IJN;DD;Mutsuki;Fumidsuki;Yes
+IJN;DD;Mutsuki;Nagatsuki;Yes
+IJN;DD;Mutsuki;Kikudsuki;Yes
+IJN;DD;Mutsuki;Mikadsuki;Yes
+IJN;DD;Mutsuki;Mochizuki;Yes
+IJN;DD;Mutsuki;Yudsuki;Yes
+IJN;DD;Shimakaze;Shimakaze;Yes
+IJN;DD;Shiratsuyu;Shiratsuyu;Yes
+IJN;DD;Shiratsuyu;Shigure;Yes
+IJN;DD;Shiratsuyu;Murasame;Yes
+IJN;DD;Shiratsuyu;Yudachi;Yes
+IJN;DD;Shiratsuyu;Samidare;Yes
+IJN;DD;Shiratsuyu;Harusame;Yes
+IJN;DD;Shiratsuyu;Yamakaze;Yes
+IJN;DD;Shiratsuyu;Kawakaze;Yes
+IJN;DD;Shiratsuyu;Umikaze;Yes
+IJN;DD;Shiratsuyu;Suzukaze;Yes
+IJN;DD;Yugumo;Yugumo;Yes
+IJN;DD;Yugumo;Akigumo;Yes
+IJN;DD;Yugumo;Kazegumo;Yes
+IJN;DD;Yugumo;Makigumo;Yes
+IJN;DD;Yugumo;Makinami;Yes
+IJN;DD;Yugumo;Takanami;Yes
+IJN;DD;Yugumo;Naganami;Yes
+IJN;DD;Yugumo;Onami;Yes
+IJN;TR;IJN Large Merch;L Merch 21;No
+IJN;TR;IJN Large Merch;L Merch 22;No
+IJN;TR;IJN Large Merch;L Merch 23;No
+IJN;TR;IJN Large Merch;L Merch 24;No
+IJN;TR;IJN Large Merch;L Merch 25;No
+IJN;TR;IJN Large Merch;L Merch 26;No
+IJN;TR;IJN Large Merch;L Merch 27;No
+IJN;TR;IJN Large Merch;L Merch 28;No
+IJN;TR;IJN Large Merch;L Merch 29;No
+IJN;TR;IJN Large Merch;L Merch 30;No
+IJN;TR;IJN Small Merch;S Merch 21;No
+IJN;TR;IJN Small Merch;S Merch 22;No
+IJN;TR;IJN Small Merch;S Merch 23;No
+IJN;TR;IJN Small Merch;S Merch 24;No
+IJN;TR;IJN Small Merch;S Merch 25;No
+IJN;TR;IJN Small Merch;S Merch 26;No
+IJN;TR;IJN Small Merch;S Merch 27;No
+IJN;TR;IJN Small Merch;S Merch 28;No
+IJN;TR;IJN Small Merch;S Merch 29;No
+IJN;TR;IJN Small Merch;S Merch 30;No
+IJN;TR;IJN Transport;Aikoku Maru;No
+IJN;TR;IJN Transport;Aiyo Maru;No
+IJN;TR;IJN Transport;Azuma Maru;No
+IJN;TR;IJN Transport;Boston Maru;No
+IJN;TR;IJN Transport;Brazil Maru;No
+IJN;TR;IJN Transport;Brisbane Maru;No
+IJN;TR;IJN Transport;Daifuku Maru;No
+IJN;TR;IJN Transport;Fukumaya Maru;No
+IJN;TR;IJN Transport;Hokoku Maru;No
+IJN;TR;IJN Transport;Hong Kong Maru;No
+IJN;TR;IJN Transport;Kaga Maru;No
+IJN;TR;IJN Transport;Kozui Maru;No
+IJN;TR;IJN Transport;Lisbon Maru;No
+IJN;TR;IJN Transport;Nako Maru;No
+IJN;TR;IJN Transport;Nana Maru;No
+IJN;TR;IJN Transport;Oigawa Maru;No
+IJN;TR;IJN Transport;Sado Maru;No
+IJN;TR;IJN Transport;Sakido Maru;No
+IJN;TR;IJN Transport;Sasago Maru;No
+IJN;TR;IJN Transport;Maru 220;No
+IJN;TR;IJN Transport;Maru 221;No
+IJN;TR;IJN Transport;Maru 222;No
+IJN;TR;IJN Transport;Maru 223;No
+IJN;TR;IJN Transport;Maru 224;No
+IJN;TR;IJN Transport;Maru 225;No
+IJN;TR;IJN Transport;Maru 226;No
+IJN;TR;IJN Transport;Maru 227;No
+IJN;TR;IJN Transport;Maru 228;No
+IJN;TR;IJN Transport;Maru 229;No
+IJN;TR;IJN Transport;Maru 230;No
+KM;BB;Bismarck;Bismarck;Yes
+KM;BB;Bismarck;Tirpitz;Yes
+RM;BB;Cavour;Cavour;Yes
+RM;BB;Cavour;Cesare;Yes
+RM;BB;Doria;Andrea Doria;Yes
+RM;BB;Doria;Caio Duilio;Yes
+KM;BB;H Class;Hindenburg;No
+KM;BB;H Class;Ludendorf;No
+RM;BB;Littorio;Littorio;Yes
+RM;BB;Littorio;Roma;Yes
+RM;BB;Littorio;Vittorio Veneto;Yes
+KM;BB;Schlesien;Schlesien;Yes
+KM;BB;Schlesien;Schleswig Hol;Yes
+KM;BC;Scharnhorst;Scharnhorst;Yes
+KM;BC;Scharnhorst;Gneisenau;Yes
+KM;BC;Scharnhorst 15;Scharnhorst 15;No
+KM;CA;Deutschland;Lutzow;Yes
+KM;CA;Deutschland;Graf Spee;Yes
+KM;CA;Deutschland;Scheer;Yes
+KM;CA;Hipper I;Hipper;Yes
+KM;CA;Hipper I;Blucher;Yes
+KM;CA;Hipper I;Prinz Eugen;Yes
+KM;CA;KM CV;KM CV 1;No
+KM;CA;KM CV;KM CV 2;No
+KM;CA;KM CV;KM CV 3;No
+KM;CA;KM CV;KM CV 4;No
+KM;CA;KM CV;KM CV 5;No
+KM;CA;KM CV;KM CV 6;No
+RM;CA;Trento;Trento;Yes
+RM;CA;Trento;Trieste;Yes
+RM;CA;Zara;Zara;Yes
+RM;CA;Zara;Gorizia;Yes
+RM;CA;Zara;Pola;Yes
+RM;CA;Zara;Fiume;Yes
+RM;CL;Abruzzi;Abruzzi;Yes
+RM;CL;Abruzzi;Garibaldi;Yes
+RM;CL;Duca D Aosta;Duca D Aosta;Yes
+RM;CL;Duca D Aosta;Savoia;Yes
+KM;CL;KClass;Konigsberg;Yes
+KM;CL;KClass;Karlsruhe;Yes
+KM;CL;KClass;Koln;Yes
+KM;CL;KM CVE;KM CVE 1;No
+KM;CL;KM CVE;KM CVE 2;No
+KM;CL;KM CVE;KM CVE 3;No
+KM;CL;KM CVE;KM CVE 4;No
+KM;CL;KM CVE;KM CVE 5;No
+KM;CL;KM CVE;KM CVE 6;No
+KM;CL;KM Q Ship;Q Ship 1;No
+KM;CL;KM Q Ship;Q Ship 2;No
+KM;CL;KM Q Ship;Q Ship 3;No
+KM;CL;KM Q Ship;Q Ship 4;No
+KM;CL;Leipzig;Leipzig;Yes
+RM;CL;Montecuccoli;Montecuccoli;Yes
+RM;CL;Montecuccoli;Attendolo;Yes
+KM;CL;Nurnberg;Nurnberg;Yes
+KM;DD;1934A Type;Leberecht Maas;Yes
+KM;DD;1934A Type;Georg Thiele;Yes
+KM;DD;1934A Type;Max Schultz;Yes
+KM;DD;1934A Type;Richard Beitzen;Yes
+KM;DD;1934A Type;Paul Jacobi;Yes
+KM;DD;1934A Type;Theodor Riedel;Yes
+KM;DD;1934A Type;Hermann Schoemann;Yes
+KM;DD;1934A Type;Bruno Heinemann;Yes
+KM;DD;1934A Type;Wolfgang Zenker;Yes
+KM;DD;1934A Type;Hans Lody;Yes
+KM;DD;1934A Type;Bernd von Arnim;Yes
+KM;DD;1934A Type;Erich Giese;Yes
+KM;DD;1934A Type;Erich Koellner;Yes
+KM;DD;1934A Type;Friedrich Ihn;Yes
+KM;DD;1934A Type;Erich Steinbrinck;Yes
+KM;DD;1934A Type;Friedrich Eckoldt;Yes
+KM;DD;1935 Type;T1;Yes
+KM;DD;1935 Type;T2;Yes
+KM;DD;1935 Type;T3;Yes
+KM;DD;1935 Type;T4;Yes
+KM;DD;1935 Type;T5;Yes
+KM;DD;1935 Type;T6;Yes
+KM;DD;1935 Type;T7;Yes
+KM;DD;1935 Type;T8;Yes
+KM;DD;1935 Type;T9;Yes
+KM;DD;1935 Type;T10;Yes
+KM;DD;1936 Mob Type;Z31;Yes
+KM;DD;1936 Mob Type;Z32;Yes
+KM;DD;1936 Mob Type;Z37;Yes
+KM;DD;1936 Type;Diether von Roeder;Yes
+KM;DD;1936 Type;Hans Ludemann;Yes
+KM;DD;1936 Type;Hermann Kunne;Yes
+KM;DD;1936 Type;Karl Galster;Yes
+KM;DD;1936 Type;Wilhelm Heidkamp;Yes
+KM;DD;1936 Type;Anton Schmitt;Yes
+KM;DD;1936A Type;Z23;Yes
+KM;DD;1936A Type;Z24;Yes
+KM;DD;1936A Type;Z25;Yes
+KM;DD;1936A Type;Z26;Yes
+KM;DD;1936A Type;Z27;Yes
+KM;DD;1936A Type;Z28;Yes
+KM;DD;1936A Type;Z29;Yes
+KM;DD;1936A Type;Z30;Yes
+KM;DD;KM Sub;KM Sub 1;No
+KM;DD;KM Sub;KM Sub 2;No
+KM;DD;KM Sub;KM Sub 3;No
+KM;DD;KM Sub;KM Sub 4;No
+RM;DD;Navigatori;Alvise Da Mosto;Yes
+RM;DD;Navigatori;Antonio Da Noli;Yes
+RM;DD;Navigatori;Nicoloso Da Recco;Yes
+RM;DD;Navigatori;Giovanni;Yes
+RM;DD;Navigatori;Lanzerotto;Yes
+RM;DD;Navigatori;Leone Pancaldo;Yes
+RM;DD;Navigatori;Emanuele;Yes
+RM;DD;Navigatori;Antonio Pigafetta;Yes
+RM;DD;Navigatori;Luca Tarigo;Yes
+RM;DD;Navigatori;Antoniotto;Yes
+RM;DD;Navigatori;Ugolini Vivaldi;Yes
+RM;DD;Navigatori;Nicolo Zeno;Yes
+RM;DD;Sauro;Sauro;Yes
+RM;DD;Sauro;Battisti;Yes
+RM;DD;Sauro;Manin;Yes
+RM;DD;Sauro;Nullo;Yes
+RM;DD;Soldati I;Artigliere;Yes
+RM;DD;Soldati I;Ascari;Yes
+RM;DD;Soldati I;Aviere;Yes
+RM;DD;Soldati I;Bersagliere;Yes
+RM;DD;Soldati I;Camicia Nera;Yes
+RM;DD;Soldati I;Alpino;Yes
+RM;DD;Soldati II;Bombardiere;Yes
+RM;DD;Soldati II;Corsaro;Yes
+RM;DD;Soldati II;Legionario;Yes
+RM;DD;Soldati II;Mitragliere;Yes
+RM;DD;Soldati II;Squadrista;Yes
+RM;DD;Soldati II;Velite;Yes
+RM;DD;Spica;Spica;Yes
+RM;DD;Spica;Astore;Yes
+RM;DD;Spica;Canopo;Yes
+RM;DD;Spica;Castore;Yes
+RM;DD;Spica;Centauro;Yes
+RM;DD;Spica;Cigno;Yes
+RM;DD;Spica;Climene;Yes
+RM;DD;Spica;Altair;Yes
+RM;DD;Spica;Antares;Yes
+RM;DD;Spica;Perseo;Yes
+RM;DD;Turbine;Turbine;Yes
+RM;DD;Turbine;Aquilone;Yes
+RM;DD;Turbine;Borea;Yes
+RM;DD;Turbine;Espero;Yes
+RM;DD;Turbine;Euro;Yes
+RM;DD;Turbine;Nembo;Yes
+RM;DD;Turbine;Ostro;Yes
+RM;DD;Turbine;Zeffiro;Yes
+KM;TR;KM Large Merch;L Merch 1;No
+KM;TR;KM Large Merch;L Merch 2;No
+KM;TR;KM Large Merch;L Merch 3;No
+KM;TR;KM Large Merch;L Merch 4;No
+KM;TR;KM Large Merch;L Merch 5;No
+KM;TR;KM Large Merch;L Merch 6;No
+KM;TR;KM Large Merch;L Merch 7;No
+KM;TR;KM Large Merch;L Merch 8;No
+KM;TR;KM Large Merch;L Merch 9;No
+KM;TR;KM Large Merch;L Merch 10;No
+KM;TR;KM Small Merch;S Merch 1;No
+KM;TR;KM Small Merch;S Merch 2;No
+KM;TR;KM Small Merch;S Merch 3;No
+KM;TR;KM Small Merch;S Merch 4;No
+KM;TR;KM Small Merch;S Merch 5;No
+KM;TR;KM Small Merch;S Merch 6;No
+KM;TR;KM Small Merch;S Merch 7;No
+KM;TR;KM Small Merch;S Merch 8;No
+KM;TR;KM Small Merch;S Merch 9;No
+KM;TR;KM Small Merch;S Merch 10;No
+KM;TR;KM Transport;Schiff 1;No
+KM;TR;KM Transport;Schiff 2;No
+KM;TR;KM Transport;Schiff 3;No
+KM;TR;KM Transport;Schiff 4;No
+KM;TR;KM Transport;Schiff 5;No
+KM;TR;KM Transport;Schiff 6;No
+KM;TR;KM Transport;Schiff 7;No
+KM;TR;KM Transport;Schiff 8;No
+KM;TR;KM Transport;Schiff 9;No
+KM;TR;KM Transport;Schiff 10;No
+KM;TR;KM Transport;Schiff 11;No
+KM;TR;KM Transport;Schiff 12;No
+KM;TR;KM Transport;Schiff 13;No
+KM;TR;KM Transport;Schiff 14;No
+KM;TR;KM Transport;Schiff 15;No
+KM;TR;KM Transport;Schiff 16;No
+KM;TR;KM Transport;Schiff 17;No
+KM;TR;KM Transport;Schiff 18;No
+KM;TR;KM Transport;Schiff 19;No
+KM;TR;KM Transport;Schiff 20;No
+KM;TR;KM Transport;Schiff 21;No
+KM;TR;KM Transport;Schiff 22;No
+KM;TR;KM Transport;Schiff 23;No
+KM;TR;KM Transport;Schiff 24;No
+KM;TR;KM Transport;Schiff 25;No
+KM;TR;KM Transport;Schiff 26;No
+KM;TR;KM Transport;Schiff 27;No
+KM;TR;KM Transport;Schiff 28;No
+KM;TR;KM Transport;Schiff 29;No
+KM;TR;KM Transport;Schiff 30;No
+MN;BB;Bretagne;Bretagne;Yes
+MN;BB;Bretagne;Provence;Yes
+MN;BB;Bretagne;Lorraine;Yes
+RN;BB;Gangut;Gangut;Yes
+RN;BB;Gangut;Sevastopol;Yes
+RN;BB;King George V;King George V;Yes
+RN;BB;King George V;Prince of Wales;Yes
+RN;BB;King George V;Duke of York;Yes
+RN;BB;King George V;Anson;Yes
+RN;BB;King George V;Howe;Yes
+RN;BB;Lion;Lion;No
+RN;BB;Lion;Temeraire;No
+RN;BB;Lion;Conqueror;No
+RN;BB;Nelson;Nelson;Yes
+RN;BB;Nelson;Rodney;Yes
+RN;BB;Queen Elizabeth;Queen Elizabeth;Yes
+RN;BB;Queen Elizabeth;Barham;Yes
+RN;BB;Queen Elizabeth;Malaya;Yes
+RN;BB;Queen Elizabeth;Valiant;Yes
+RN;BB;Queen Elizabeth;Warspite;Yes
+MN;BB;Richelieu;Richelieu;Yes
+MN;BB;Richelieu;Jean Bart;Yes
+RN;BB;Royal Sovereign;Royal Sovereign;Yes
+RN;BB;Royal Sovereign;Ramillies;Yes
+RN;BB;Royal Sovereign;Resolution;Yes
+RN;BB;Royal Sovereign;Revenge;Yes
+RN;BB;Royal Sovereign;Royal Oak;Yes
+RN;BB;Sovetskii Soyuz;Sovetskii Soyuz;No
+RN;BB;Sovetskii Soyuz;Sovetskaia Ukraina;No
+RN;BB;Sovetskii Soyuz;Sovetskaia Rossia;No
+RN;BB;Vanguard;Vanguard;No
+MN;BC;Dunkerque;Dunkerque;Yes
+MN;BC;Dunkerque;Strasbourg;Yes
+RN;BC;Hood;Hood;Yes
+RN;BC;Kronstadt;Kronstadt;No
+RN;BC;Kronstadt;Sevastopl;No
+RN;BC;Renown;Renown;Yes
+RN;BC;Renown;Repulse;Yes
+RN;CA;Exeter;York;Yes
+RN;CA;Exeter;Exeter;Yes
+RN;CA;Hawkins;Hawkins;Yes
+RN;CA;Hawkins;Effingham;Yes
+RN;CA;Hawkins;Frobisher;Yes
+RN;CA;Kent;Berwick;Yes
+RN;CA;Kent;Cornwall;Yes
+RN;CA;Kent;Cumberland;Yes
+RN;CA;Kent;Kent;Yes
+RN;CA;Kent;Suffolk;Yes
+RN;CA;Kent;Australia;Yes
+RN;CA;Kent;Canberra;Yes
+RN;CA;Kent;Devonshire;Yes
+RN;CA;Kent;London;Yes
+RN;CA;Kent;Shropshire;Yes
+RN;CA;Kent;Sussex;Yes
+RN;CA;Kent;Dorsetshire;Yes
+RN;CA;Kent;Norfolk;Yes
+RN;CA;Kirov;Kirov;Yes
+RN;CA;Kirov;Voroshilov;Yes
+RN;CA;Kirov;Gorkiy;Yes
+RN;CA;RN CV;RN CV 1;No
+RN;CA;RN CV;RN CV 2;No
+RN;CA;RN CV;RN CV 3;No
+RN;CA;RN CV;RN CV 4;No
+RN;CA;RN CV;RN CV 5;No
+RN;CA;RN CV;RN CV 6;No
+MN;CA;Suffren;Suffren;Yes
+MN;CA;Suffren;Colbert;Yes
+MN;CA;Suffren;Foch;Yes
+MN;CA;Suffren;Dupleix;Yes
+RN;CL;Arethusa;Arethusa;Yes
+RN;CL;Arethusa;Aurora;Yes
+RN;CL;Arethusa;Galatea;Yes
+RN;CL;Arethusa;Penelope;Yes
+RN;CL;Caledon;Caledon;Yes
+RN;CL;Caledon;Calypso;Yes
+RN;CL;Caledon;Caradoc;Yes
+RN;CL;Caledon;Ceres;Yes
+RN;CL;Caledon;Cardiff;Yes
+RN;CL;Carlisle;Coventry;Yes
+RN;CL;Carlisle;Curacoa;Yes
+RN;CL;Carlisle;Curlew;Yes
+RN;CL;Carlisle;Carlisle;Yes
+RN;CL;Carlisle;Cairo;Yes
+RN;CL;Carlisle;Calcutta;Yes
+RN;CL;Carlisle;Capetown;Yes
+RN;CL;Carlisle;Colombo;Yes
+RN;CL;D Class;Danae;Yes
+RN;CL;D Class;Dauntless;Yes
+RN;CL;D Class;Delhi;Yes
+RN;CL;D Class;Despatch;Yes
+RN;CL;D Class;Diomede;Yes
+RN;CL;D Class;Dragon;Yes
+RN;CL;D Class;Dunedin;Yes
+RN;CL;D Class;Durban;Yes
+RN;CL;De Ruyter;De Ruyter;Yes
+RN;CL;Dido;Argonaut;Yes
+RN;CL;Dido;Bonaventure;Yes
+RN;CL;Dido;Charybdis;Yes
+RN;CL;Dido;Cleopatra;Yes
+RN;CL;Dido;Dido;Yes
+RN;CL;Dido;Euryalus;Yes
+RN;CL;Dido;Hermione;Yes
+RN;CL;Dido;Naiad;Yes
+RN;CL;Dido;Phoebe;Yes
+RN;CL;Dido;Scylla;Yes
+RN;CL;Dido;Sirius;Yes
+RN;CL;Edinburgh;Belfast;Yes
+RN;CL;Edinburgh;Edinburgh;Yes
+RN;CL;Emerald;Emerald;Yes
+RN;CL;Emerald;Enterprise;Yes
+RN;CL;Fiji;Bermuda;Yes
+RN;CL;Fiji;Fiji;Yes
+RN;CL;Fiji;Gambia;Yes
+RN;CL;Fiji;Jamaica;Yes
+RN;CL;Fiji;Kenya;Yes
+RN;CL;Fiji;Mauritius;Yes
+RN;CL;Fiji;Nigeria;Yes
+RN;CL;Fiji;Trinidad;Yes
+RN;CL;Java;Java;Yes
+RN;CL;Leander;Achilles;Yes
+RN;CL;Leander;Ajax;Yes
+RN;CL;Leander;Leander;Yes
+RN;CL;Leander;Neptune;Yes
+RN;CL;Leander;Orion;Yes
+RN;CL;Mod Dido;Spartan;Yes
+RN;CL;Mod Dido;Royalist;Yes
+RN;CL;Mod Dido;Bellona;Yes
+RN;CL;Mod Dido;Black Prince;Yes
+RN;CL;Perth;Hobart;Yes
+RN;CL;Perth;Perth;Yes
+RN;CL;Perth;Sydney;Yes
+RN;CL;RN CVE;RN CVE 1;No
+RN;CL;RN CVE;RN CVE 2;No
+RN;CL;RN CVE;RN CVE 3;No
+RN;CL;RN CVE;RN CVE 4;No
+RN;CL;RN CVE;RN CVE 5;No
+RN;CL;RN CVE;RN CVE 6;No
+RN;CL;RN Q Ship;Q Ship 5;No
+RN;CL;RN Q Ship;Q Ship 6;No
+RN;CL;RN Q Ship;Q Ship 7;No
+RN;CL;RN Q Ship;Q Ship 8;No
+RN;CL;Southampton;Birmingham;Yes
+RN;CL;Southampton;Glasgow;Yes
+RN;CL;Southampton;Newcastle;Yes
+RN;CL;Southampton;Sheffield;Yes
+RN;CL;Southampton;Southampton;Yes
+RN;CL;Southampton;Gloucester;Yes
+RN;CL;Southampton;Liverpool;Yes
+RN;CL;Southampton;Manchester;Yes
+RN;DD;AB Class;Amazon;Yes
+RN;DD;AB Class;Ambuscade;Yes
+RN;DD;AB Class;Acasta;Yes
+RN;DD;AB Class;Achates;Yes
+RN;DD;AB Class;Acheron;Yes
+RN;DD;AB Class;Active;Yes
+RN;DD;AB Class;Antelope;Yes
+RN;DD;AB Class;Anthony;Yes
+RN;DD;AB Class;Ardent;Yes
+RN;DD;AB Class;Arrow;Yes
+RN;DD;AB Class;Keith;Yes
+RN;DD;AB Class;Basilisk;Yes
+RN;DD;AB Class;Beagle;Yes
+RN;DD;AB Class;Blanche;Yes
+RN;DD;AB Class;Boadicea;Yes
+RN;DD;AB Class;Boreas;Yes
+RN;DD;AB Class;Brazen;Yes
+RN;DD;AB Class;Brilliant;Yes
+RN;DD;AB Class;Bulldog;Yes
+RN;DD;AB Class;Saguenay;Yes
+RN;DD;AB Class;Skeena;Yes
+RN;DD;AB Class;Codrington;Yes
+RN;DD;CD Class;Kempenfelt;Yes
+RN;DD;CD Class;Comet;Yes
+RN;DD;CD Class;Crescent;Yes
+RN;DD;CD Class;Crusader;Yes
+RN;DD;CD Class;Cygnet;Yes
+RN;DD;CD Class;Duncan RN;Yes
+RN;DD;CD Class;Dainty;Yes
+RN;DD;CD Class;Daring;Yes
+RN;DD;CD Class;Decoy;Yes
+RN;DD;CD Class;Defender;Yes
+RN;DD;CD Class;Delight;Yes
+RN;DD;CD Class;Diamond;Yes
+RN;DD;CD Class;Diana;Yes
+RN;DD;CD Class;Duchess;Yes
+RN;DD;EF Class;Echo;Yes
+RN;DD;EF Class;Eclipse;Yes
+RN;DD;EF Class;Electra;Yes
+RN;DD;EF Class;Encounter;Yes
+RN;DD;EF Class;Escapade;Yes
+RN;DD;EF Class;Escort;Yes
+RN;DD;EF Class;Esk;Yes
+RN;DD;EF Class;Express;Yes
+RN;DD;EF Class;Fame;Yes
+RN;DD;EF Class;Fearless;Yes
+RN;DD;EF Class;Firedrake;Yes
+RN;DD;EF Class;Forester;Yes
+RN;DD;EF Class;Foresight;Yes
+RN;DD;EF Class;Fortune;Yes
+RN;DD;EF Class;Foxhound;Yes
+RN;DD;EF Class;Fury;Yes
+RN;DD;EF Class;Exmouth;Yes
+RN;DD;EF Class;Faulknor;Yes
+RN;DD;GHI Class;Gallant;Yes
+RN;DD;GHI Class;Garland;Yes
+RN;DD;GHI Class;Gipsy;Yes
+RN;DD;GHI Class;Glowworm;Yes
+RN;DD;GHI Class;Grafton;Yes
+RN;DD;GHI Class;Grenade;Yes
+RN;DD;GHI Class;Greyhound;Yes
+RN;DD;GHI Class;Griffin;Yes
+RN;DD;GHI Class;Hasty;Yes
+RN;DD;GHI Class;Havock;Yes
+RN;DD;GHI Class;Hereward;Yes
+RN;DD;GHI Class;Hero;Yes
+RN;DD;GHI Class;Hostile;Yes
+RN;DD;GHI Class;Hotspur;Yes
+RN;DD;GHI Class;Hunter;Yes
+RN;DD;GHI Class;Hyperion;Yes
+RN;DD;GHI Class;Icarus;Yes
+RN;DD;GHI Class;Ilex;Yes
+RN;DD;GHI Class;Imogen;Yes
+RN;DD;GHI Class;Imperial;Yes
+RN;DD;GHI Class;Impulsive;Yes
+RN;DD;GHI Class;Intrepid;Yes
+RN;DD;GHI Class;Isis;Yes
+RN;DD;GHI Class;Ivanhoe;Yes
+RN;DD;GHI Class;Inconstant;Yes
+RN;DD;GHI Class;Ithuriel;Yes
+RN;DD;GHI Class;Harvester;Yes
+RN;DD;GHI Class;Havant;Yes
+RN;DD;GHI Class;Havelock;Yes
+RN;DD;GHI Class;Hesperus;Yes
+RN;DD;GHI Class;Highlander;Yes
+RN;DD;GHI Class;Hurricane;Yes
+RN;DD;GHI Class;Grenville;Yes
+RN;DD;GHI Class;Hardy;Yes
+RN;DD;GHI Class;Inglefield;Yes
+RN;DD;Gnevnyi;Gnevnyi;Yes
+RN;DD;Gnevnyi;Bditelnyi;Yes
+RN;DD;Gnevnyi;Boikiy;Yes
+RN;DD;Gnevnyi;Groznyi;Yes
+RN;DD;Gnevnyi;Rezyvi;Yes
+RN;DD;Gnevnyi;Smetlivyi;Yes
+RN;DD;Hunt;Avon Vale;Yes
+RN;DD;Hunt;Beaufort;Yes
+RN;DD;Hunt;Blackmore;Yes
+RN;DD;Hunt;Croome;Yes
+RN;DD;Hunt;Eridge;Yes
+RN;DD;Hunt;Exmoor;Yes
+RN;DD;Hunt;Grove;Yes
+RN;DD;Hunt;Hursley;Yes
+RN;DD;Hunt;Lamerton;Yes
+RN;DD;Hunt;Oakley;Yes
+RN;DD;JKN Class;Jackal;Yes
+RN;DD;JKN Class;Jaguar;Yes
+RN;DD;JKN Class;Janus;Yes
+RN;DD;JKN Class;Javelin;Yes
+RN;DD;JKN Class;Jersey;Yes
+RN;DD;JKN Class;Jervis;Yes
+RN;DD;JKN Class;Juno;Yes
+RN;DD;JKN Class;Jupiter;Yes
+RN;DD;JKN Class;Kandahar;Yes
+RN;DD;JKN Class;Kashmir;Yes
+RN;DD;JKN Class;Kelly;Yes
+RN;DD;JKN Class;Kelvin;Yes
+RN;DD;JKN Class;Khartoum;Yes
+RN;DD;JKN Class;Kimberley;Yes
+RN;DD;JKN Class;Kingston;Yes
+RN;DD;JKN Class;Kipling;Yes
+RN;DD;JKN Class;Napier;Yes
+RN;DD;JKN Class;Nepal;Yes
+RN;DD;JKN Class;Nestor;Yes
+RN;DD;JKN Class;Nizam;Yes
+RN;DD;JKN Class;Norman;Yes
+RN;DD;JKN Class;Piorun;Yes
+MN;DD;La Melpomene;La Melpomene;Yes
+MN;DD;La Melpomene;La Pomone;Yes
+MN;DD;La Melpomene;La Flore;Yes
+MN;DD;La Melpomene;L Iphigenie;Yes
+MN;DD;La Melpomene;La Bayonnaise;Yes
+MN;DD;La Melpomene;Bombarde;Yes
+MN;DD;La Melpomene;L Incomprise;Yes
+MN;DD;La Melpomene;La Poursuivante;Yes
+MN;DD;La Melpomene;La Cordeliere;Yes
+MN;DD;La Melpomene;Baliste;Yes
+MN;DD;Le Fantasque;Le Fantasque;Yes
+MN;DD;Le Fantasque;Le Terrible;Yes
+MN;DD;Le Fantasque;L Indomptable;Yes
+MN;DD;Le Fantasque;L Audacieux;Yes
+MN;DD;Le Fantasque;Le Triomphant;Yes
+MN;DD;Le Fantasque;Le Malin;Yes
+RN;DD;LM Class;Gurkha II;Yes
+RN;DD;LM Class;Laforey;Yes
+RN;DD;LM Class;Legion;Yes
+RN;DD;LM Class;Lightning;Yes
+RN;DD;LM Class;Lively;Yes
+RN;DD;LM Class;Lookout;Yes
+RN;DD;LM Class;Loyal;Yes
+RN;DD;LM Class;Lance;Yes
+RN;DD;LM Class;Marne;Yes
+RN;DD;LM Class;Martin;Yes
+RN;DD;LM Class;Matchless;Yes
+RN;DD;LM Class;Meteor;Yes
+RN;DD;LM Class;Milne;Yes
+RN;DD;LM Class;Musketeer;Yes
+RN;DD;LM Class;Orkan;Yes
+RN;DD;OP Class;Obdurate;Yes
+RN;DD;OP Class;Obedient;Yes
+RN;DD;OP Class;Offa;Yes
+RN;DD;OP Class;Onslaught;Yes
+RN;DD;OP Class;Onslow;Yes
+RN;DD;OP Class;Opportune;Yes
+RN;DD;OP Class;Oribi;Yes
+RN;DD;OP Class;Orwell;Yes
+RN;DD;OP Class;Pakenham;Yes
+RN;DD;OP Class;Paladin;Yes
+RN;DD;OP Class;Panther;Yes
+RN;DD;OP Class;Partridge;Yes
+RN;DD;OP Class;Pathfinder;Yes
+RN;DD;OP Class;Porcupine;Yes
+RN;DD;OP Class;Penn;Yes
+RN;DD;OP Class;Petard;Yes
+RN;DD;QR Class;Quadrant;Yes
+RN;DD;QR Class;Quality;Yes
+RN;DD;QR Class;Queenborough;Yes
+RN;DD;QR Class;Quentin;Yes
+RN;DD;QR Class;Quiberon;Yes
+RN;DD;QR Class;Quickmatch;Yes
+RN;DD;QR Class;Quilliam;Yes
+RN;DD;QR Class;Racehorse;Yes
+RN;DD;QR Class;Raider;Yes
+RN;DD;QR Class;Redoubt;Yes
+RN;DD;QR Class;Relentless;Yes
+RN;DD;QR Class;Rotherham;Yes
+RN;DD;RN Sub;RN Sub 1;No
+RN;DD;RN Sub;RN Sub 2;No
+RN;DD;RN Sub;RN Sub 3;No
+RN;DD;RN Sub;RN Sub 4;No
+RN;DD;STUV Class;Saumarez;Yes
+RN;DD;STUV Class;Savage;Yes
+RN;DD;STUV Class;Success;Yes
+RN;DD;STUV Class;Teazer;Yes
+RN;DD;STUV Class;Tenacious;Yes
+RN;DD;STUV Class;Tuscan;Yes
+RN;DD;STUV Class;Undaunted;Yes
+RN;DD;STUV Class;Undine;Yes
+RN;DD;STUV Class;Ursa;Yes
+RN;DD;STUV Class;Venus;Yes
+RN;DD;STUV Class;Vigilant;Yes
+RN;DD;STUV Class;Vixen;Yes
+RN;DD;Tribal Class;Afridi;Yes
+RN;DD;Tribal Class;Ashanti;Yes
+RN;DD;Tribal Class;Bedouin;Yes
+RN;DD;Tribal Class;Cossack;Yes
+RN;DD;Tribal Class;Eskimo;Yes
+RN;DD;Tribal Class;Gurkha;Yes
+RN;DD;Tribal Class;Maori;Yes
+RN;DD;Tribal Class;Mashona;Yes
+RN;DD;Tribal Class;Matabele;Yes
+RN;DD;Tribal Class;Mohawk;Yes
+RN;DD;Tribal Class;Nubian;Yes
+RN;DD;Tribal Class;Punjabi;Yes
+RN;DD;Tribal Class;Sikh;Yes
+RN;DD;Tribal Class;Somali;Yes
+RN;DD;Tribal Class;Tartar;Yes
+RN;DD;Tribal Class;Zulu;Yes
+RN;DD;Tribal Class;Iroquois;Yes
+RN;DD;Van Ghent;Van Ghent;Yes
+RN;DD;Van Ghent;Van Galen;Yes
+RN;DD;Van Ghent;Kortenaer;Yes
+RN;DD;Van Ghent;Evertsen;Yes
+RN;DD;Van Ghent;Van Nes;Yes
+RN;DD;Van Ghent;Piet Hein;Yes
+RN;TR;RN Large Merch;L Merch 11;No
+RN;TR;RN Large Merch;L Merch 12;No
+RN;TR;RN Large Merch;L Merch 13;No
+RN;TR;RN Large Merch;L Merch 14;No
+RN;TR;RN Large Merch;L Merch 15;No
+RN;TR;RN Large Merch;L Merch 16;No
+RN;TR;RN Large Merch;L Merch 17;No
+RN;TR;RN Large Merch;L Merch 18;No
+RN;TR;RN Large Merch;L Merch 19;No
+RN;TR;RN Large Merch;L Merch 20;No
+RN;TR;RN Small Merch;S Merch 11;No
+RN;TR;RN Small Merch;S Merch 12;No
+RN;TR;RN Small Merch;S Merch 13;No
+RN;TR;RN Small Merch;S Merch 14;No
+RN;TR;RN Small Merch;S Merch 15;No
+RN;TR;RN Small Merch;S Merch 16;No
+RN;TR;RN Small Merch;S Merch 17;No
+RN;TR;RN Small Merch;S Merch 18;No
+RN;TR;RN Small Merch;S Merch 19;No
+RN;TR;RN Small Merch;S Merch 20;No
+RN;TR;RN Transport;Montreal City;No
+RN;TR;RN Transport;Queen City;No
+RN;TR;RN Transport;Empire Union;No
+RN;TR;RN Transport;Melrose Abbey;No
+RN;TR;RN Transport;King Edward;No
+RN;TR;RN Transport;East Wales;No
+RN;TR;RN Transport;Observer;No
+RN;TR;RN Transport;Melmore Head;No
+RN;TR;RN Transport;City of Bombay;No
+RN;TR;RN Transport;Regent Lion;No
+RN;TR;RN Transport;Benlomond;No
+RN;TR;RN Transport;Grangepark;No
+RN;TR;RN Transport;Barberrys;No
+RN;TR;RN Transport;City of Bath;No
+RN;TR;RN Transport;Wallsend;No
+RN;TR;RN Transport;Ocean Justice;No
+RN;TR;RN Transport;Ocean Crusader;No
+RN;TR;RN Transport;City of Ripon;No
+RN;TR;RN Transport;Glenlea;No
+RN;TR;RN Transport;Lindenhall;No
+RN;TR;RN Transport;Transport 121;No
+RN;TR;RN Transport;Transport 122;No
+RN;TR;RN Transport;Transport 123;No
+RN;TR;RN Transport;Transport 124;No
+RN;TR;RN Transport;Transport 125;No
+RN;TR;RN Transport;Transport 126;No
+RN;TR;RN Transport;Transport 127;No
+RN;TR;RN Transport;Transport 128;No
+RN;TR;RN Transport;Transport 129;No
+RN;TR;RN Transport;Transport 130;No
+USN;BB;Arkansas;Arkansas;Yes
+USN;BB;California;California;Yes
+USN;BB;California;Tennessee;Yes
+USN;BB;Iowa;Iowa;Yes
+USN;BB;Iowa;New Jersey;Yes
+USN;BB;Iowa;Missouri;Yes
+USN;BB;Iowa;Wisconsin;Yes
+USN;BB;Maryland;Maryland;Yes
+USN;BB;Maryland;Colorado;Yes
+USN;BB;Maryland;West Virginia;Yes
+USN;BB;Montana;Montana;No
+USN;BB;Montana;Ohio;No
+USN;BB;Montana;Maine;No
+USN;BB;Nevada;Nevada;Yes
+USN;BB;Nevada;Oklahoma;Yes
+USN;BB;New Mexico;New Mexico;Yes
+USN;BB;New Mexico;Mississippi;Yes
+USN;BB;New Mexico;Idaho;Yes
+USN;BB;North Carolina;North Carolina;Yes
+USN;BB;North Carolina;Washington;Yes
+USN;BB;Pennsylvania;Pennsylvania;Yes
+USN;BB;Pennsylvania;Arizona;Yes
+USN;BB;South Dakota;South Dakota;Yes
+USN;BB;South Dakota;Indiana;Yes
+USN;BB;South Dakota;Massachusetts;Yes
+USN;BB;South Dakota;Alabama;Yes
+USN;BB;Texas;Texas;Yes
+USN;BB;Texas;New York;Yes
+USN;BC;Alaska;Alaska;Yes
+USN;BC;Alaska;Guam;Yes
+USN;BC;Alaska;Hawaii;Yes
+USN;BC;Lexington;Lexington;No
+USN;BC;Lexington;Saratoga;No
+USN;BC;Lexington;Ranger;No
+USN;CA;Baltimore;Baltimore;Yes
+USN;CA;Baltimore;Boston;Yes
+USN;CA;Baltimore;Columbus;Yes
+USN;CA;Baltimore;St. Paul;Yes
+USN;CA;Baltimore;Pittsburg;Yes
+USN;CA;Des Moines;Des Moines;Yes
+USN;CA;Des Moines;Salem;Yes
+USN;CA;Des Moines;Newport News;Yes
+USN;CA;Kent;Australia;Yes
+USN;CA;Kent;Canberra;Yes
+USN;CA;NewOrleans;New Orleans;Yes
+USN;CA;NewOrleans;Minneapolis;Yes
+USN;CA;NewOrleans;San Francisco;Yes
+USN;CA;NewOrleans;Astoria;Yes
+USN;CA;NewOrleans;Quincy;Yes
+USN;CA;NewOrleans;Vincennes;Yes
+USN;CA;NewOrleans;Tuscaloosa;Yes
+USN;CA;Northampton;Northampton;Yes
+USN;CA;Northampton;Chicago;Yes
+USN;CA;Northampton;Chester;Yes
+USN;CA;Northampton;Louisville;Yes
+USN;CA;Northampton;Houston;Yes
+USN;CA;Northampton;Augusta;Yes
+USN;CA;Pensacola;Pensacola;Yes
+USN;CA;Pensacola;Salt Lake City;Yes
+USN;CA;Portland;Portland;Yes
+USN;CA;Portland;Indianapolis;Yes
+USN;CA;USN CV;USN CV 1;No
+USN;CA;USN CV;USN CV 2;No
+USN;CA;USN CV;USN CV 3;No
+USN;CA;USN CV;USN CV 4;No
+USN;CA;USN CV;USN CV 5;No
+USN;CA;USN CV;USN CV 6;No
+USN;CA;Wichita;Wichita;Yes
+USN;CL;Atlanta;Atlanta;Yes
+USN;CL;Atlanta;Juneau;Yes
+USN;CL;Atlanta;San Diego;Yes
+USN;CL;Atlanta;San Juan;Yes
+USN;CL;Atlanta;Oakland;Yes
+USN;CL;Brooklyn;Brooklyn;Yes
+USN;CL;Brooklyn;Philadelphia;Yes
+USN;CL;Brooklyn;Savannah;Yes
+USN;CL;Brooklyn;Nashville;Yes
+USN;CL;Brooklyn;Phoenix;Yes
+USN;CL;Brooklyn;Honolulu;Yes
+USN;CL;Brooklyn;St Louis;Yes
+USN;CL;Brooklyn;Boise;Yes
+USN;CL;Brooklyn;Helena;Yes
+USN;CL;Cleveland;Cleveland;Yes
+USN;CL;Cleveland;Columbia;Yes
+USN;CL;Cleveland;Denver;Yes
+USN;CL;Cleveland;Mobile;Yes
+USN;CL;Cleveland;Topeka;Yes
+USN;CL;Omaha;Omaha;Yes
+USN;CL;Omaha;Milwaukee;Yes
+USN;CL;Omaha;Cincinnati;Yes
+USN;CL;Omaha;Raleigh;Yes
+USN;CL;Omaha;Detroit;Yes
+USN;CL;Omaha;Richmond;Yes
+USN;CL;Omaha;Concord;Yes
+USN;CL;Omaha;Trenton;Yes
+USN;CL;Omaha;Marblehead;Yes
+USN;CL;Omaha;Memphis;Yes
+USN;CL;Perth;Hobart;Yes
+USN;CL;USN CVE;USN CVE 1;No
+USN;CL;USN CVE;USN CVE 2;No
+USN;CL;USN CVE;USN CVE 3;No
+USN;CL;USN CVE;USN CVE 4;No
+USN;CL;USN CVE;USN CVE 5;No
+USN;CL;USN CVE;USN CVE 6;No
+USN;CL;USN Q Ship;Q Ship 13;No
+USN;CL;USN Q Ship;Q Ship 14;No
+USN;CL;USN Q Ship;Q Ship 15;No
+USN;CL;USN Q Ship;Q Ship 16;No
+USN;DD;APD;Gilmer;Yes
+USN;DD;APD;Humphreys;Yes
+USN;DD;APD;Talbot;Yes
+USN;DD;APD;Waters;Yes
+USN;DD;APD;Dent;Yes
+USN;DD;APD;Manley;Yes
+USN;DD;APD;Little;Yes
+USN;DD;APD;Gregory;Yes
+USN;DD;APD;Stringham;Yes
+USN;DD;APD;Colhoun;Yes
+USN;DD;APD;McKean;Yes
+USN;DD;APD;Sands;Yes
+USN;DD;APD;Brooks;Yes
+USN;DD;Bagley;Gridley;Yes
+USN;DD;Bagley;Craven;Yes
+USN;DD;Bagley;McCall;Yes
+USN;DD;Bagley;Maury;Yes
+USN;DD;Bagley;Bagley;Yes
+USN;DD;Bagley;Blue;Yes
+USN;DD;Bagley;Helm;Yes
+USN;DD;Bagley;Mugford;Yes
+USN;DD;Bagley;Ralph Talbot;Yes
+USN;DD;Bagley;Henley;Yes
+USN;DD;Bagley;Patterson;Yes
+USN;DD;Bagley;Jarvis;Yes
+USN;DD;Benham;Benham;Yes
+USN;DD;Benham;Ellet;Yes
+USN;DD;Benham;Lang;Yes
+USN;DD;Benham;Mayrant;Yes
+USN;DD;Benham;Trippe;Yes
+USN;DD;Benham;Rhind;Yes
+USN;DD;Benham;Rowan;Yes
+USN;DD;Benham;Stack;Yes
+USN;DD;Benham;Sterett;Yes
+USN;DD;Benham;Wilson;Yes
+USN;DD;Benson;Benson;Yes
+USN;DD;Benson;Mayo;Yes
+USN;DD;Benson;Gleaves;Yes
+USN;DD;Benson;Niblack;Yes
+USN;DD;Benson;Madison;Yes
+USN;DD;Benson;Lansdale;Yes
+USN;DD;Benson;Hilary P Jones;Yes
+USN;DD;Benson;Charles F Hughes;Yes
+USN;DD;Benson;Livermore;Yes
+USN;DD;Benson;Eberle;Yes
+USN;DD;Benson;Plunkett;Yes
+USN;DD;Benson;Kearney;Yes
+USN;DD;Benson;Gwin;Yes
+USN;DD;Benson;Meredith;Yes
+USN;DD;Benson;Grayson;Yes
+USN;DD;Benson;Monssen;Yes
+USN;DD;Benson;Woolsey;Yes
+USN;DD;Benson;Ludlow;Yes
+USN;DD;Benson;Edison;Yes
+USN;DD;Benson;Ericsson;Yes
+USN;DD;Benson;Wilkes;Yes
+USN;DD;Benson;Nicholson;Yes
+USN;DD;Benson;Swanson;Yes
+USN;DD;Benson;Ingraham;Yes
+USN;DD;Benson;Bristol;Yes
+USN;DD;Benson;Ellyson;Yes
+USN;DD;Benson;Hambleton;Yes
+USN;DD;Benson;Rodman;Yes
+USN;DD;Benson;Emmons;Yes
+USN;DD;Benson;Macomb;Yes
+USN;DD;Benson;Laffey;Yes
+USN;DD;Benson;Woodworth;Yes
+USN;DD;Benson;Forrest;Yes
+USN;DD;Benson;Fitch;Yes
+USN;DD;Benson;Corry;Yes
+USN;DD;Benson;Hobson;Yes
+USN;DD;Benson;Aaron Ward;Yes
+USN;DD;Benson;Buchanan;Yes
+USN;DD;Benson;Duncan USN;Yes
+USN;DD;Benson;Lansdowne;Yes
+USN;DD;Benson;Lardner;Yes
+USN;DD;Benson;McCalla;Yes
+USN;DD;Benson;Mervine;Yes
+USN;DD;Benson;Quick;Yes
+USN;DD;Benson;Farenholt;Yes
+USN;DD;Benson;Bailey;Yes
+USN;DD;Benson;Carmick;Yes
+USN;DD;Benson;Bancroft;Yes
+USN;DD;Benson;Barton;Yes
+USN;DD;Benson;Boyle;Yes
+USN;DD;Benson;Champlin;Yes
+USN;DD;Benson;Meade;Yes
+USN;DD;Benson;Murphy;Yes
+USN;DD;Benson;Parker;Yes
+USN;DD;Benson;Caldwell;Yes
+USN;DD;Benson;Coghlan;Yes
+USN;DD;Benson;Frazier;Yes
+USN;DD;Benson;Gansevoort;Yes
+USN;DD;Benson;Gillespie;Yes
+USN;DD;Benson;Hobby;Yes
+USN;DD;Benson;Kalk;Yes
+USN;DD;Benson;Kendrick;Yes
+USN;DD;Benson;Laub;Yes
+USN;DD;Benson;Mackenzie;Yes
+USN;DD;Benson;McLanahan;Yes
+USN;DD;Benson;Davison;Yes
+USN;DD;Benson;Edwards;Yes
+USN;DD;Benson;Glennon;Yes
+USN;DD;Benson;Jeffers;Yes
+USN;DD;Benson;Maddox;Yes
+USN;DD;Benson;Nelson USN;Yes
+USN;DD;Benson;Cowie;Yes
+USN;DD;Benson;Knight;Yes
+USN;DD;Benson;Doran;Yes
+USN;DD;Benson;Earle;Yes
+USN;DD;Benson;Butler;Yes
+USN;DD;Benson;Gherardi;Yes
+USN;DD;Benson;Herndon;Yes
+USN;DD;Benson;Beatty;Yes
+USN;DD;Benson;Tillman;Yes
+USN;DD;Benson;Stevenson;Yes
+USN;DD;Buckley;Buckley;Yes
+USN;DD;Buckley;Donnell;Yes
+USN;DD;Buckley;Fogg;Yes
+USN;DD;Buckley;Foss;Yes
+USN;DD;Buckley;Gantner;Yes
+USN;DD;Buckley;Hopping;Yes
+USN;DD;Buckley;Chase;Yes
+USN;DD;Buckley;Loy;Yes
+USN;DD;Buckley;England;Yes
+USN;DD;Buckley;Solar;Yes
+USN;DD;Farragut;Farragut;Yes
+USN;DD;Farragut;Dewey;Yes
+USN;DD;Farragut;Hull;Yes
+USN;DD;Farragut;Macdonough;Yes
+USN;DD;Farragut;Worden;Yes
+USN;DD;Farragut;Dale;Yes
+USN;DD;Farragut;Monaghan;Yes
+USN;DD;Farragut;Aylwin;Yes
+USN;DD;Fletcher;Fletcher;Yes
+USN;DD;Fletcher;Radford;Yes
+USN;DD;Fletcher;Jenkins;Yes
+USN;DD;Fletcher;La Vallette;Yes
+USN;DD;Fletcher;Nicholas;Yes
+USN;DD;Fletcher;O Bannon;Yes
+USN;DD;Fletcher;Chevalier;Yes
+USN;DD;Fletcher;Saufley;Yes
+USN;DD;Fletcher;Waller;Yes
+USN;DD;Fletcher;Strong;Yes
+USN;DD;Fletcher;Taylor;Yes
+USN;DD;Fletcher;De Haven;Yes
+USN;DD;Fletcher;Bache;Yes
+USN;DD;Fletcher;Beale;Yes
+USN;DD;Fletcher;Guest;Yes
+USN;DD;Fletcher;Hutchins;Yes
+USN;DD;Fletcher;Pringle;Yes
+USN;DD;Fletcher;Stanly;Yes
+USN;DD;Fletcher;Philip;Yes
+USN;DD;Fletcher;Renshaw;Yes
+USN;DD;Fletcher;Ringgold;Yes
+USN;DD;Fletcher;Schroeder;Yes
+USN;DD;Fletcher;Conway;Yes
+USN;DD;Fletcher;Cony;Yes
+USN;DD;Fletcher;Converse;Yes
+USN;DD;Fletcher;Eaton;Yes
+USN;DD;Fletcher;Foote;Yes
+USN;DD;Fletcher;Aulick;Yes
+USN;DD;Fletcher;Charles Ausburne;Yes
+USN;DD;Fletcher;Claxton;Yes
+USN;DD;Fletcher;Dyson;Yes
+USN;DD;Flush Deck DD;Dallas;Yes
+USN;DD;Flush Deck DD;Broome;Yes
+USN;DD;Flush Deck DD;Alden;Yes
+USN;DD;Flush Deck DD;Barker;Yes
+USN;DD;Flush Deck DD;Borie;Yes
+USN;DD;Flush Deck DD;John D Edwards;Yes
+USN;DD;Flush Deck DD;Whipple;Yes
+USN;DD;Flush Deck DD;Parrott;Yes
+USN;DD;Flush Deck DD;Edsall;Yes
+USN;DD;Flush Deck DD;MacLeish;Yes
+USN;DD;Flush Deck DD;Simpson;Yes
+USN;DD;Flush Deck DD;Bulmer;Yes
+USN;DD;Flush Deck DD;McCormick;Yes
+USN;DD;Flush Deck DD;Stewart;Yes
+USN;DD;Flush Deck DD;Pope;Yes
+USN;DD;Flush Deck DD;Peary;Yes
+USN;DD;Flush Deck DD;Pillsbury;Yes
+USN;DD;Flush Deck DD;John D Ford;Yes
+USN;DD;Flush Deck DD;Truxton;Yes
+USN;DD;Flush Deck DD;Paul Jones;Yes
+USN;DD;Flush Deck DD;Hatfield;Yes
+USN;DD;Flush Deck DD;Young;Yes
+USN;DD;Flush Deck DD;Fox;Yes
+USN;DD;Flush Deck DD;Kane;Yes
+USN;DD;Mahan;Mahan;Yes
+USN;DD;Mahan;Cummings;Yes
+USN;DD;Mahan;Drayton;Yes
+USN;DD;Mahan;Lamson;Yes
+USN;DD;Mahan;Flusser;Yes
+USN;DD;Mahan;Reid;Yes
+USN;DD;Mahan;Case;Yes
+USN;DD;Mahan;Conyngham;Yes
+USN;DD;Mahan;Cassin;Yes
+USN;DD;Mahan;Shaw;Yes
+USN;DD;Mahan;Tucker;Yes
+USN;DD;Mahan;Downes;Yes
+USN;DD;Mahan;Cushing;Yes
+USN;DD;Mahan;Perkins;Yes
+USN;DD;Mahan;Smith;Yes
+USN;DD;Mahan;Preston;Yes
+USN;DD;Mahan;Dunlap;Yes
+USN;DD;Mahan;Fanning;Yes
+USN;DD;Porter;Porter;Yes
+USN;DD;Porter;Selfridge;Yes
+USN;DD;Porter;McDougal;Yes
+USN;DD;Porter;Winslow;Yes
+USN;DD;Porter;Phelps;Yes
+USN;DD;Porter;Clark;Yes
+USN;DD;Porter;Moffett;Yes
+USN;DD;Porter;Balch;Yes
+USN;DD;Sims;Sims;Yes
+USN;DD;Sims;Hughes;Yes
+USN;DD;Sims;Anderson;Yes
+USN;DD;Sims;Hammann;Yes
+USN;DD;Sims;Mustin;Yes
+USN;DD;Sims;Russell;Yes
+USN;DD;Sims;O Brien;Yes
+USN;DD;Sims;Walke;Yes
+USN;DD;Sims;Morris;Yes
+USN;DD;Sims;Roe;Yes
+USN;DD;Sims;Wainwright;Yes
+USN;DD;Sims;Buck;Yes
+USN;DD;Somers;Somers;Yes
+USN;DD;Somers;Warrington;Yes
+USN;DD;Somers;Sampson;Yes
+USN;DD;Somers;Davis;Yes
+USN;DD;Somers;Jouett;Yes
+USN;DD;Sumner;Sumner;Yes
+USN;DD;Sumner;Moale;Yes
+USN;DD;Sumner;Ault;Yes
+USN;DD;Sumner;Cooper;Yes
+USN;DD;Sumner;English;Yes
+USN;DD;USN Sub;USN Sub 1;No
+USN;DD;USN Sub;USN Sub 2;No
+USN;DD;USN Sub;USN Sub 3;No
+USN;DD;USN Sub;USN Sub 4;No
+USN;TR;USN Large Merch;L Merch 31;No
+USN;TR;USN Large Merch;L Merch 32;No
+USN;TR;USN Large Merch;L Merch 33;No
+USN;TR;USN Large Merch;L Merch 34;No
+USN;TR;USN Large Merch;L Merch 35;No
+USN;TR;USN Large Merch;L Merch 36;No
+USN;TR;USN Large Merch;L Merch 37;No
+USN;TR;USN Large Merch;L Merch 38;No
+USN;TR;USN Large Merch;L Merch 39;No
+USN;TR;USN Large Merch;L Merch 40;No
+USN;TR;USN Small Merch;S Merch 31;No
+USN;TR;USN Small Merch;S Merch 32;No
+USN;TR;USN Small Merch;S Merch 33;No
+USN;TR;USN Small Merch;S Merch 34;No
+USN;TR;USN Small Merch;S Merch 35;No
+USN;TR;USN Small Merch;S Merch 36;No
+USN;TR;USN Small Merch;S Merch 37;No
+USN;TR;USN Small Merch;S Merch 38;No
+USN;TR;USN Small Merch;S Merch 39;No
+USN;TR;USN Small Merch;S Merch 40;No
+USN;TR;USN Transport;Betelgeuse;No
+USN;TR;USN Transport;Crescent City;No
+USN;TR;USN Transport;Pres Hayes;No
+USN;TR;USN Transport;Pres Adams;No
+USN;TR;USN Transport;Alhena;No
+USN;TR;USN Transport;Neville;No
+USN;TR;USN Transport;Pres Jackson;No
+USN;TR;USN Transport;Heywood;No
+USN;TR;USN Transport;Zeilin;No
+USN;TR;USN Transport;Fuller;No
+USN;TR;USN Transport;Mc Cawley;No
+USN;TR;USN Transport;Barnett;No
+USN;TR;USN Transport;Transport 313;No
+USN;TR;USN Transport;Transport 314;No
+USN;TR;USN Transport;Transport 315;No
+USN;TR;USN Transport;Transport 317;No
+USN;TR;USN Transport;Transport 317;No
+USN;TR;USN Transport;Transport 318;No
+USN;TR;USN Transport;Transport 319;No
+USN;TR;USN Transport;Transport 320;No
+USN;TR;USN Transport;Transport 321;No
+USN;TR;USN Transport;Transport 322;No
+USN;TR;USN Transport;Transport 323;No
+USN;TR;USN Transport;Transport 324;No
+USN;TR;USN Transport;Transport 325;No
+USN;TR;USN Transport;Transport 326;No
+USN;TR;USN Transport;Transport 327;No
+USN;TR;USN Transport;Transport 328;No
+USN;TR;USN Transport;Transport 329;No
+USN;TR;USN Transport;Transport 330;No
