@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\ScenarioGenerator\Engine;
 
-use App\Core\Tas\Scenario\Scenario;
 use App\Core\Fs\Scenario\Ship\Ship;
+use App\Core\Tas\Scenario\Scenario;
 
 interface ScenarioEnv
 {
@@ -97,7 +97,7 @@ interface ScenarioEnv
             self::GE => [Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD],
             self::JP => [Ship::RADAR_LEVEL_POOR, Ship::RADAR_LEVEL_AVERAGE, Ship::RADAR_LEVEL_GOOD],
             self::US => [Ship::RADAR_LEVEL_GOOD, Ship::RADAR_LEVEL_EXCELLENT, Ship::RADAR_LEVEL_SUPERB],
-        ]
+        ],
     ];
 
     // TIME
@@ -131,7 +131,7 @@ interface ScenarioEnv
         9 => 'September',
         10 => 'October',
         11 => 'November',
-        12 => 'December'
+        12 => 'December',
     ];
 
     // THEATERS

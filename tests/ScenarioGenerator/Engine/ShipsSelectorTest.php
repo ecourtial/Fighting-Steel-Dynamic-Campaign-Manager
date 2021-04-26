@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\ScenarioGenerator\Engine;
 
-use App\ScenarioGenerator\Engine\ShipsSelector;
+use App\Core\Tas\Scenario\Scenario;
 use App\ScenarioGenerator\Engine\DictionaryExtractor;
 use App\ScenarioGenerator\Engine\ShipQuantity;
-use App\Core\Tas\Scenario\Scenario;
+use App\ScenarioGenerator\Engine\ShipsSelector;
 use PHPUnit\Framework\TestCase;
 
 class ShipsSelectorTest extends TestCase
@@ -46,10 +46,11 @@ class ShipsSelectorTest extends TestCase
             );
 
         $shipSelector = new ShipsSelector($dictionary, $dictionaryPath);
-        $shipQty = new ShipQuantity(2,2,2,2);
-        static::expectExceptionMessage("AH");
-        $shipSelector->getShips('Atlantic', 2, $shipQty,false);
+        $shipQty = new ShipQuantity(2, 2, 2, 2);
+        static::expectExceptionMessage('AH');
+        $shipSelector->getShips('Atlantic', 2, $shipQty, false);
     }
+
 //
 //    // Test the structure, no redundancy in navies and ships...
 //    public function testStructureWithMixedNavies(): void
@@ -138,152 +139,152 @@ class ShipsSelectorTest extends TestCase
                     'Ise' => [
                         'name' => 'Ise',
                         'class' => 'Ise',
-                        'type' => 'BB'
+                        'type' => 'BB',
                     ],
                     'Yamato' => [
                         'name' => 'Yamato',
                         'class' => 'Yamato',
-                        'type' => 'BB'
+                        'type' => 'BB',
                     ],
                 ],
                 'CL' => [
                     'Haguro' => [
                         'name' => 'Haguro',
                         'class' => 'Haguro',
-                        'type' => 'CL'
+                        'type' => 'CL',
                     ],
                     'Takatoukite' => [
                         'name' => 'Takatoukite',
                         'class' => 'Takatoukite',
-                        'type' => 'CL'
+                        'type' => 'CL',
                     ],
                 ],
                 'DD' => [
                     'Mikado1' => [
                         'name' => 'Mikado1',
                         'class' => 'Mikado1',
-                        'type' => 'DD'
+                        'type' => 'DD',
                     ],
                     'Mikado2' => [
                         'name' => 'Mikado2',
                         'class' => 'Mikado2',
-                        'type' => 'DD'
+                        'type' => 'DD',
                     ],
-                ]
+                ],
             ],
             'KM' => [
                 'BB' => [
                     'Bismarck' => [
                         'name' => 'Bismarck',
                         'class' => 'Bismarck',
-                        'type' => 'BB'
+                        'type' => 'BB',
                     ],
                     'Gneisenau' => [
                         'name' => 'Scharnhorst',
                         'class' => 'Scharnhorst',
-                        'type' => 'BB'
+                        'type' => 'BB',
                     ],
                 ],
                 'CL' => [
                     'Koln' => [
                         'name' => 'Koln',
                         'class' => 'Koln',
-                        'type' => 'CL'
+                        'type' => 'CL',
                     ],
                     'Leipzig' => [
                         'name' => 'Leipzig',
                         'class' => 'Leipzig',
-                        'type' => 'CL'
+                        'type' => 'CL',
                     ],
                 ],
                 'DD' => [
                     'KM1' => [
                         'name' => 'KM1',
                         'class' => 'KM1',
-                        'type' => 'DD'
+                        'type' => 'DD',
                     ],
                     'KM2' => [
                         'name' => 'KM2',
                         'class' => 'KM2',
-                        'type' => 'DD'
+                        'type' => 'DD',
                     ],
-                ]
+                ],
             ],
             'USN' => [
                 'BB' => [
                     'Arizona' => [
                         'name' => 'Arizona',
                         'class' => 'Arizona',
-                        'type' => 'BB'
+                        'type' => 'BB',
                     ],
                     'Missouri' => [
                         'name' => 'Missouri',
                         'class' => 'Missouri',
-                        'type' => 'BB'
+                        'type' => 'BB',
                     ],
                 ],
                 'CL' => [
                     'USCL1' => [
                         'name' => 'USCL1',
                         'class' => 'USCL1',
-                        'type' => 'CL'
+                        'type' => 'CL',
                     ],
                     'USCL2' => [
                         'name' => 'USCL2',
                         'class' => 'USCL2',
-                        'type' => 'CL'
+                        'type' => 'CL',
                     ],
                 ],
                 'DD' => [
                     'USN1' => [
                         'name' => 'USN1',
                         'class' => 'USN1',
-                        'type' => 'DD'
+                        'type' => 'DD',
                     ],
                     'USN2' => [
                         'name' => 'USN2',
                         'class' => 'USN2',
-                        'type' => 'DD'
+                        'type' => 'DD',
                     ],
-                ]
+                ],
             ],
             'RN' => [
                 'BB' => [
                     'Hood' => [
                         'name' => 'Hood',
                         'class' => 'Hood',
-                        'type' => 'BC'
+                        'type' => 'BC',
                     ],
                     'Nelson' => [
                         'name' => 'Nelson',
                         'class' => 'Nelson',
-                        'type' => 'BB'
+                        'type' => 'BB',
                     ],
                 ],
                 'CL' => [
                     'RNCL1' => [
                         'name' => 'RNCL1',
                         'class' => 'RNCL1',
-                        'type' => 'CL'
+                        'type' => 'CL',
                     ],
                     'RNCL2' => [
                         'name' => 'RNCL2',
                         'class' => 'RNCL2',
-                        'type' => 'CL'
+                        'type' => 'CL',
                     ],
                 ],
                 'DD' => [
                     'RNDD1' => [
                         'name' => 'RNDD1',
                         'class' => 'RNDD1',
-                        'type' => 'DD'
+                        'type' => 'DD',
                     ],
                     'RNDD2' => [
                         'name' => 'RNDD2',
                         'class' => 'RNDD2',
-                        'type' => 'DD'
+                        'type' => 'DD',
                     ],
-                ]
+                ],
             ],
         ];
     }

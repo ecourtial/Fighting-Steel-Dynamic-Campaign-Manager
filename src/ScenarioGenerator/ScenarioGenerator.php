@@ -5,29 +5,31 @@ declare(strict_types=1);
 namespace App\ScenarioGenerator;
 
 use App\Core\File\TextFileWriter;
-use App\ScenarioGenerator\Engine\ContextGenerator;
 use App\ScenarioGenerator\Engine\BodyGenerator;
+use App\ScenarioGenerator\Engine\ContextGenerator;
 use App\ScenarioGenerator\Engine\ScenarioEnv;
+use App\ScenarioGenerator\Engine\Tools;
 
 class ScenarioGenerator
 {
-    private const DATE_PATTERN = 'Y-m-d-H-i-s';
-
     private ContextGenerator $contextGenerator;
     private BodyGenerator $bodyGenerator;
     private TextFileWriter $fileWriter;
+    private Tools $tools;
     private string $fsScenarioDirectory;
 
     public function __construct(
         ContextGenerator $contextGenerator,
         BodyGenerator $bodyGenerator,
         TextFileWriter $fileWriter,
+        Tools $tools,
         string $fsDirectory
     ) {
         $this->contextGenerator = $contextGenerator;
         $this->bodyGenerator = $bodyGenerator;
         $this->fileWriter = $fileWriter;
         $this->fsScenarioDirectory = $fsDirectory . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR;
+        $this->tools = $tools;
     }
 
     public function generate(string $code, int $period, bool $mixedNavies): string
@@ -40,9 +42,9 @@ class ScenarioGenerator
             throw new \InvalidArgumentException("The period '{$period}' does not exist for this theater.");
         }
 
-        $scenarioName = 'randomScenar' . date(static::DATE_PATTERN);
-        $year = $this->getYear($code, $period);
-        $month = $this->getMonth($code, $period, $year);
+        $scenarioName = $this->tools->getScenarioName();
+        $year = $this->tools->getYear($code, $period);
+        $month = $this->tools->getMonth($code, $period, $year);
 
         $this->fileWriter->writeMultilineFromString(
             $this->fsScenarioDirectory . $scenarioName . '.scn',
@@ -51,17 +53,5 @@ class ScenarioGenerator
         );
 
         return $scenarioName;
-    }
-
-    private function getYear(string $code, int $period): int
-    {
-        return array_rand(ScenarioEnv::SELECTOR[$code]['periods'][$period]['years']);
-    }
-
-    private function getMonth(string $code, int $period, int $year): int
-    {
-        $months = ScenarioEnv::SELECTOR[$code]['periods'][$period]['years'][$year];
-
-        return $months[array_rand($months)];
     }
 }

@@ -36,6 +36,8 @@ class ScenarioGenerator extends AbstractController
     /** @Route("/fs/scenario-generator", name="scenarioGenerator", methods={"POST"}) */
     public function __invoke(): JsonResponse
     {
+        $status = 200;
+
         try {
             $scenarioName = $this->scenarioGeneratorService->generate(
                 $this->requestStack->getCurrentRequest()->get('code', null),
@@ -44,10 +46,11 @@ class ScenarioGenerator extends AbstractController
             );
             $message = "The scenario with the following name has been generated : '$scenarioName'";
         } catch (\Throwable $exception) {
+            $status = 400;
             $message = 'An error occurred: ' . $exception->getMessage();
             $this->logger->error($exception->getMessage() . ': ' . $exception->getTraceAsString());
         }
 
-        return new JsonResponse(['messages' => [$message]]);
+        return new JsonResponse(['messages' => [$message]], $status);
     }
 }

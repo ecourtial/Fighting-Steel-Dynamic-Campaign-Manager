@@ -40,7 +40,7 @@ class TasToFsTest extends TestCase
 
         static::assertInstanceOf(JsonResponse::class, $response);
         static::assertEquals(['messages' => ['Translation from TAS to FS completed.']], $content);
-        $this->checkResponse($response);
+        $this->checkResponse($response, 200);
     }
 
     public function testError(): void
@@ -61,7 +61,7 @@ class TasToFsTest extends TestCase
 
         static::assertInstanceOf(JsonResponse::class, $response);
         static::assertEquals(['messages' => ['An error occurred: Oh sooorrrryyy']], $content);
-        $this->checkResponse($response);
+        $this->checkResponse($response, 400);
 
         /** @var TestLogger $logger */
         static::assertTrue($logger->hasErrorRecords());
@@ -83,7 +83,7 @@ class TasToFsTest extends TestCase
 
         static::assertInstanceOf(JsonResponse::class, $response);
         static::assertEquals(['messages' => ['Invalid request data!']], $content);
-        $this->checkResponse($response);
+        $this->checkResponse($response, 400);
     }
 
     public function invalidRequestProvider(): array

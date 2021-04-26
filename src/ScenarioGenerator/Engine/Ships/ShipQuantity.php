@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ScenarioGenerator\Engine;
+namespace App\ScenarioGenerator\Engine\Ships;
 
 class ShipQuantity
 {

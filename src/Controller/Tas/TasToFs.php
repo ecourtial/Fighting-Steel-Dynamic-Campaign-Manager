@@ -39,19 +39,22 @@ class TasToFs extends AbstractController
         $scenarioKey = $this->requestStack->getCurrentRequest()->get('scenario', null);
         $oneShip = $this->requestStack->getCurrentRequest()->get('oneShip', null);
         $switchLevel = $this->requestStack->getCurrentRequest()->get('switchLevel', null);
+        $status = 200;
 
         if (is_string($scenarioKey) && is_string($oneShip) && is_string($switchLevel)) {
             try {
                 $this->scenarioManager->fromTasToFs($scenarioKey, $oneShip, $switchLevel);
                 $message = 'Translation from TAS to FS completed.';
             } catch (\Throwable $exception) {
+                $status = 400;
                 $message = 'An error occurred: ' . $exception->getMessage();
                 $this->logger->error($exception->getMessage() . ': ' . $exception->getTraceAsString());
             }
         } else {
+            $status = 400;
             $message = 'Invalid request data!';
         }
 
-        return new JsonResponse(['messages' => [$message]]);
+        return new JsonResponse(['messages' => [$message]], $status);
     }
 }

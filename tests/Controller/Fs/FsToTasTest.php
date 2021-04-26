@@ -32,7 +32,7 @@ class FsToTasTest extends TestCase
 
         static::assertInstanceOf(JsonResponse::class, $response);
         static::assertEquals(['messages' => ['Translation from FS to TAS completed.']], $content);
-        $this->checkResponse($response);
+        $this->checkResponse($response, 200);
     }
 
     public function testError(): void
@@ -48,7 +48,7 @@ class FsToTasTest extends TestCase
 
         static::assertInstanceOf(JsonResponse::class, $response);
         static::assertEquals(['messages' => ['An error occurred: Oh sooorrrryyy']], $content);
-        $this->checkResponse($response);
+        $this->checkResponse($response, 400);
         static::assertTrue($logger->hasErrorRecords());
     }
 

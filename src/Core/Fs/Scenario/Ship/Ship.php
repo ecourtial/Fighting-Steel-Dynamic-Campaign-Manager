@@ -79,7 +79,7 @@ class Ship implements FsShipInterface
         self::RADAR_LEVEL_AVERAGE,
         self::RADAR_LEVEL_GOOD,
         self::RADAR_LEVEL_EXCELLENT,
-        self::RADAR_LEVEL_SUPERB
+        self::RADAR_LEVEL_SUPERB,
     ];
 
     /** @param string[] $data */

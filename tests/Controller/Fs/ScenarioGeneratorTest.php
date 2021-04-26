@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Fs;
 
-use App\ScenarioGenerator\ScenarioGenerator;
 use App\Controller\Fs\ScenarioGenerator as ScenarioGeneratorController;
+use App\ScenarioGenerator\ScenarioGenerator;
 use App\Tests\Controller\ResponseTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
@@ -33,7 +33,7 @@ class ScenarioGeneratorTest extends TestCase
 
         static::assertInstanceOf(JsonResponse::class, $response);
         static::assertEquals(['messages' => ["The scenario with the following name has been generated : 'POMPOMPOM'"]], $content);
-        $this->checkResponse($response);
+        $this->checkResponse($response, 200);
     }
 
     public function testError(): void
@@ -54,7 +54,7 @@ class ScenarioGeneratorTest extends TestCase
 
         static::assertInstanceOf(JsonResponse::class, $response);
         static::assertEquals(['messages' => ['An error occurred: Oh sooorrrryyy']], $content);
-        $this->checkResponse($response);
+        $this->checkResponse($response, 400);
         static::assertTrue($logger->hasErrorRecords());
     }
 

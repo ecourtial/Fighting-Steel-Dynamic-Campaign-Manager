@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\ScenarioGenerator\Engine;
+namespace App\Tests\ScenarioGenerator\Engine\Ships;
 
-use App\ScenarioGenerator\Engine\ShipQuantity;
+use App\ScenarioGenerator\Engine\Ships\ShipQuantity;
 use PHPUnit\Framework\TestCase;
 
 class ShipQuantityTest extends TestCase

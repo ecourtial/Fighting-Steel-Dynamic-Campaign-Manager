@@ -52,7 +52,7 @@ class ScenarioValidationTest extends TestCase
 
         $controller = new ScenarioValidation($requestStack, $logger, $scenarioValidator);
         $response = $controller();
-        $content = (\json_decode($response->getContent(),true));
+        $content = (\json_decode($response->getContent(), true));
 
         static::assertInstanceOf(JsonResponse::class, $response);
         static::assertEquals(['messages' => ['An error occurred: Oh sooorrrryyy']], $content);

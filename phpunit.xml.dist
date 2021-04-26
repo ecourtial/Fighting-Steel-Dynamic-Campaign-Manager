@@ -24,16 +24,20 @@
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
-            <exclude>
-                <file>src/Kernel.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
+    <coverage>
+        <include>
+            <directory>src</directory>
+        </include>
+        <exclude>
+            <file>src/Kernel.php</file>
+            <directory>src/DataFixtures/</directory>
+            <directory>src/Migrations/</directory>
+            <directory>src/DataFixture/</directory>
+        </exclude>
+        <report>
+            <clover outputFile="var/phpunit/coverage.xml"/>
+            <html outputDirectory="var/phpunit/coverage-html"/>
+            <text outputFile="php://stdout"/>
+        </report>
+    </coverage>
 </phpunit>

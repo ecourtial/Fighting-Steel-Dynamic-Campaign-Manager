@@ -39,7 +39,7 @@ class CoordinatesCalculator
         }
 
         // We must do it for the allied first
-        if ($this->previousSide === '' && $side === Scenario::ALLIED_SIDE) {
+        if ('' === $this->previousSide && Scenario::ALLIED_SIDE === $side) {
             // First iteration (for the allied ships)
             $this->x = static::ALLIED_X;
             $this->z = static::ALLIED_Z;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ScenarioGenerator\Engine;
+namespace App\ScenarioGenerator\Engine\Ships;
 
 use App\NameSwitcher\Dictionary\DictionaryReader;
 
@@ -15,7 +15,7 @@ class DictionaryExtractor
         $this->dictionaryReader = $dictionaryReader;
     }
 
-    /** @return string[][][] */
+    /** @return  string[][][][][] */
     public function getShipDictionary(string $filename): array
     {
         static $ships = [];
@@ -26,10 +26,10 @@ class DictionaryExtractor
 
         foreach ($this->dictionaryReader->extractData($filename) as $ship) {
             if ('Yes' === $ship['AvailableForRandom']) {
-                $navy  = trim($ship['Navy']);
-                $type  = trim($ship['Type']);
+                $navy = trim($ship['Navy']);
+                $type = trim($ship['Type']);
                 $class = trim($ship['Class']);
-                $name  = trim($ship['Name']);
+                $name = trim($ship['Name']);
 
                 if (false === array_key_exists($navy, $ships)) {
                     $ships[$navy] = [];

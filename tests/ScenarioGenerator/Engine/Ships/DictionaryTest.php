@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\ScenarioGenerator;
+namespace App\Tests\ScenarioGenerator\Engine\Ships;
 
+use App\NameSwitcher\Dictionary\DictionaryReader;
+use App\ScenarioGenerator\Engine\Ships\DictionaryExtractor;
 use PHPUnit\Framework\TestCase;
 use Wizaplace\Etl\Extractors\Csv as CsvExtractor;
-use App\NameSwitcher\Dictionary\DictionaryReader;
-use App\ScenarioGenerator\Engine\DictionaryExtractor;
 
 class DictionaryTest extends TestCase
 {
@@ -35,7 +35,7 @@ class DictionaryTest extends TestCase
             foreach ($naviesOfThisSide as $type => $shipsForThisNavy) {
                 foreach ($shipsForThisNavy as $ship) {
                     $path = [$shipsRootDir . $currentSide . DIRECTORY_SEPARATOR . $type
-                        . DIRECTORY_SEPARATOR . str_replace(' ', '', $ship['class']) . '.txt'];
+                        . DIRECTORY_SEPARATOR . str_replace(' ', '', $ship['class']) . '.txt', ];
 
                     if (true === in_array($path, $testedPaths)) {
                         continue;
