@@ -23,8 +23,7 @@ class HomeTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/');
         $response = $client->getResponse();
-        static::assertNotFalse(strpos($response->getContent(), 'Fighting Steel'));
-        $this->checkResponse($response);
+        $this->checkResponse($response, 200);
     }
 
     public function testHomeError(): void
@@ -36,8 +35,8 @@ class HomeTest extends WebTestCase
 
         $controller = new Home($scenarioRepo);
         $response = $controller();
-        $content = \json_decode($response->getContent());
-        static::assertEquals(['Sorry captain!'], $content);
-        $this->checkResponse($response);
+        $content = \json_decode($response->getContent(), true);
+        static::assertEquals(['messages' => ['Sorry captain!']], $content);
+        $this->checkResponse($response, 500);
     }
 }

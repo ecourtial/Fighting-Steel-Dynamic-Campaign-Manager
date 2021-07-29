@@ -30,14 +30,17 @@ class FsToTas extends AbstractController
     /** @Route("/fs/fs-to-tas", name="fsToTas", methods={"POST"}) */
     public function __invoke(): JsonResponse
     {
+        $status = 200;
+
         try {
             $this->scenarioManager->fromFsToTas();
-            $errors = [];
+            $message = 'Translation from FS to TAS completed.';
         } catch (\Throwable $exception) {
-            $errors = [$exception->getMessage()];
+            $status = 500;
+            $message = 'An error occurred: ' . $exception->getMessage();
             $this->logger->error($exception->getMessage() . ': ' . $exception->getTraceAsString());
         }
 
-        return new JsonResponse($errors);
+        return new JsonResponse(['messages' => [$message]], $status);
     }
 }

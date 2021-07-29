@@ -102,7 +102,7 @@ class ShipExtractorTest extends TestCase
         $path = $_ENV['FS_LOCATION'] . DIRECTORY_SEPARATOR . 'Scenarios' . DIRECTORY_SEPARATOR . 'Sample'
                 . DIRECTORY_SEPARATOR . 'TasBackup_20200406123456.scn';
 
-        $result = $this->extractor->extract($path, 'NIGHTTRAINING');
+        $result = $this->extractor->extract($path, 'RADARTYPE');
 
         // Just testing the side. Since other tests here already test the content of the ship.
         $expected = ['Blue', 'Blue', 'Blue', 'Red', 'Red'];

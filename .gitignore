@@ -31,5 +31,8 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
+# Composer local (v1)
+composer.phar
+
 # FSDCM
 tests/Assets/FS/Scenarios/Backup/*

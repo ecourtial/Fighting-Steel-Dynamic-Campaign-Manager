@@ -267,7 +267,7 @@ class FleetUpdater
                 }
             }
 
-            if ($savegame->getNavalData()->getFleets($side)[$fleet]->getFleetData()->getDivisions() == []) {
+            if ([] == $savegame->getNavalData()->getFleets($side)[$fleet]->getFleetData()->getDivisions()) {
                 $savegame->getNavalData()->removeFleet($side, $fleet);
             }
         }

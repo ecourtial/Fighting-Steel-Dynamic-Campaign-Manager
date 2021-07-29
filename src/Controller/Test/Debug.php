@@ -29,7 +29,7 @@ class Debug extends AbstractController
     {
         if ('dev' === $this->env) {
             // Do debug stuff here.
-            throw new SecurityException('Please make sur that no code is executed!');
+            throw new SecurityException('Please be sure that no code is executed!');
         }
 
         return new JsonResponse(['msg' => 'This route is for debug only']);

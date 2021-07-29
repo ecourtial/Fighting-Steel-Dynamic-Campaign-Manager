@@ -36,11 +36,11 @@ class TasToFsTest extends TestCase
 
         $controller = new TasToFs($requestStack, $logger, $scenarioManager);
         $response = $controller();
-        $content = (\json_decode($response->getContent()));
+        $content = (\json_decode($response->getContent(), true));
 
         static::assertInstanceOf(JsonResponse::class, $response);
-        static::assertEquals([], $content);
-        $this->checkResponse($response);
+        static::assertEquals(['messages' => ['Translation from TAS to FS completed.']], $content);
+        $this->checkResponse($response, 200);
     }
 
     public function testError(): void
@@ -57,11 +57,11 @@ class TasToFsTest extends TestCase
 
         $controller = new TasToFs($requestStack, $logger, $scenarioManager);
         $response = $controller();
-        $content = (\json_decode($response->getContent()));
+        $content = (\json_decode($response->getContent(), true));
 
         static::assertInstanceOf(JsonResponse::class, $response);
-        static::assertEquals(['Oh sooorrrryyy'], $content);
-        $this->checkResponse($response);
+        static::assertEquals(['messages' => ['An error occurred: Oh sooorrrryyy']], $content);
+        $this->checkResponse($response, 500);
 
         /** @var TestLogger $logger */
         static::assertTrue($logger->hasErrorRecords());
@@ -79,11 +79,11 @@ class TasToFsTest extends TestCase
 
         $controller = new TasToFs($requestStack, $logger, $scenarioManager);
         $response = $controller();
-        $content = (\json_decode($response->getContent()));
+        $content = (\json_decode($response->getContent(), true));
 
         static::assertInstanceOf(JsonResponse::class, $response);
-        static::assertEquals(['Invalid request data!'], $content);
-        $this->checkResponse($response);
+        static::assertEquals(['messages' => ['Invalid request data!']], $content);
+        $this->checkResponse($response, 400);
     }
 
     public function invalidRequestProvider(): array

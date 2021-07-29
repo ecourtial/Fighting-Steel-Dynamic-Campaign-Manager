@@ -37,18 +37,21 @@ class ScenarioValidation extends AbstractController
     public function __invoke(): JsonResponse
     {
         $scenarioKey = $this->requestStack->getCurrentRequest()->get('scenario', null);
+        $statusCode = 200;
 
         if (is_string($scenarioKey)) {
             try {
                 $errors = $this->scenarioValidator->validate($scenarioKey);
             } catch (\Throwable $exception) {
-                $errors = [$exception->getMessage()];
+                $statusCode = 500;
+                $errors = ['An error occurred: ' . $exception->getMessage()];
                 $this->logger->error($exception->getMessage() . ': ' . $exception->getTraceAsString());
             }
         } else {
+            $statusCode = 400;
             $errors = ['Missing scenario key'];
         }
 
-        return new JsonResponse($errors);
+        return new JsonResponse(['messages' => $errors], $statusCode);
     }
 }
