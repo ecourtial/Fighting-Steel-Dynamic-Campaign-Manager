@@ -31,7 +31,7 @@ class Home extends AbstractController
         try {
             $scenarios = $this->scenarioRepository->getAll();
         } catch (\Throwable $exception) {
-            return new JsonResponse([$exception->getMessage()]);
+            return new JsonResponse(['messages' => [$exception->getMessage()]], 500);
         }
 
         return $this->render(

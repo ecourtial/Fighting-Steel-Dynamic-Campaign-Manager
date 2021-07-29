@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace App\Core\Fs;
 
 use App\Core\File\IniReader;
+use App\Core\Fs\Scenario\Ship\Ship;
 
 abstract class AbstractShipExtractor
 {
@@ -36,7 +37,7 @@ abstract class AbstractShipExtractor
              * a technical ship file reference for TAS.
              * Note: The side is only per division, not by ship.
              */
-            if ('SIDE' === $line['key'] && 'NIGHTTRAINING' === $lastKey) {
+            if ('SIDE' === $line['key'] && Ship::LAST_BATTLE_FIELD_KEY === $lastKey) {
                 $this->currentSide = $line['value'];
             }
 
@@ -71,6 +72,7 @@ abstract class AbstractShipExtractor
         // Last expected key
         if ($lastKey === $line['key']) {
             // Check that all the var are filled
+
             if (false === $this->validateValues($entryValues)) {
                 // Another security
                 return;

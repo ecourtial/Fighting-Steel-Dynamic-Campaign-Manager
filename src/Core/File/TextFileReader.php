@@ -41,7 +41,6 @@ class TextFileReader
      */
     public function getFileContent(string $filename, bool $test = false): \Generator
     {
-        $content = [];
         $this->openFile($filename);
 
         while (false !== ($buffer = fgets($this->handle))) {
@@ -51,8 +50,6 @@ class TextFileReader
         if (false === fclose(['resource' => $this->handle], $test)) {
             throw new IOException("Impossible to close the file '{$filename}'");
         }
-
-        return $content;
     }
 
     private function openFile(string $filename): void

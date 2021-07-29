@@ -26,7 +26,7 @@ class ShipExtractor extends AbstractShipExtractor
      */
     public function extract(string $filePath, string $lastKey): array
     {
-        $this->requireBattleData = ('NIGHTTRAINING' === $lastKey) ? true : false;
+        $this->requireBattleData = Ship::LAST_BATTLE_FIELD_KEY === $lastKey;
 
         return $this->extractShips($filePath, $lastKey);
     }
@@ -34,6 +34,7 @@ class ShipExtractor extends AbstractShipExtractor
     protected function createShip(array $data): Ship
     {
         $dataCopy = null;
+
         if ($this->requireBattleData) {
             $dataCopy = $data;
             foreach (Ship::BATTLE_FIELDS as $value) {
@@ -48,6 +49,7 @@ class ShipExtractor extends AbstractShipExtractor
             $ship->setCrewQuality($dataCopy['CREWQUALITY']);
             $ship->setCrewFatigue($dataCopy['CREWFATIGUE']);
             $ship->setNightTraining($dataCopy['NIGHTTRAINING']);
+            $ship->setRadarLevel($dataCopy['RADARTYPE']);
         }
 
         return $ship;

@@ -13,7 +13,8 @@ phpcsfixer:
 	vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes --diff
 
 test:
-	vendor/bin/phpunit --testdox
+	vendor/bin/phpunit --testdox --coverage-html var/phpunit/coverage-html
+# If you want it to run locally on a specific version of PHP: /usr/bin/php7.4 vendor/bin/phpunit --testdox --coverage-html var/phpunit/coverage-html
 
 infection:
 	vendor/bin/infection --threads=4

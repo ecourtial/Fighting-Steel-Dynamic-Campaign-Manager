@@ -30,7 +30,7 @@ class SideScenarioDetectorTest extends TestCase
     /** @dataProvider normalTestProvider */
     public function testNormal(string $oneShip, string $expected): void
     {
-        $result = (new SideDetector())->detectSide(static::$extractor->extract(static::$scenarioPath, 'NIGHTTRAINING'), $oneShip);
+        $result = (new SideDetector())->detectSide(static::$extractor->extract(static::$scenarioPath, 'RADARTYPE'), $oneShip);
         static::assertEquals($expected, $result);
     }
 
@@ -45,7 +45,7 @@ class SideScenarioDetectorTest extends TestCase
     public function testShipNotFound(): void
     {
         try {
-            (new SideDetector())->detectSide(static::$extractor->extract(static::$scenarioPath, 'NIGHTTRAINING'), 'Yamato');
+            (new SideDetector())->detectSide(static::$extractor->extract(static::$scenarioPath, 'RADARTYPE'), 'Yamato');
             static::fail("Since the ship 'Yamato' does not exist, and error was expected");
         } catch (InvalidInputException $exception) {
             static::assertEquals(

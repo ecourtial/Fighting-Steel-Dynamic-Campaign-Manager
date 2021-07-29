@@ -40,6 +40,6 @@ class ShipExtractor extends AbstractShipExtractor
 
     protected function createShip(array $data): Ship
     {
-        return  new Ship($data);
+        return new Ship($data);
     }
 }
