@@ -91,7 +91,6 @@ class CoordinatesCalculator
                 $this->x_y += static::DIVISION_SPACING;
                 break;
             default:
-                // Do not remove this check, because the axis location depends on the allied one
                 throw new \InvalidArgumentException("Unknown division heading : '$divisionsHeading'");
         }
     }
@@ -122,6 +121,9 @@ class CoordinatesCalculator
                 $alliedX -= $distance;
                 $allied_x_y -= $distance;
                 break;
+            default:
+                // Not supposed to happen since it is already checked in the getUpdatedCoordinates() method.
+                throw new \InvalidArgumentException("Unknown division heading : '$alliedHeading'");
         }
 
         return [$alliedX, $alliedZ, $allied_x_y, $allied_z_y];

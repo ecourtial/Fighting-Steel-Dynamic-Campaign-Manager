@@ -194,15 +194,7 @@ class BodyGenerator
 
                     $shipCount++;
                     $shipData = "[DIVISION${divisionCount}SHIP{$shipCount}]" . PHP_EOL;
-
-                    foreach (
-                        $this->textFileReader->getFileContent(
-                            $this->shipsDir . $navy . DIRECTORY_SEPARATOR . $type
-                            . DIRECTORY_SEPARATOR . str_replace(' ', '', $ship['class']) . '.txt'
-                        ) as $line
-                    ) {
-                        $shipData .= $this->decorateLine($line, $ship, $navy, $year, $side, $divisionsHeading);
-                    }
+                    $this->updateShipData($navy, $shipData, $type, $side, $divisionsHeading, $year, $ship);
 
                     $divisionData .= $shipData . PHP_EOL;
                 }
@@ -210,6 +202,26 @@ class BodyGenerator
         }
 
         return $divisionData;
+    }
+
+    /** @param string[] $ship */
+    private function updateShipData(
+        string $navy,
+        string &$shipData,
+        string $type,
+        string $side,
+        int $divisionsHeading,
+        int $year,
+        array $ship
+    ): void {
+        foreach (
+            $this->textFileReader->getFileContent(
+                $this->shipsDir . $navy . DIRECTORY_SEPARATOR . $type
+                . DIRECTORY_SEPARATOR . str_replace(' ', '', $ship['class']) . '.txt'
+            ) as $line
+        ) {
+            $shipData .= $this->decorateLine($line, $ship, $navy, $year, $side, $divisionsHeading);
+        }
     }
 
     /** @param string[] $ship */
@@ -248,6 +260,8 @@ class BodyGenerator
             case 'YARDSZPOSITION':
                 $line = 'YARDSZPOSITION=' . $this->coordinatesCalculator->getShipLocation($divisionsHeading, $side, $ship['name'])['z_y'];
                 break;
+            default:
+                break; // We do nothing.
         }
 
         return $line . PHP_EOL;

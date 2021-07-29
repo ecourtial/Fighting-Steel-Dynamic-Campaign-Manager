@@ -17,7 +17,5 @@ trait ResponseTrait
     public function checkResponse(Response $response, int $code): void
     {
         static::assertEquals($code, $response->getStatusCode());
-        static::assertEquals(0, $response->getMaxAge());
-        static::assertEquals(0, $response->getTtl());
     }
 }
