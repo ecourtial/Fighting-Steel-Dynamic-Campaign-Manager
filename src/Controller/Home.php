@@ -35,7 +35,7 @@ class Home extends AbstractController
         }
 
         return $this->render(
-            'home/home.html.twig',
+            'main.html.twig',
             ['scenarios' => $scenarios]
         )
             ->setSharedMaxAge(0)

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fighting Steel Dynamic Campaign Manager</title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
+    {% endblock %}
+    <script src="{{ asset('js/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script type="text/javascript">
+        var scenarioValidationURL = "{{ url('validateScenario') }}";
+        var fsToTasURL = "{{ url('fsToTas') }}";
+        var tasToFsURL = "{{ url('tasToFs') }}";
+    </script>
+</head>
+<body>
+    <div id="mainContainer">
+        <div id="div1">
+
+        </div>
+        <div id="div2">
+            <div id="div21">
+
+            </div>
+            <div id="div22">
+                <p class="main-title">Fighting Steel</p>
+                <p class="main-subtitle">Dynamic campaign manager</p>
+            </div>
+            <div id="div23">
+                Version X.Y.X
+            </div>
+        </div>
+        <div id="div3">
+
+        </div>
+        <div id="div4">
+            <div id="div41">
+
+            </div>
+            <div id="div42">
+
+            </div>
+            <div id="div43">
+
+            </div>
+        </div>
+        <div id="div5">
+
+        </div>
+        <div id="div6">
+            <div id="div61">
+
+            </div>
+            <div id="div62">
+                I am the console
+            </div>
+            <div id="div63">
+
+            </div>
+        </div>
+        <div id="div7">
+
+        </div>
+        <div id="div8">
+            <button id="updateButton" title="Update the application" class="mainMenuButton updateButton" type="button"></button>
+            <button id="tasToFsButton" title="TAS to FS scenario conversion" class="mainMenuButton tasToFsButton" type="button"></button>
+            <button id="fsToTasButton" title="FS to TAS scenario conversion" class="mainMenuButton fsToTasButton" type="button"></button>
+            <button id="validateScenarioButton" title="Validate a scenario" class="mainMenuButton validateScenarioButton" type="button"></button>
+            <button id="randomScenarioButton" title="Generation of a random scenario" class="mainMenuButton randomScenarioButton" type="button"></button>
+            <button id="dynamicScenarioButton" title="Play a dynamic scenario of a few days" class="mainMenuButton dynamicScenarioButton" type="button"></button>
+            <button id="dynamicCampaignButton" title="Play a dynamic campaign of a few weeks or months" class="mainMenuButton dynamicCampaignButton" type="button"></button>
+        </div>
+    </div>
+</body>
+</html>
