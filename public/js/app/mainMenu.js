@@ -3,70 +3,86 @@
  *
  * Handle the main menu and the scenario/savegame selection.
  */
-define(
-    ["jquery"],
-    function ($) {
-        "use strict";
+    $("[id*='Button']") .click(function () {
+        var element = $(this).attr('id');
+        var id = element.substring(0, element.length - 6);
 
-        function hideSubMenus() {
-            $('.subMenu').hide();
-        }
+        $("#console").empty();
+        hideSubMenus();
 
-        /** Validate a scenario */
-        $('#validateScenario').click(function () {
-            hideSubMenus();
-            $('#scenarioValidationListContainer').show();
-        });
-
-        $('#scenarioValidationList').change(function () {
-            jsonPost(scenarioValidationURL,{'scenario': $(this).val()});
-        });
-
-        // FS To TAS
-        $('#fsToTas').click(function () {
-            hideSubMenus();
-            jsonPost(fsToTasURL);
-        });
-
-        // TAS TO FS
-        $('#tasToFs').click(function () {
-            hideSubMenus();
-            $('#tasToFsElements').show();
-        });
-
-        $('#goTasToFs').click(function () {
-            var oneShip = $('#oneShipName').val();
-            var scenario = $('#tasToFsscenarioList').val();
-            var level = $('#switchLevelList').val();
-
-            jsonPost(tasToFsURL, {'scenario': scenario, 'oneShip': oneShip, 'switchLevel': level});
-        });
-
-        // Use a generic function, reusable?
-        function jsonPost(route, payload) {
-            $.ajax({
-                url: route,
-                type: "POST",
-                data: payload,
-                dataType: "json",
-                success: function (data) {
-                    if (data.length === 0) {
-                        $('#messages').attr('class', 'message-good');
-                        $('#messageContent').html('All good!');
-                    } else {
-                        $('#messages').attr('class', 'message-error');
-                        $('#messageContent').html('Error!');
-                        $.each( data, function( i, val ) {
-                            $('#messageContent').append('<ul>');
-                            $('#messageContent').append('<li>' +  val + '</li>');
-                            $('#messageContent').append('</ul>');
-                        });
+        switch (id) {
+            // FS to TAS
+            case 'fsToTas':
+                jsonPost(fsToTasURL, []);
+                break;
+            // TAS to FS
+            case 'tasToFs':
+                $('#tasToFsElements').show();
+                break;
+            case 'tasToFsSubmit':
+                jsonPost(
+                    tasToFsURL,
+                    {
+                        'scenario': $('#scenarioValidationList').val(),
+                        'switchLevel': $('#switchLevelList').val(),
+                        'oneShip': $('#oneShipName').val(),
                     }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert("Sorry: an error occurred during the connexion to the back-end");
-                }
-            });
+                );
+                break;
+            // Scenario Validation
+            case 'validateScenario':
+                $('#scenarioValidationListContainer').show();
+                break;
+            case 'validateScenarioSubmit':
+                jsonPost(scenarioValidationURL, {'scenario': $('#scenarioValidationList').val()});
+                break;
+            // Scenario Generation
+            case 'randomScenario':
+                $('#scenarioGeneratorElements').show();
+                break;
+            case 'generateScenarioSubmit':
+                var exploded = $('#theaterList').val().split('-');
+                jsonPost(
+                    randomScenarioURL,
+                    {
+                        'mixedNavies': $('#mixedNaviesLevelList').val(),
+                        'code': exploded[0],
+                        'period': exploded[1],
+                    }
+                );
+                break;
+            // Default
+            default:
+                console.log(`Unknown menu value ${id}.`);
+                return;
         }
+    });
+
+
+    function hideSubMenus() {
+        $('.subMenu').hide();
     }
-);
+
+    // Use a generic function, reusable?
+    function jsonPost(route, payload) {
+        $.ajax({
+            url: route,
+            type: "POST",
+            data: payload,
+            dataType: "json",
+            success: function (data) {
+                $("#console").append("Done.<br/>");
+                displayMessages(data.messages);
+            },
+            error: function (data, textStatus, errorThrown) {
+                $("#console").append("Sorry: an error occurred during the connexion to the back-end.<br/>");
+                displayMessages(data.responseJSON.messages);
+            }
+        });
+    }
+
+    function displayMessages(messages) {
+        $.each(messages, function(index, element) {
+            $("#console").append(element + '<br/>');
+        });
+    }

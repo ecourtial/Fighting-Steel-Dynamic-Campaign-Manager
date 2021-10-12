@@ -1,5 +1,9 @@
 ## Changelog
 
+## 0.7.0
+* Added a basic scenario generator
+* Basic refit of the main menu
+
 ## 0.6.1
 * Fix bug when switching: the side was accessed before init
 * Fix issue (refacto) when switching in anything else than basic

@@ -97,7 +97,8 @@ body {
     float: left;
 }
 
-#div62 {
+/** DIV 62 */
+#console {
     height: 200px;
     width: 900px;
     background-color: black;
@@ -127,10 +128,38 @@ body {
 }
 
 .mainMenuButton {
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
     float: right;
     margin-right: 10px;
+}
+
+#updateButton {
+    background-image: url("../img/update-button.png");
+}
+
+#tasToFsButton {
+    background-image: url("../img/tas-to-fs-button.png");
+}
+
+#fsToTasButton {
+    background-image: url("../img/fs-to-tas-button.png");
+}
+
+#validateScenarioButton {
+    background-image: url("../img/validate-scenario-button.png");
+}
+
+#randomScenarioButton {
+    background-image: url("../img/random-scenario-button.png");
+}
+
+#dynamicScenarioButton {
+    background-image: url("../img/dynamic-scenario-button.png");
+}
+
+#dynamicCampaignButton {
+    background-image: url("../img/dynamic-campaign-button.png");
 }
 
 .main-title {
@@ -147,4 +176,16 @@ body {
     font-size: xx-large;
     margin: 0;
     text-align: center;
+}
+
+#scenarioValidationListContainer {
+    display: none;
+}
+
+#tasToFsElements {
+    display: none;
+}
+
+#scenarioGeneratorElements {
+    display: none;
 }
